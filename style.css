@@ -288,7 +288,7 @@ main{
   border-bottom: 1px solid var(--teal);
 }
 .ledger-title-link:hover{ color: var(--teal-deep); }
-.ledger-content{ font-size:0.92rem; color:var(--ink); line-height:1.6; margin:0; }
+.ledger-content{ font-size:0.92rem; color:var(--ink); line-height:1.6; margin:0; padding-left: 20px;}
 
 /* ── Links index ────────────────────────────────────────── */
 .link-index{ display:flex; flex-direction:column; }
