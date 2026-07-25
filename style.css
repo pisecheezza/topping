@@ -1,14 +1,14 @@
 /* ── Tokens ──────────────────────────────────────────── */
 :root {
-  --paper: #CCCCCC;        /* 깊은 밤의 벨벳 블랙 배경 */
-  --paper-deep: #261E1E;   /* 어두운 고딕 석조/벨벳 톤 */
-  --ink: #F2ECE9;          /* 창백한 뼈 색상의 텍스트 */
-  --ink-soft: #B0A099;     /* 부드러운 고딕 보조 텍스트 */
-  --teal: #9E1B22;         /* 선혈을 연상시키는 딥 블러드 레드 (기존 틸 대체) */
-  --teal-deep: #631015;    /* 깊고 어두운 핏빛 레드 */
-  --brass: #D4AF37;        /* 바로크 양식의 화려한 앤틱 골드/브라스 */
-  --rule: #4A3838;         /* 고딕 철제 장식 느낌의 경계선 */
-  --card-shadow: rgba(0, 0, 0, 0.6); /* 무겁고 깊은 그림자 */
+  --paper: #FFFFFF;         /* 흰 배경 */
+  --paper-deep: #F5F5F5;    /* 카드용 아주 옅은 회색 배경 */
+  --ink: #111111;           /* 검정 텍스트 */
+  --ink-soft: #5C5C5C;      /* 보조 텍스트 (연한 회색) */
+  --teal: #DC143C;          /* 크림슨 레드 강조색 */
+  --teal-deep: #A10E2B;     /* 짙은 크림슨 (호버 등) */
+  --brass: #B8860B;         /* 금색 포인트 (다크 골드로 톤 다운) */
+  --rule: #E0E0E0;          /* 밝은 회색 경계선 */
+  --card-shadow: rgba(0, 0, 0, 0.08); /* 옅은 그림자 */
 }
 
 *{ box-sizing: border-box; }
@@ -170,9 +170,9 @@ main{
 
 /* ── Index card ─────────────────────────────────────────── */
 .index-card{
-  background: #F5F1E8;
-  border: 1px solid #1A1414;
-  outline: 1px solid #1A1414;
+  background: var(--paper-deep);
+  border: 1px solid var(--ink);
+  outline: 1px solid var(--rule);
   outline-offset: 3px;
   border-radius: 0;
   padding: 26px 24px;
