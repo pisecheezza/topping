@@ -383,23 +383,28 @@ main{
   transition: transform .15s ease;
 }
 
-.link-banner-row:hover{
-  transform: translateY(-2px);
+.link-banner-row{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 4px;
+  text-decoration: none;
+  color: var(--ink);
 }
 
 .link-banner-img{
-  width: 100%;
-  aspect-ratio: 16/6;
+  width: 200px;
+  height: 40px;
   object-fit: cover;
   display: block;
 }
 
 .link-banner-label{
-  display: block;
-  padding: 12px 14px;
   font-family: "Fraunces", serif;
   font-weight: 600;
   font-size: 1.02rem;
+  text-align: center;
 }
 
 /* ── Footer ─────────────────────────────────────────────── */
