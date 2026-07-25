@@ -7,7 +7,6 @@
   --teal: #DC143C;          /* 크림슨 레드 강조색 */
   --teal-deep: #A10E2B;     /* 짙은 크림슨 (호버 등) */
   --brass: #B8860B;         /* 금색 포인트 (다크 골드로 톤 다운) */
-  --rule: #E0E0E0;          /* 밝은 회색 경계선 */
   --card-shadow: rgba(0, 0, 0, 0.08); /* 옅은 그림자 */
 }
 
@@ -75,7 +74,7 @@ body{
   max-width: 460px;
   margin: 0 auto 34px;
   background: var(--ink);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--ink);
   border-radius: 3px;
   overflow:hidden;
   box-shadow: 0 3px 0 var(--card-shadow);
@@ -90,7 +89,7 @@ body{
 /* ── Storage cards (image + comment) ─────────────────────── */
 .storage-card {
   background: var(--paper-deep);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--ink);
   border-radius: 3px;
   overflow: hidden;
   box-shadow: 0 3px 0 var(--card-shadow);
@@ -137,7 +136,6 @@ body{
 /* ── Link banners ────────────────────────────────────────── */
 .link-banner-row{
   display:block;
-  border-bottom: 1px dashed var(--rule);
   padding: 14px 4px;
   text-decoration:none;
   color: var(--ink);
@@ -148,7 +146,8 @@ body{
   max-height: 140px;
   object-fit:cover;
   border-radius: 3px;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--ink
+                       );
   display:block;
   margin-bottom: 8px;
 }
@@ -162,8 +161,7 @@ body{
   gap: 4px;
   flex-wrap: wrap;
   padding: 18px 12px 8px;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--ink);
   margin: 0 16px;
 }
 
@@ -272,7 +270,7 @@ main{
 
 .work-card{
   background: var(--paper-deep);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--ink);
   border-radius: 3px;
   overflow:hidden;
   box-shadow: 0 3px 0 var(--card-shadow);
@@ -322,13 +320,13 @@ main{
 .work-link:hover{ color: var(--teal); }
 
 /* ── Notices ledger ─────────────────────────────────────── */
-.ledger{ border-top: 1px solid var(--rule); }
+.ledger{ border-top: 1px solid var(--ink); }
 .ledger-row{
   display:grid;
   grid-template-columns: 90px 1fr;
   gap: 16px;
   padding: 16px 4px;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--ink);
 }
 
 .ledger-date{ font-family:"JetBrains Mono", monospace; font-size:12px; color:var(--ink-soft); padding-top:2px; }
@@ -404,7 +402,7 @@ main{
   text-transform: uppercase;
   margin: 24px 0 12px;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--rule);   /* 실선 한 번 */
+  border-bottom: 1px solid var(--ink);   /* 실선 한 번 */
 }
 
 .link-category:first-child{
