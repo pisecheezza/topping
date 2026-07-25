@@ -345,7 +345,17 @@ main{
 .ledger-content{ font-size:0.92rem; color:var(--ink); line-height:1.6; margin:0; padding-left: 20px;}
 
 /* ── Links index ────────────────────────────────────────── */
-.link-index{ display:flex; flex-direction:column; }
+.link-index{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+@media (min-width: 720px){
+  .link-index{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .link-row{
   display:flex;
   justify-content:space-between;
@@ -360,18 +370,36 @@ main{
 .link-row:hover .link-label{ color: var(--teal-deep); }
 .link-label{ font-family:"Fraunces", serif; font-weight:600; font-size:1.02rem; transition: color .15s ease; }
 .link-desc{ font-family:"JetBrains Mono", monospace; font-size:11.5px; color:var(--ink-soft); text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width: 45%; }
-.link-banner-row {
-  display: flex;
-  align-items: center;          /* 세로 방향 가운데 정렬 */
-  gap: 12px;                    /* 이미지와 텍스트 사이의 간격 */
-  text-decoration: none;        /* 기본 밑줄 제거 */
+.link-banner-row{
+  display: block;
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--ink);
+  box-shadow: 0 3px 0 var(--card-shadow);
+  transition: transform .15s ease;
 }
 
-.link-banner-label {
-  margin-left: auto;            /* 왼쪽 공간을 모두 채워 텍스트를 맨 오른쪽으로 밀어냄 */
-  /* text-align: right; 글자 안쪽 정렬이 필요하다면 함께 사용 가능 */
+.link-banner-row:hover{
+  transform: translateY(-2px);
 }
 
+.link-banner-img{
+  width: 100%;
+  aspect-ratio: 16/6;
+  object-fit: cover;
+  display: block;
+}
+
+.link-banner-label{
+  display: block;
+  padding: 12px 14px;
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: 1.02rem;
+}
 
 /* ── Footer ─────────────────────────────────────────────── */
 footer{ text-align:center; padding: 30px 20px 10px; }
