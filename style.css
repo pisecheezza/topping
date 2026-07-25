@@ -88,29 +88,60 @@ body{
   margin: 0;
 }
 /* ── Storage cards (image + comment) ─────────────────────── */
-.storage-card{
+.storage-card {
   background: var(--paper-deep);
   border: 1px solid var(--rule);
   border-radius: 3px;
-  overflow:hidden;
+  overflow: hidden;
   box-shadow: 0 3px 0 var(--card-shadow);
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   transition: transform .15s ease;
+  
+  /* 가로 크기 고정 및 반응형 한계 설정 */
+  width: 300px;          /* 가로 폭을 300px로 고정하려면 이와 같이 설정 */
+  /* max-width: 300px; */ /* 화면이 작을 때 줄어들게 하려면 width 대신 max-width 사용 권장 */
+  
+  /* 세로는 내용에 맞춰 유동적으로 조절됨 (height를 지정하지 않음) */
 }
-.storage-card:hover{ transform: translateY(-2px); }
-.storage-thumb{ aspect-ratio: 1/1; background: var(--ink); overflow:hidden; }
-.storage-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-.storage-body{ padding: 12px 14px 14px; }
-.storage-topline{
-  font-family:"JetBrains Mono", monospace;
+
+.storage-thumb { 
+  aspect-ratio: 1/1; /* 가로가 고정되면 세로 썸네일도 가로 크기에 맞춰 정사각형으로 자동 조절됨 */
+  background: var(--ink); 
+  overflow: hidden; 
+}
+
+.storage-thumb img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  display: block; 
+}
+
+.storage-body { 
+  padding: 12px 14px 14px; 
+  /* 텍스트가 길어져도 세로 높이가 자연스럽게 늘어남 */
+}
+
+.storage-topline {
+  font-family: "JetBrains Mono", monospace;
   font-size: 10.5px;
   color: var(--brass);
   letter-spacing: 0.06em;
   margin-bottom: 6px;
 }
-.storage-comment{ font-size: 0.92rem; color: var(--ink); line-height:1.6; margin:0; }
 
+.storage-comment { 
+  font-size: 0.92rem; 
+  color: var(--ink); 
+  line-height: 1.6; 
+  margin: 0; 
+}
+
+.storage-card:hover { 
+  transform: translateY(-2px); 
+}
+  
 /* ── Link banners ────────────────────────────────────────── */
 .link-banner-row{
   display:block;
