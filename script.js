@@ -129,7 +129,7 @@ fetchTab(TABS.pages).then(rows => {
       const row = document.createElement("div");
       row.className = "ledger-row";
       row.innerHTML = `
-        <div class="ledger-date">${escapeHtml(String(r.date || ""))}</div>
+        <div class="ledger-date">${escapeHtml(formatDate(r.date))}</div>
         <div>
           <h3 class="ledger-title">${escapeHtml(String(r.title || ""))}</h3>
           <p class="ledger-content">${escapeHtml(String(r.content || ""))}</p>
@@ -137,6 +137,14 @@ fetchTab(TABS.pages).then(rows => {
       list.appendChild(row);
     });
 });
+
+function formatDate(str) {
+  const s = String(str || "").trim().replace(/[-.\/]/g, ""); // 구분자 다 제거
+  if (s.length === 8) {
+    return `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`;
+  }
+  return s; // 8자리가 아니면 원본 그대로
+}
 
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
