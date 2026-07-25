@@ -85,6 +85,22 @@ body{
 .about-kv-list{
   margin: 0;
 }
+
+#profileSections{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profile-section{
+  font-family:"Fraunces", serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: center;
+  margin: 0 0 14px;
+}
+
 /* ── Storage cards (image + comment) ─────────────────────── */
 .storage-card {
   background: var(--paper-deep);
