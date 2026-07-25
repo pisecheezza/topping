@@ -124,7 +124,7 @@ fetchTab(TABS.pages).then(rows => {
   const list = document.getElementById("pagesList");
   list.innerHTML = "";
   rows
-    .filter(r => (r.title || "").trim())
+    .filter(r => (r.date || r.title || r.content || "").trim()) // 필터 조건 수정
     .slice()
     .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
     .forEach(r => {
