@@ -86,19 +86,48 @@ fetchTab(TABS.main).then(rows => {
 
 // ── Profile: 인적사항 ───────────────────────
 fetchTab(TABS.profile).then(rows => {
-  const body = document.getElementById("profileBody");
-  body.innerHTML = "";
+  const container = document.getElementById("profileSections");
+  container.innerHTML = "";
+
+  // section 값 기준으로 그룹 묶기 (빈 section은 "" 그룹)
+  const groups = [];
   rows
     .filter(r => (r.key || "").trim())
     .forEach(r => {
+      const section = (r.section || "").trim();
+      let group = groups.find(g => g.section === section);
+      if (!group) {
+        group = { section, items: [] };
+        groups.push(group);
+      }
+      group.items.push(r);
+    });
+
+  groups.forEach(group => {
+    const card = document.createElement("div");
+    card.className = "index-card wide";
+
+    if (group.section) {
+      const heading = document.createElement("h3");
+      heading.className = "profile-section";
+      heading.textContent = group.section;
+      card.appendChild(heading);
+    }
+
+    const dl = document.createElement("dl");
+    dl.className = "about-kv-list";
+    group.items.forEach(r => {
       const row = document.createElement("div");
       row.className = "about-kv";
       const valueHtml = (r.link || "").trim()
         ? `<a href="${escapeHtml(r.link.trim())}" target="_blank" rel="noopener">${escapeHtml(r.value || "")}</a>`
         : escapeHtml(r.value || "");
       row.innerHTML = `<dt>${escapeHtml(r.key)}</dt><dd>${valueHtml}</dd>`;
-      body.appendChild(row);
+      dl.appendChild(row);
     });
+    card.appendChild(dl);
+    container.appendChild(card);
+  });
 });
 
 // ── Storage: 그림 + 코멘트 ──────────────────────────────────
