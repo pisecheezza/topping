@@ -126,6 +126,7 @@ body{
   color: var(--ink);
   text-align: right;
   font-size: 1rem;
+  margin:0;
 }
 
 /* 마우스 호버 시: 선혈이 스며들듯 어두운 핏빛 벨벳 톤으로 변화 */
@@ -227,18 +228,22 @@ main{
 /* ── Index card ─────────────────────────────────────────── */
 .index-card{
   background: var(--paper-deep);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--brass);
+  outline: 1px solid var(--rule);
+  outline-offset: 6px;
   border-radius: 3px;
-  padding: 22px 24px;
+  padding: 40px 32px;
   box-shadow: 0 3px 0 var(--card-shadow);
   position: relative;
 }
-.index-card::before{
+
+.index-card::after{
   content:"";
-  position:absolute; top:14px; bottom:14px; left:0;
-  width:2px;
-  background: repeating-linear-gradient(180deg, var(--brass) 0 4px, transparent 4px 9px);
+  position:absolute; inset: 10px;
+  border: 1px solid var(--brass);
+  pointer-events:none;
 }
+
 .index-card.wide{ padding-left: 30px; }
 
 .card-topline{
