@@ -118,12 +118,25 @@ fetchTab(TABS.storage).then(rows => {
 });
 
 // ── Pages: 문서 목록 (날짜 + 제목) ────────
-fetch(sheetUrl(TABS.pages), { cache: "no-store" })
-  .then(res => res.text())
-  .then(csv => {
-    document.getElementById("pagesList").innerHTML =
-      `<pre style="white-space:pre-wrap; font-size:11px;">${escapeHtml(csv)}</pre>`;
-  });
+fetchTab(TABS.pages).then(rows => {
+  const list = document.getElementById("pagesList");
+  list.innerHTML = "";
+  rows
+    .filter(r => String(r.date || r.title || r.content || "").trim())
+    .slice()
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
+    .forEach(r => {
+      const row = document.createElement("div");
+      row.className = "ledger-row";
+      row.innerHTML = `
+        <div class="ledger-date">${escapeHtml(String(r.date || ""))}</div>
+        <div>
+          <h3 class="ledger-title">${escapeHtml(String(r.title || ""))}</h3>
+          <p class="ledger-content">${escapeHtml(String(r.content || ""))}</p>
+        </div>`;
+      list.appendChild(row);
+    });
+});
 
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
