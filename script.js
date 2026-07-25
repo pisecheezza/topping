@@ -124,21 +124,22 @@ fetchTab(TABS.pages).then(rows => {
   const list = document.getElementById("pagesList");
   list.innerHTML = "";
   rows
-    .filter(r => (r.date || r.title || r.content || "").trim()) // 필터 조건 수정
+    .filter(r => String(r.date || r.title || r.content || "").trim())
     .slice()
-    .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
     .forEach(r => {
       const row = document.createElement("div");
       row.className = "ledger-row";
       row.innerHTML = `
-        <div class="ledger-date">${escapeHtml(r.date || "")}</div>
+        <div class="ledger-date">${escapeHtml(String(r.date || ""))}</div>
         <div>
-          <h3 class="ledger-title">${escapeHtml(r.title || "")}</h3>
-          <p class="ledger-content">${escapeHtml(r.content || "")}</p>
+          <h3 class="ledger-title">${escapeHtml(String(r.title || ""))}</h3>
+          <p class="ledger-content">${escapeHtml(String(r.content || ""))}</i></p>
         </div>`;
       list.appendChild(row);
     });
 });
+
 
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
