@@ -6,10 +6,10 @@ const SHEET_ID = "14DVjPLKuq4pkBjoAw_h1J0BanWgJif4jNSw-6qhU4q0";
 
 // 3) 각 탭(시트)의 이름이 아래와 다르면 맞춰서 수정
 const TABS = {
-  profile: "Profile",
-  works: "Works",
-  notices: "Notices",
-  links: "Links"
+  Main: "Main",
+  Profile: "Profile",
+  Storage: "Storage",
+  Links: "Links"
 };
 
 // 4) 사이트 제목 / 한줄소개 기본값 (Profile 시트에 name/tagline 키가 있으면 그 값이 우선 적용됨)
