@@ -100,35 +100,27 @@ body{
   
   /* 가로 크기 고정 및 반응형 한계 설정 */
   width: 300px;          /* 가로 폭을 300px로 고정하려면 이와 같이 설정 */
-  /* max-width: 300px; */ /* 화면이 작을 때 줄어들게 하려면 width 대신 max-width 사용 권장 */
+  max-width: 300px;      /* 화면이 작을 때 줄어들게 하려면 width 대신 max-width 사용 권장 */
   
   /* 세로는 내용에 맞춰 유동적으로 조절됨 (height를 지정하지 않음) */
 }
 
-.storage-thumb { 
-  aspect-ratio: 1/1; /* 가로가 고정되면 세로 썸네일도 가로 크기에 맞춰 정사각형으로 자동 조절됨 */
-  background: var(--ink); 
-  overflow: hidden; 
+.storage-thumb{
+  width: 100%;
+  aspect-ratio: auto;   /* 고정 비율 틀 제거 */
+  background: var(--ink);
+  overflow: hidden;
 }
-
-.storage-thumb img { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  display: block; 
+.storage-thumb img{
+  width: 100%;
+  height: auto;         /* 세로는 가로 비율에 맞춰 자동 계산 */
+  object-fit: contain;  /* 잘리지 않고 전체 표시 */
+  display: block;
 }
 
 .storage-body { 
   padding: 12px 14px 14px; 
   /* 텍스트가 길어져도 세로 높이가 자연스럽게 늘어남 */
-}
-
-.storage-topline {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 10.5px;
-  color: var(--brass);
-  letter-spacing: 0.06em;
-  margin-bottom: 6px;
 }
 
 .storage-comment { 
