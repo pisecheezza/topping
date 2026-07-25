@@ -134,12 +134,20 @@ fetchTab(TABS.pages).then(rows => {
         <div class="ledger-date">${escapeHtml(String(r.date || ""))}</div>
         <div>
           <h3 class="ledger-title">${escapeHtml(String(r.title || ""))}</h3>
-          <p class="ledger-content">${escapeHtml(String(r.content || ""))}</i></p>
+          <p class="ledger-content">${escapeHtml(String(r.content || ""))}</p>
         </div>`;
       list.appendChild(row);
     });
 });
 
+// 예: "20260711" -> "2026-07-11"로 변환해 주는 함수
+function formatDate(str) {
+  const s = String(str || "").trim();
+  if (s.length === 8) {
+    return `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`;
+  }
+  return s;
+}
 
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
