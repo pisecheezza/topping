@@ -69,7 +69,7 @@ if (heroRow && (heroRow.video || "").trim()) {
   heroEl.appendChild(img);
 }
 
-  const notices = rows.filter(r => (r.date || r.title || r.content || "").trim());
+  const notices = rows.filter(r => (r.date || r.content || "").trim());
   notices
     .slice()
     .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
@@ -77,6 +77,7 @@ if (heroRow && (heroRow.video || "").trim()) {
       const row = document.createElement("div");
       row.className = "ledger-row";
       row.innerHTML = `
+        <div><h3 class>Update</h3></div>
         <div class="ledger-date">${escapeHtml(r.date || "")}</div>
         <div>
           <p class="ledger-content">${escapeHtml(r.content || "")}</p>
