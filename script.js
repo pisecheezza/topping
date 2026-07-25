@@ -135,7 +135,7 @@ fetchTab(TABS.links).then(rows => {
       if (bannerUrl) {
         a.className = "link-banner-row";
         a.innerHTML = `
-          <img class="link-banner-img" src="${bannerUrl}" alt="" loading="lazy" style="width: 120px; height: 80px; object-fit: cover;>
+          <img class="link-banner-img" src="${bannerUrl}" alt="" loading="lazy" style="width: 120px; height: 40px; object-fit: cover;>
           <span class="link-banner-label">${escapeHtml(r.label || r.url || "")}</span>`;
       } else {
         a.className = "link-row";
