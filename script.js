@@ -41,14 +41,22 @@ fetchTab(TABS.main).then(rows => {
   const ledger = document.getElementById("noticesLedger");
   ledger.innerHTML = "";
 
-  const heroRow = rows.find(r => (r.image || "").trim());
-  if (heroRow) {
-    const img = document.createElement("img");
-    img.src = driveImageUrl(heroRow.image);
-    img.alt = "";
-    img.loading = "lazy";
-    heroEl.appendChild(img);
-  }
+  const heroRow = rows.find(r => (r.image || r.video || "").trim());
+if (heroRow && (heroRow.video || "").trim()) {
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://drive.google.com/file/d/${heroRow.video.trim()}/preview`;
+  iframe.allow = "autoplay";
+  iframe.style.border = "0";
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+  heroEl.appendChild(iframe);
+} else if (heroRow) {
+  const img = document.createElement("img");
+  img.src = driveImageUrl(heroRow.image);
+  img.alt = "";
+  img.loading = "lazy";
+  heroEl.appendChild(img);
+}
 
   const notices = rows.filter(r => (r.date || r.title || r.content || "").trim());
   notices
