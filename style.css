@@ -172,7 +172,7 @@ main{
 .index-card{
   background: var(--paper);
   border: 1px solid var(--ink);
-  outline: 1px solid var(--ink;
+  outline: 1px solid var(--ink);
   outline-offset: 3px;
   border-radius: 0;
   padding: 26px 24px;
