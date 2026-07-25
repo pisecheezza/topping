@@ -133,6 +133,7 @@ fetchTab(TABS.pages).then(rows => {
       row.innerHTML = `
         <div class="ledger-date">${escapeHtml(r.date || "")}</div>
         <div>
+          <h3 class="ledger-title">${escapeHtml(r.title || "")}</h3>
           <p class="ledger-content">${escapeHtml(r.content || "")}</p>
         </div>`;
       list.appendChild(row);
