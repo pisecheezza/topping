@@ -13,7 +13,7 @@ const TABS = {
 };
 
 // 4) 사이트 상단에 표시될 제목 (시트 값과 무관한 고정 텍스트)
-const SITE_TITLE = "Web上ノ巣";
+const SITE_TITLE = "Web Retreat";
 
 // 드라이브 파일 ID로 이미지 직링크 만들기
 function driveImageUrl(fileId) {
