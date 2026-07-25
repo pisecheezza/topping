@@ -93,7 +93,10 @@ fetchTab(TABS.profile).then(rows => {
     .forEach(r => {
       const row = document.createElement("div");
       row.className = "about-kv";
-      row.innerHTML = `<dt>${escapeHtml(r.key)}</dt><dd>${escapeHtml(r.value || "")}</dd>`;
+      const valueHtml = (r.link || "").trim()
+        ? `<a href="${escapeHtml(r.link.trim())}" target="_blank" rel="noopener">${escapeHtml(r.value || "")}</a>`
+        : escapeHtml(r.value || "");
+      row.innerHTML = `<dt>${escapeHtml(r.key)}</dt><dd>${valueHtml}</dd>`;
       body.appendChild(row);
     });
 });
