@@ -378,6 +378,7 @@ main{
   padding: 14px 4px;
   text-decoration: none;
   color: var(--ink);
+  border-bottom: none;   /* 이 줄 추가 */
 }
 
 .link-banner-img{
