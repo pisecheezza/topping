@@ -134,7 +134,7 @@ fetchTab(TABS.links).then(rows => {
       if (bannerUrl) {
         a.className = "link-banner-row";
         a.innerHTML = `
-          <img class="link-banner-img" src="${bannerUrl}" alt="" loading="lazy">
+          <img class="link-banner-img" src="${bannerUrl}" alt="" loading="lazy" style="width: 120px; height: 80px; object-fit: cover;>
           <span class="link-banner-label">${escapeHtml(r.label || r.url || "")}</span>`;
       } else {
         a.className = "link-row";
@@ -146,7 +146,7 @@ fetchTab(TABS.links).then(rows => {
     });
 });
 
-// ── Pages: 문서 목록 (날짜 + 제목, 클릭 시 문서 열람) ────────
+// ── Pages: 문서 목록 (날짜 + 제목) ────────
 fetchTab(TABS.pages).then(rows => {
   const list = document.getElementById("pagesList");
   list.innerHTML = "";
