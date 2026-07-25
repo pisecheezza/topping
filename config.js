@@ -17,5 +17,5 @@ const SITE_TITLE = "Web上ノ巣";
 // 드라이브 파일 ID로 이미지 직링크 만들기
 function driveImageUrl(fileId) {
   if (!fileId) return "";
-  return `https://drive.google.com/uc?export=view&id=${fileId.trim()}`;
+  return `https://lh3.googleusercontent.com/d/${fileId.trim()}`;
 }
