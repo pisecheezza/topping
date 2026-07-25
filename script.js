@@ -52,21 +52,29 @@ fetchTab(TABS.main).then(rows => {
   ledger.innerHTML = "";
 
   const heroRow = rows.find(r => (r.image || r.video || "").trim());
-  if (heroRow && (heroRow.video || "").trim()) {
-    const iframe = document.createElement("iframe");
-    iframe.src = `https://drive.google.com/file/d/${heroRow.video.trim()}/preview`;
-    iframe.allow = "autoplay";
-    iframe.style.border = "0";
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
-    heroEl.appendChild(iframe);
-  } else if (heroRow) {
-    const img = document.createElement("img");
-    img.src = driveImageUrl(heroRow.image);
-    img.alt = "";
-    img.loading = "lazy";
-    heroEl.appendChild(img);
-  }
+if (heroRow && (heroRow.video || "").trim()) {
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://drive.google.com/file/d/${heroRow.video.trim()}/preview`;
+  iframe.allow = "autoplay";
+  iframe.style.border = "0";
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+  heroEl.appendChild(iframe);
+} else if (heroRow) {
+  const img = document.createElement("img");
+  img.src = driveImageUrl(heroRow.image);
+  img.alt = "";
+  img.loading = "lazy";
+  heroEl.appendChild(img);
+}
+
+// 저작권 표기 추가
+if (heroRow && (heroRow.credit || "").trim()) {
+  const credit = document.createElement("span");
+  credit.className = "hero-credit";
+  credit.textContent = heroRow.credit.trim();
+  heroEl.appendChild(credit);
+}
 
   const notices = rows.filter(r => (r.date || r.content || "").trim());
   notices
