@@ -217,14 +217,14 @@ main{
   margin: 0;
 }
 .about-kv-list .about-kv dt{
-  color: #1A1414;
+  color: var(--ink);
   font-weight: 600;
   font-size: 0.95rem;
   flex-shrink: 0;
   margin: 0;
 }
 .about-kv-list .about-kv dd{
-  color: #2A2420;
+  color: var(--ink-soft);
   text-align: right;
   font-size: 1rem;
   margin: 0;
