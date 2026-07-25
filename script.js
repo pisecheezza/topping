@@ -4,7 +4,7 @@ function sheetUrl(tabName) {
 }
 
 function fetchTab(tabName) {
-  return fetch(sheetUrl(tabName))
+  return fetch(sheetUrl(tabName), { cache: "no-store" })
     .then(res => res.text())
     .then(csv => Papa.parse(csv, { header: true, skipEmptyLines: true }).data);
 }
@@ -38,11 +38,10 @@ document.querySelectorAll(".tab").forEach(btn => {
   });
 });
 
-// 새로고침 시 URL의 # 뒷부분으로 현재 탭 복원
 const initialView = location.hash.replace("#", "");
 if (initialView) activateView(initialView);
 
-// ── 사이트 제목 (고정 텍스트) ─────────────────────────────
+// ── 사이트 제목 ─────────────────────────────
 document.getElementById("siteName").textContent = SITE_TITLE;
 document.title = SITE_TITLE;
 
@@ -53,21 +52,21 @@ fetchTab(TABS.main).then(rows => {
   ledger.innerHTML = "";
 
   const heroRow = rows.find(r => (r.image || r.video || "").trim());
-if (heroRow && (heroRow.video || "").trim()) {
-  const iframe = document.createElement("iframe");
-  iframe.src = `https://drive.google.com/file/d/${heroRow.video.trim()}/preview`;
-  iframe.allow = "autoplay";
-  iframe.style.border = "0";
-  iframe.style.width = "100%";
-  iframe.style.height = "100%";
-  heroEl.appendChild(iframe);
-} else if (heroRow) {
-  const img = document.createElement("img");
-  img.src = driveImageUrl(heroRow.image);
-  img.alt = "";
-  img.loading = "lazy";
-  heroEl.appendChild(img);
-}
+  if (heroRow && (heroRow.video || "").trim()) {
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://drive.google.com/file/d/${heroRow.video.trim()}/preview`;
+    iframe.allow = "autoplay";
+    iframe.style.border = "0";
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    heroEl.appendChild(iframe);
+  } else if (heroRow) {
+    const img = document.createElement("img");
+    img.src = driveImageUrl(heroRow.image);
+    img.alt = "";
+    img.loading = "lazy";
+    heroEl.appendChild(img);
+  }
 
   const notices = rows.filter(r => (r.date || r.content || "").trim());
   notices
@@ -85,7 +84,7 @@ if (heroRow && (heroRow.video || "").trim()) {
     });
 });
 
-// ── Profile: 인적사항 (균일한 key-value 목록) ───────────────
+// ── Profile: 인적사항 ───────────────────────
 fetchTab(TABS.profile).then(rows => {
   const body = document.getElementById("profileBody");
   body.innerHTML = "";
@@ -118,12 +117,27 @@ fetchTab(TABS.storage).then(rows => {
     });
 });
 
-// ── Pages: 문서 목록 (날짜 + 제목) ──────── 
-fetchTab(TABS.pages).then(rows => {
+// ── Pages: 문서 목록 (날짜 + 제목) ────────
 fetchTab(TABS.pages).then(rows => {
   const list = document.getElementById("pagesList");
-  list.innerHTML = `<pre style="white-space:pre-wrap; font-size:11px; color:red;">${JSON.stringify(rows, null, 2)}</pre>`;
+  list.innerHTML = "";
+  rows
+    .filter(r => String(r.date || r.title || r.content || "").trim())
+    .slice()
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
+    .forEach(r => {
+      const row = document.createElement("div");
+      row.className = "ledger-row";
+      row.innerHTML = `
+        <div class="ledger-date">${escapeHtml(String(r.date || ""))}</div>
+        <div>
+          <h3 class="ledger-title">${escapeHtml(String(r.title || ""))}</h3>
+          <p class="ledger-content">${escapeHtml(String(r.content || ""))}</p>
+        </div>`;
+      list.appendChild(row);
+    });
 });
+
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
   const index = document.getElementById("linksIndex");
