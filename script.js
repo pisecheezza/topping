@@ -153,9 +153,20 @@ function formatDate(str) {
 fetchTab(TABS.links).then(rows => {
   const index = document.getElementById("linksIndex");
   index.innerHTML = "";
+  let lastCategory = null;
+
   rows
     .filter(r => (r.label || r.url || "").trim())
     .forEach(r => {
+      const category = (r.category || "").trim();
+      if (category && category !== lastCategory) {
+        const heading = document.createElement("h3");
+        heading.className = "link-category";
+        heading.textContent = category;
+        index.appendChild(heading);
+        lastCategory = category;
+      }
+
       const bannerUrl = driveImageUrl(r.banner);
       const a = document.createElement("a");
       a.href = r.url || "#";
