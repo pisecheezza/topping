@@ -22,6 +22,7 @@
   <button class="tab" data-view="storage">Storage</button>
   <button class="tab" data-view="pages">Pages</button>
   <button class="tab" data-view="links">Links</button>
+  <button class="tab" data-view="guestbook">Guestbook</button>
 </nav>
 
 <main>
@@ -50,6 +51,15 @@
   <section id="view-pages" class="view">
     <div class="ledger" id="pagesList"></div>
   </section>
+
+  <section id="view-guestbook" class="view">
+  <form id="guestbookForm" class="guestbook-form">
+    <input type="text" id="gbName" placeholder="Name" maxlength="40" required>
+    <textarea id="gbMessage" placeholder="Leave a message here" maxlength="500" rows="3" required></textarea>
+    <button type="submit">Done</button>
+  </form>
+  <div class="ledger" id="guestbookList"></div>
+  </section> 
 </main>
 
 <script src="config.js"></script>
