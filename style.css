@@ -394,6 +394,21 @@ main{
   text-align: center;
 }
 
+.link-category{
+  font-family:"JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  margin: 24px 0 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+}
+.link-category:first-child{
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
 /* ── Footer ─────────────────────────────────────────────── */
 footer{ text-align:center; padding: 30px 20px 10px; }
 .stamp{
