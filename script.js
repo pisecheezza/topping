@@ -77,7 +77,7 @@ if (heroRow && (heroRow.video || "").trim()) {
       const row = document.createElement("div");
       row.className = "ledger-row";
       row.innerHTML = `
-        <div><h3 class>Update</h3></div>
+        <div><h3 class>Updates</h3></div>
         <div class="ledger-date">${escapeHtml(r.date || "")}</div>
         <div>
           <p class="ledger-content">${escapeHtml(r.content || "")}</p>
