@@ -298,7 +298,6 @@ main{
   grid-template-columns: 90px 1fr;
   gap: 16px;
   padding: 16px 4px;
-  border-bottom: 1px solid var(--ink);
 }
 
 .ledger-date{ font-family:"JetBrains Mono", monospace; font-size:12px; color:var(--ink-soft); padding-top:2px; }
