@@ -117,11 +117,20 @@ fetchTab(TABS.storage).then(rows => {
     });
 });
 
-// ── Pages: 문서 목록 (날짜 + 제목) ────────
-fetchTab(TABS.pages).then(rows => {
-  document.getElementById("pagesList").innerHTML =
-    `<pre style="white-space:pre-wrap; font-size:11px;">${JSON.stringify(rows, null, 2)}</pre>`;
-});
+// ── Pages: 디버깅용 (원본 CSV + 파싱 결과 동시 표시) ────────
+fetch(sheetUrl(TABS.pages), { cache: "no-store" })
+  .then(res => res.text())
+  .then(csv => {
+    const parsed = Papa.parse(csv, { header: true, skipEmptyLines: true });
+    document.getElementById("pagesList").innerHTML = `
+      <h4>원본 CSV</h4>
+      <pre style="white-space:pre-wrap; font-size:11px; border:1px solid; padding:8px;">${escapeHtml(csv)}</pre>
+      <h4>파싱 결과</h4>
+      <pre style="white-space:pre-wrap; font-size:11px; border:1px solid; padding:8px;">${escapeHtml(JSON.stringify(parsed.data, null, 2))}</pre>
+      <h4>파싱 에러</h4>
+      <pre style="white-space:pre-wrap; font-size:11px; color:red;">${escapeHtml(JSON.stringify(parsed.errors, null, 2))}</pre>
+    `;
+  });
 
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
