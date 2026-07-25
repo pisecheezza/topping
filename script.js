@@ -270,3 +270,22 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
       submitBtn.textContent = "✒️";
     });
 });
+
+// ── 방문자 카운터 (세션당 한 번만 카운트) ────────────────
+(function () {
+  const el = document.getElementById("visitCounter");
+  const alreadyCounted = sessionStorage.getItem("visited");
+
+  fetch(GUESTBOOK_WEBAPP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ action: alreadyCounted ? "count-only" : "counter" })
+  })
+    .then(res => res.json())
+    .then(result => {
+      if (result.ok) {
+        el.textContent = `footprints ${result.count}`;
+      }
+      sessionStorage.setItem("visited", "1");
+    });
+})();
