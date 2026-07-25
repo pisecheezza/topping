@@ -118,10 +118,12 @@ fetchTab(TABS.storage).then(rows => {
 });
 
 // ── Pages: 문서 목록 (날짜 + 제목) ────────
-fetchTab(TABS.pages).then(rows => {
-  const list = document.getElementById("pagesList");
-  list.innerHTML = `<pre style="white-space:pre-wrap; font-size:11px;">${JSON.stringify(rows, null, 2)}</pre>`;
-});
+fetch(sheetUrl(TABS.pages), { cache: "no-store" })
+  .then(res => res.text())
+  .then(csv => {
+    document.getElementById("pagesList").innerHTML =
+      `<pre style="white-space:pre-wrap; font-size:11px;">${escapeHtml(csv)}</pre>`;
+  });
 
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
