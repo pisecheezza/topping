@@ -1,4 +1,3 @@
-console.log("pages tab element:", document.getElementById("pagesList"));
 // ── 시트 → CSV → JSON ────────────────────────────────────
 function sheetUrl(tabName) {
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabName)}&_ts=${Date.now()}`;
@@ -120,6 +119,11 @@ fetchTab(TABS.storage).then(rows => {
 });
 
 // ── Pages: 문서 목록 (날짜 + 제목) ────────
+fetchTab(TABS.pages).then(rows => {
+  const list = document.getElementById("pagesList");
+  list.innerHTML = `<pre style="white-space:pre-wrap; font-size:11px; color:red;">${JSON.stringify(rows, null, 2)}</pre>`;
+  return; // 임시 디버깅용, 아래 원래 코드는 잠시 건너뜀
+  
 fetchTab(TABS.pages).then(rows => {
   const list = document.getElementById("pagesList");
   list.innerHTML = "";
