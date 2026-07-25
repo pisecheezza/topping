@@ -107,14 +107,15 @@ body{
 
 .storage-thumb{
   width: 100%;
-  background: none;   /* 검은 여백 원인이던 배경색 제거 */
+  display: flex;
+  justify-content: center;
   overflow: hidden;
 }
-
 .storage-thumb img{
-  width: 100%;
-  height: auto;        /* 비율 그대로, 늘어나거나 잘리지 않음 */
-  display: block;      /* 이미지 아래 불필요한 여백(inline 특성) 제거 */
+  width: auto;        /* 강제로 늘리지 않음 */
+  max-width: 100%;    /* 카드보다 큰 이미지만 줄임 */
+  height: auto;
+  display: block;
 }
 
 .storage-body { 
