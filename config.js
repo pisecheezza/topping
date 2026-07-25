@@ -8,6 +8,7 @@ const TABS = {
   main: "Main",       // 대문 이미지 + 공지사항
   profile: "Profile", // 이름/직업/성별/생년월일 등 인적사항
   storage: "Storage", // 그림 + 코멘트
+  pages: "Pages"      // 문서
   links: "Links"      // 링크 모음 (배너 이미지 지원)
 };
 
@@ -18,4 +19,12 @@ const SITE_TITLE = "Web上ノ巣";
 function driveImageUrl(fileId) {
   if (!fileId) return "";
   return `https://lh3.googleusercontent.com/d/${fileId.trim()}`;
+}
+
+// Pages 탭의 link 값(파일ID 또는 전체 URL)으로 문서 열람 URL 만들기
+function driveDocUrl(value) {
+  if (!value) return "";
+  const v = value.trim();
+  if (v.startsWith("http")) return v;
+  return `https://drive.google.com/file/d/${v}/view`;
 }
