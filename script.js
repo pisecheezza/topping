@@ -144,7 +144,7 @@ fetchTab(TABS.pages).then(rows => {
 function formatDate(str) {
   const s = String(str || "").trim().replace(/[-.\/]/g, ""); // 구분자 다 제거
   if (s.length === 8) {
-    return `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`;
+    return `${s.slice(0, 4)}.${s.slice(4, 6)}.${s.slice(6, 8)}`;
   }
   return s; // 8자리가 아니면 원본 그대로
 }
