@@ -1,3 +1,4 @@
+console.log("pages tab element:", document.getElementById("pagesList"));
 // ── 시트 → CSV → JSON ────────────────────────────────────
 function sheetUrl(tabName) {
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabName)}&_ts=${Date.now()}`;
