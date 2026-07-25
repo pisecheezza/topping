@@ -372,18 +372,6 @@ main{
 .link-label{ font-family:"Fraunces", serif; font-weight:600; font-size:1.02rem; transition: color .15s ease; }
 .link-desc{ font-family:"JetBrains Mono", monospace; font-size:11.5px; color:var(--ink-soft); text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width: 45%; }
 .link-banner-row{
-  display: block;
-  background: var(--paper-deep);
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  overflow: hidden;
-  text-decoration: none;
-  color: var(--ink);
-  box-shadow: 0 3px 0 var(--card-shadow);
-  transition: transform .15s ease;
-}
-
-.link-banner-row{
   display: flex;
   flex-direction: column;
   align-items: center;
