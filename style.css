@@ -305,6 +305,12 @@ main{
 .link-row:hover .link-label{ color: var(--teal-deep); }
 .link-label{ font-family:"Fraunces", serif; font-weight:600; font-size:1.02rem; transition: color .15s ease; }
 .link-desc{ font-family:"JetBrains Mono", monospace; font-size:11.5px; color:var(--ink-soft); text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width: 45%; }
+.link-banner-row {
+  display: flex;
+  align-items: center; /* 세로 방향 가운데 정렬 */
+  gap: 12px;           /* 이미지와 텍스트 사이의 간격 */
+  text-decoration: none; /* a 태그의 기본 밑줄 제거 (선택사항) */
+}
 
 /* ── Footer ─────────────────────────────────────────────── */
 footer{ text-align:center; padding: 30px 20px 10px; }
