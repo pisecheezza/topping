@@ -1,14 +1,14 @@
 /* ── Tokens ──────────────────────────────────────────── */
-:root{
-  --paper: #EDE7D9;
-  --paper-deep: #E3DCC9;
-  --ink: #211C16;
-  --ink-soft: #5B5346;
-  --teal: #2F6B5E;
-  --teal-deep: #1F4A40;
-  --brass: #A98F5B;
-  --rule: #C9C0AC;
-  --card-shadow: rgba(33, 28, 22, 0.14);
+:root {
+  --paper: #1A1414;        /* 깊은 밤의 벨벳 블랙 배경 */
+  --paper-deep: #261E1E;   /* 어두운 고딕 석조/벨벳 톤 */
+  --ink: #F2ECE9;          /* 창백한 뼈 색상의 텍스트 */
+  --ink-soft: #B0A099;     /* 부드러운 고딕 보조 텍스트 */
+  --teal: #9E1B22;         /* 선혈을 연상시키는 딥 블러드 레드 (기존 틸 대체) */
+  --teal-deep: #631015;    /* 깊고 어두운 핏빛 레드 */
+  --brass: #D4AF37;        /* 바로크 양식의 화려한 앤틱 골드/브라스 */
+  --rule: #4A3838;         /* 고딕 철제 장식 느낌의 경계선 */
+  --card-shadow: rgba(0, 0, 0, 0.6); /* 무겁고 깊은 그림자 */
 }
 
 *{ box-sizing: border-box; }
@@ -74,7 +74,6 @@ body{
   width: 100%;
   max-width: 460px;
   margin: 0 auto 34px;
-  aspect-ratio: 4/3;
   background: var(--ink);
   border: 1px solid var(--rule);
   border-radius: 3px;
