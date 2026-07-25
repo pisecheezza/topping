@@ -293,8 +293,7 @@ main{
 
 .work-link:hover{ color: var(--teal); }
 
-/* ── Notices ledger ─────────────────────────────────────── */
-.ledger{ border-top: 1px solid var(--ink); }
+/* ── Pages ledger ─────────────────────────────────────── */
 .ledger-row{
   display:grid;
   grid-template-columns: 90px 1fr;
