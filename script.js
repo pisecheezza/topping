@@ -79,7 +79,6 @@ if (heroRow && (heroRow.video || "").trim()) {
       row.innerHTML = `
         <div class="ledger-date">${escapeHtml(r.date || "")}</div>
         <div>
-          <h3 class="ledger-title">${escapeHtml(r.title || "")}</h3>
           <p class="ledger-content">${escapeHtml(r.content || "")}</p>
         </div>`;
       ledger.appendChild(row);
