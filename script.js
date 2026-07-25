@@ -119,34 +119,6 @@ fetchTab(TABS.storage).then(rows => {
     });
 });
 
-// ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
-fetchTab(TABS.links).then(rows => {
-  const index = document.getElementById("linksIndex");
-  index.innerHTML = "";
-  rows
-    .filter(r => (r.label || r.url || "").trim())
-    .forEach(r => {
-      const bannerUrl = driveImageUrl(r.banner);
-      const a = document.createElement("a");
-      a.href = r.url || "#";
-      a.target = "_blank";
-      a.rel = "noopener";
-
-      if (bannerUrl) {
-        a.className = "link-banner-row";
-        a.innerHTML = `
-          <img class="link-banner-img" src="${bannerUrl}" alt="" loading="lazy" style="width: 120px; height: 40px; object-fit: cover;>
-          <span class="link-banner-label">${escapeHtml(r.label || r.url || "")}</span>`;
-      } else {
-        a.className = "link-row";
-        a.innerHTML = `
-          <span class="link-label">${escapeHtml(r.label || r.url || "")}</span>
-          <span class="link-desc">${escapeHtml(r.description || "")}</span>`;
-      }
-      index.appendChild(a);
-    });
-});
-
 // ── Pages: 문서 목록 (날짜 + 제목) ────────
 fetchTab(TABS.pages).then(rows => {
   const list = document.getElementById("pagesList");
@@ -167,3 +139,30 @@ fetchTab(TABS.pages).then(rows => {
     });
 });
 
+// ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
+fetchTab(TABS.links).then(rows => {
+  const index = document.getElementById("linksIndex");
+  index.innerHTML = "";
+  rows
+    .filter(r => (r.label || r.url || "").trim())
+    .forEach(r => {
+      const bannerUrl = driveImageUrl(r.banner);
+      const a = document.createElement("a");
+      a.href = r.url || "#";
+      a.target = "_blank";
+      a.rel = "noopener";
+
+      if (bannerUrl) {
+        a.className = "link-banner-row";
+        a.innerHTML = `
+          <img class="link-banner-img" src="${bannerUrl}" alt="" loading="lazy" style="width: 120px; height: 40px; object-fit: cover;">
+          <span class="link-banner-label">${escapeHtml(r.label || r.url || "")}</span>`;
+      } else {
+        a.className = "link-row";
+        a.innerHTML = `
+          <span class="link-label">${escapeHtml(r.label || r.url || "")}</span>
+          <span class="link-desc">${escapeHtml(r.description || "")}</span>`;
+      }
+      index.appendChild(a);
+    });
+});
