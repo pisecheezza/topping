@@ -363,7 +363,6 @@ main{
   align-items:baseline;
   gap:14px;
   padding: 14px 4px;
-  border-bottom: 1px solid var(--rule);
   text-decoration:none;
   color: var(--ink);
 }
@@ -396,19 +395,19 @@ main{
 }
 
 .link-category{
+  grid-column: 1 / -1;   /* 그리드 전체 폭 차지 */
   font-family:"JetBrains Mono", monospace;
   font-size: 12px;
   letter-spacing: 0.08em;
   color: var(--ink-soft);
   text-transform: uppercase;
-  margin: 24px 0 8px;
-  padding-top: 16px;
-  border-top: 1px solid var(--rule);
+  margin: 24px 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);   /* 실선 한 번 */
 }
+
 .link-category:first-child{
   margin-top: 0;
-  padding-top: 0;
-  border-top: none;
 }
 /* ── Footer ─────────────────────────────────────────────── */
 footer{ text-align:center; padding: 30px 20px 10px; }
