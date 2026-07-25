@@ -5,8 +5,11 @@ function sheetUrl(tabName) {
 
 function fetchTab(tabName) {
   return fetch(sheetUrl(tabName), { cache: "no-store" })
-    .then(res => res.text())
-    .then(csv => Papa.parse(csv, { header: true, skipEmptyLines: true }).data);
+    .then(res => res.arrayBuffer())
+    .then(buffer => {
+      const csv = new TextDecoder("utf-8").decode(buffer);
+      return Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
+    });
 }
 
 function escapeHtml(str) {
