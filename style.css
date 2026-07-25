@@ -391,6 +391,39 @@ main{
 .link-category:first-child{
   margin-top: 0;
 }
+/* ── Guest Book ────────────────────────────────────────── */
+.guestbook-form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule);
+}
+.guestbook-form input,
+.guestbook-form textarea{
+  font-family: "Source Serif 4", serif;
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  border: 1px solid var(--rule);
+  background: var(--paper-deep);
+  color: var(--ink);
+  border-radius: 3px;
+  resize: vertical;
+}
+.guestbook-form button{
+  align-self: flex-end;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12.5px;
+  padding: 8px 18px;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.guestbook-form button:hover{ background: var(--teal-deep); }
+.guestbook-form button:disabled{ opacity: 0.6; cursor: default; }
 
 /* ── Reduced motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce){
