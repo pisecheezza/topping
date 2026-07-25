@@ -22,14 +22,25 @@ function padNum(n) {
 }
 
 // ── 탭 전환 ────────────────────────────────────────────────
+function activateView(viewName) {
+  const btn = document.querySelector(`.tab[data-view="${viewName}"]`);
+  if (!btn) return;
+  document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById(`view-${viewName}`).classList.add("active");
+}
+
 document.querySelectorAll(".tab").forEach(btn => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
-    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById(`view-${btn.dataset.view}`).classList.add("active");
+    activateView(btn.dataset.view);
+    location.hash = btn.dataset.view;
   });
 });
+
+// 새로고침 시 URL의 # 뒷부분으로 현재 탭 복원
+const initialView = location.hash.replace("#", "");
+if (initialView) activateView(initialView);
 
 // ── 사이트 제목 (고정 텍스트) ─────────────────────────────
 document.getElementById("siteName").textContent = SITE_TITLE;
@@ -150,7 +161,7 @@ fetchTab(TABS.pages).then(rows => {
       row.innerHTML = `
         <div class="ledger-date">${escapeHtml(r.date || "")}</div>
         <div>
-          <a class="ledger-title-link" href="${driveDocUrl(r.link)}" target="_blank" rel="noopener">${escapeHtml(r.title)}</a>
+          <p class="ledger-content">${escapeHtml(r.content || "")}</p>
         </div>`;
       list.appendChild(row);
     });
