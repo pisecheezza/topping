@@ -363,6 +363,7 @@ main{
   align-items:baseline;
   gap:14px;
   padding: 14px 4px;
+  border-bottom: 1px solid var(--rule);
   text-decoration:none;
   color: var(--ink);
 }
