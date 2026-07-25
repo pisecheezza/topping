@@ -107,17 +107,17 @@ body{
 
 .storage-thumb{
   width: 100%;
-  aspect-ratio: auto;   /* 고정 비율 틀 제거 */
+  text-align: center;   /* 안의 이미지를 가운데로 */
   background: var(--ink);
   overflow: hidden;
 }
 .storage-thumb img{
-  width: 100%;
-  height: auto;         /* 세로는 가로 비율에 맞춰 자동 계산 */
-  object-fit: contain;  /* 잘리지 않고 전체 표시 */
-  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: inline-block;  /* text-align이 적용되려면 inline 계열이어야 함 */
 }
-
 .storage-body { 
   padding: 12px 14px 14px; 
   /* 텍스트가 길어져도 세로 높이가 자연스럽게 늘어남 */
