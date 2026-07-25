@@ -127,3 +127,24 @@ fetchTab(TABS.links).then(rows => {
       index.appendChild(a);
     });
 });
+
+// ── Pages: 문서 목록 (날짜 + 제목, 클릭 시 문서 열람) ────────
+fetchTab(TABS.pages).then(rows => {
+  const list = document.getElementById("pagesList");
+  list.innerHTML = "";
+  rows
+    .filter(r => (r.title || "").trim())
+    .slice()
+    .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+    .forEach(r => {
+      const row = document.createElement("div");
+      row.className = "ledger-row";
+      row.innerHTML = `
+        <div class="ledger-date">${escapeHtml(r.date || "")}</div>
+        <div>
+          <a class="ledger-title-link" href="${driveDocUrl(r.link)}" target="_blank" rel="noopener">${escapeHtml(r.title)}</a>
+        </div>`;
+      list.appendChild(row);
+    });
+});
+
