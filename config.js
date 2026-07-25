@@ -6,16 +6,16 @@ const SHEET_ID = "14DVjPLKuq4pkBjoAw_h1J0BanWgJif4jNSw-6qhU4q0";
 
 // 3) 각 탭(시트)의 이름이 아래와 다르면 맞춰서 수정
 const TABS = {
-  Main: "Main",
-  Profile: "Profile",
-  Storage: "Storage",
-  Links: "Links"
+  main: "Main",
+  profile: "Profile",
+  storage: "Storage",
+  links: "Links"
 };
 
 // 4) 사이트 제목 / 한줄소개 기본값 (Profile 시트에 name/tagline 키가 있으면 그 값이 우선 적용됨)
 const SITE_DEFAULTS = {
-  name: "Sage",
-  tagline: "個人HPと言う空間を作り出すのだ。"
+  title: "WEB上の巣",
+  description: "個人HPと言う空間を作り出すのだ。"
 };
 
 // 드라이브 파일 ID로 이미지 직링크 만들기
