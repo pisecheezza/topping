@@ -92,13 +92,12 @@ body{
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;       /* 추가: 카드 내부 요소들을 수평 가운데 정렬 */
   transition: transform .15s ease;
   
   /* 가로 크기 고정 및 반응형 한계 설정 */
-  width: 300px;          /* 가로 폭을 300px로 고정하려면 이와 같이 설정 */
-  max-width: 300px;      /* 화면이 작을 때 줄어들게 하려면 width 대신 max-width 사용 권장 */
-  
-  /* 세로는 내용에 맞춰 유동적으로 조절됨 (height를 지정하지 않음) */
+  width: 300px;          
+  max-width: 300px;      
 }
 
 .storage-thumb{
@@ -108,15 +107,16 @@ body{
   overflow: hidden;
 }
 .storage-thumb img{
-  width: auto;        /* 강제로 늘리지 않음 */
-  max-width: 100%;    /* 카드보다 큰 이미지만 줄임 */
+  width: auto;        
+  max-width: 100%;    
   height: auto;
   display: block;
 }
 
 .storage-body { 
   padding: 12px 14px 14px; 
-  /* 텍스트가 길어져도 세로 높이가 자연스럽게 늘어남 */
+  text-align: center;        /* 추가: 본문 영역 텍스트 가운데 정렬 */
+  width: 100%;               /* 추가: 전체 너비를 차지하게 설정 */
 }
 
 .storage-comment { 
@@ -124,11 +124,13 @@ body{
   color: var(--ink); 
   line-height: 1.6; 
   margin: 0; 
+  text-align: center;        /* 추가: 코멘트 텍스트 가운데 정렬 보완 */
 }
 
 .storage-card:hover { 
   transform: translateY(-2px); 
 }
+
   
 /* ── Tabs ───────────────────────────────────────────────── */
 .tabs{
