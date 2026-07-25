@@ -84,15 +84,36 @@ body{
 .hero-image:empty{ display:none; }
 
 /* ── Uniform key-value list (Profile tab) ───────────────── */
-.about-kv-list{ margin:0; }
-.about-kv-list .about-kv{
-  display:flex;
-  gap:14px;
-  padding: 9px 0;
-  border-bottom: 1px dashed var(--rule);
-  margin:0;
+.about-kv-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
 }
-.about-kv-list .about-kv:last-child{ border-bottom:none; }
+
+.about-kv-list .about-kv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 8px;
+  /* 고딕/바로크 양식의 고전 서적에서 볼 수 있는 묵직한 이중선(Double Border) */
+  border-bottom: 3px double var(--rule);
+  margin: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.about-kv-list .about-kv:last-child {
+  border-bottom: none;
+}
+
+/* 마우스 호버 시 드라큘라 백작의 성을 연상시키는 깊은 벨벳 톤으로 변화 */
+.about-kv-list .about-kv:hover {
+  background-color: var(--paper-deep);
+  color: var(--brass); /* 앤틱 골드 빛으로 포인트 */
+}
+
 
 /* ── Storage cards (image + comment) ─────────────────────── */
 .storage-card{
