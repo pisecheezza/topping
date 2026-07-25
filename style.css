@@ -77,10 +77,30 @@ body{
   border-radius: 5px;
   overflow:hidden;
   box-shadow: 0 3px 0 var(--card-shadow);
+  position: relative;   /* 기존 규칙에 이 한 줄만 추가 */
+}
+.hero-credit{
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  padding: 2px 7px;
+  border-radius: 2px;
+  letter-spacing: 0.02em;
 }
 .hero-image img{ width:100%; height:100%; object-fit:cover; display:block; }
 .hero-image:empty{ display:none; }
 
+.visit-counter{
+  font-family:"JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin: 8px 0 0;
+  letter-spacing: 0.04em;
+}
 /* ── Uniform key-value list (Profile tab) ───────────────── */
 .about-kv-list{
   margin: 0;
