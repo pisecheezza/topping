@@ -9,7 +9,8 @@ const TABS = {
   profile: "Profile", // 이름/직업/성별/생년월일 등 인적사항
   storage: "Storage", // 그림 + 코멘트
   pages: "Pages",      // 문서
-  links: "Links"      // 링크 모음 (배너 이미지 지원)
+  links: "Links",      // 링크 모음 (배너 이미지 지원)
+  guestbook: "Guestbook"
 };
 
 // 4) 사이트 상단에 표시될 제목 (시트 값과 무관한 고정 텍스트)
@@ -28,3 +29,5 @@ function driveDocUrl(value) {
   if (v.startsWith("http")) return v;
   return `https://drive.google.com/file/d/${v}/view`;
 }
+
+const GUESTBOOK_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwop3klmiUOfX0YKjh8_dkXyGn0PCYarBJ_p94LmjRrzgAATfWIKoEw2LJPBDMI6NHVUg/exec";
