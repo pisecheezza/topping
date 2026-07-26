@@ -415,11 +415,19 @@ main{
 .work-link:hover{ color: var(--teal); }
 
 /* ── Pages ledger ─────────────────────────────────────── */
+/* 전체 행: 세로 방향(Column)으로 배치하여 1행(날짜+제목)과 2행(내용)을 분리 */
 .ledger-row{
   display: flex;
-  align-items: flex-start; /* 상단 기준 정렬 */
-  gap: 10px;
+  flex-direction: column;
+  gap: 8px; /* 첫 번째 줄과 내용 사이의 간격 */
   padding: 12px 4px;
+}
+
+/* 1행: 날짜와 제목을 나란히(Row) 배치 */
+.ledger-header{
+  display: flex;
+  align-items: center; /* 날짜와 제목의 수직 가운데 정렬 */
+  gap: 10px;
 }
 
 .ledger-date{
@@ -428,15 +436,6 @@ main{
   font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
   font-size: 12px;
   color: var(--ink);
-  padding-top: 3px; /* 제목 폰트 크기와 시각적 높이 맞춤 */
-}
-
-/* 제목과 내용을 감싸는 영역을 세로 방향 Flexbox로 설정 */
-.ledger-body{
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px; /* 제목과 내용 사이의 간격 */
 }
 
 .ledger-title, .ledger-title-link{
@@ -466,7 +465,7 @@ main{
 .ledger-heading{
   font-family: "Dancing Script", "Tahoma", sans-serif;
   font-size: 1.3rem;
-  margin: 15px 0 15px;
+  margin: 15px 0;
   color: var(--ink);
   border-bottom: 1px solid var(--ink);
   padding-bottom: 10px;
@@ -476,6 +475,7 @@ main{
   color: var(--teal-deep); 
 }
 
+/* 2행: 내용 영역 */
 .ledger-content{ 
   font-size: 0.92rem; 
   color: var(--ink); 
