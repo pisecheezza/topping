@@ -1,0 +1,8 @@
+title: Pages
+description:
+baseurl: "/topping"
+url: "https://pisecheezza.github.io"
+permalink: pretty
+
+markdown: kramdown
+theme: minima
