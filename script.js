@@ -37,19 +37,38 @@ function padNum(n) {
 
 // ── 탭 전환 ────────────────────────────────────────────────
 function activateView(viewName) {
-  const btn = document.querySelector(`.tab[data-view="${viewName}"]`);
+  const btn = document.querySelector(`.tab-link[data-view="${viewName}"]`);
   if (!btn) return;
-  document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".tab-link").forEach(b => b.classList.remove("active"));
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
   btn.classList.add("active");
   document.getElementById(`view-${viewName}`).classList.add("active");
 }
 
-document.querySelectorAll(".tab").forEach(btn => {
+const drawer = document.getElementById("siteDrawer");
+const backdrop = document.getElementById("drawerBackdrop");
+const menuToggle = document.getElementById("menuToggle");
+
+function openDrawer() {
+  drawer.classList.add("open");
+  backdrop.classList.add("show");
+}
+function closeDrawer() {
+  drawer.classList.remove("open");
+  backdrop.classList.remove("show");
+}
+
+menuToggle.addEventListener("click", () => {
+  if (drawer.classList.contains("open")) closeDrawer();
+  else openDrawer();
+});
+backdrop.addEventListener("click", closeDrawer);
+
+document.querySelectorAll(".tab-link").forEach(btn => {
   btn.addEventListener("click", () => {
-    // playClickSound();   // 이 줄 추가 //
     activateView(btn.dataset.view);
     location.hash = btn.dataset.view;
+    closeDrawer();
   });
 });
 
