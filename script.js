@@ -195,73 +195,8 @@ fetchTab(TABS.storage).then(rows => {
     });
 });
 
-// ── Main: 최근 글 미리보기 (Jekyll posts.json 재사용) ──────
-fetch("/topping/posts.json", { cache: "no-store" })
-  .then(res => res.json())
-  .then(posts => {
-    const list = document.getElementById("recentPostsList");
-    if (!list) return;
-    list.innerHTML = "";
-    posts
-      .filter(p => String(p.date || p.title || "").trim())
-      .slice()
-      .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
-      .slice(0, 3)   // 최근 3개만
-      .forEach(p => {
-        const row = document.createElement("div");
-        row.className = "ledger-row";
-        row.innerHTML = `
-          <div class="ledger-date">${escapeHtml(formatDateDot(p.date))}</div>
-          <div>
-            <p class="ledger-title">
-              ${p.category ? `<span class="ledger-category">[${escapeHtml(p.category)}]</span> ` : ""}
-              <a href="${p.url}">${escapeHtml(p.title)}</a>
-            </p>
-          </div>`;
-        list.appendChild(row);
-      });
-  })
-  .catch(() => {});
-
-// ── Pages: Jekyll 블로그 글 목록 (날짜 + 제목) ────────
-function formatDateDot(dateStr) {
-  // dateStr 예: "2026-07-26" → "2026.07.26"
-  return String(dateStr || "").replace(/-/g, ".");
-}
-
-fetch("/topping/posts.json", { cache: "no-store" })
-  .then(res => res.json())
-  .then(posts => {
-    const list = document.getElementById("pagesList");
-    if (!list) {
-      document.body.insertAdjacentHTML('beforeend', '<p style="color:red">에러: pagesList 요소를 찾을 수 없음</p>');
-      return;
-    }
-    list.innerHTML = "";
-    posts
-      .filter(p => String(p.date || p.title || p.excerpt || "").trim())
-      .slice()
-      .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
-      .forEach(p => {
-        const row = document.createElement("div");
-              row.className = "ledger-row";
-              row.innerHTML = `
-               <div class="ledger-date">${escapeHtml(formatDateDot(p.date))}</div>
-               <div>
-                <p class="ledger-title">
-        ${p.category ? `<span class="ledger-category">[${escapeHtml(p.category)}]</span> ` : ""}
-                <a href="${p.url}">${escapeHtml(p.title)}</a>
-               </p>
-    </div>`;
-  list.appendChild(row);
-});
-  })
-  .catch(err => {
-    document.body.insertAdjacentHTML('beforeend', `<p style="color:red">에러 발생: ${err.message}</p>`);
-  });
-
 // ── Pages: 문서 목록 (날짜 + 제목) ────────
-/* fetchTab(TABS.pages).then(rows => {
+fetchTab(TABS.pages).then(rows => {
   const list = document.getElementById("pagesList");
   list.innerHTML = "";
   rows
@@ -287,7 +222,7 @@ function formatDate(str) {
     return `${s.slice(0, 4)}.${s.slice(4, 6)}.${s.slice(6, 8)}`;
   }
   return s; // 8자리가 아니면 원본 그대로
-} */
+}
 
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
