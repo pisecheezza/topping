@@ -158,14 +158,18 @@ fetchTab(TABS.storage).then(rows => {
   rows
     .filter(r => (r.image || r.comment || "").trim())
     .forEach((r, i) => {
-      const imgUrl = driveImageUrl(r.image);
+      const imageIds = (r.image || "").split(",").map(s => s.trim()).filter(Boolean);
+      const comment = (r.comment || "").trim();
+      const imagesHtml = imageIds
+        .map(id => `<img src="${driveImageUrl(id)}" alt="" loading="lazy">`)
+        .join("");
+
       const card = document.createElement("article");
       card.className = "storage-card";
       card.innerHTML = `
-        ${imgUrl ? `<div class="storage-thumb"><img src="${imgUrl}" alt="" loading="lazy"></div>` : ""}
-        <div class="storage-body">
-          <p class="storage-comment">${escapeHtml(r.comment || "")}</p>
-        </div>`;
+        ${imageIds.length ? `<div class="storage-thumb">${imagesHtml}</div>` : ""}
+        ${comment ? `<div class="storage-body"><p class="storage-comment">${escapeHtml(comment)}</p></div>` : ""}
+      `;
       grid.appendChild(card);
     });
 });
