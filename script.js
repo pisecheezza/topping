@@ -3,6 +3,7 @@ const clickAudio = new Audio(driveAudioUrl(CLICK_SOUND_FILE_ID));
 clickAudio.preload = "auto";
 
 function playClickSound() {
+  alert("함수 호출됨");   // 임시 확인용
   clickAudio.currentTime = 0;
   clickAudio.play().catch(err => {
     alert("재생 실패: " + err.message);
