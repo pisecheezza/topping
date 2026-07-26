@@ -201,8 +201,7 @@ fetch("/topping/posts.json", { cache: "no-store" })
         row.innerHTML = `
           <div class="ledger-date">${escapeHtml(formatDateDot(p.date))}</div>
           <div>
-            <h3 class="ledger-title"><a href="${p.url}">${escapeHtml(p.title)}</a></h3>
-            <p class="ledger-content">${escapeHtml(p.excerpt)}</p>
+            <p class="ledger-title"><a href="${p.url}">${escapeHtml(p.title)}</a></p>
           </div>`;
         list.appendChild(row);
       });
