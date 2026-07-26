@@ -207,15 +207,14 @@ fetchTab(TABS.pages).then(rows => {
       const row = document.createElement("div");
       row.className = "ledger-row";
       row.innerHTML = `
-        <div class="ledger-date">${escapeHtml(formatDate(r.date))}</div>
-        <div class="ledger-body">
+        <div class="ledger-header">
+          <div class="ledger-date">${escapeHtml(formatDate(r.date))}</div>
           <h3 class="ledger-title">${escapeHtml(String(r.title || ""))}</h3>
-          <p class="ledger-content">${marked.parse(String(r.content || ""))}</p>
-        </div>`;
+        </div>
+        <div class="ledger-content">${marked.parse(String(r.content || ""))}</div>`;
       list.appendChild(row);
     });
 });
-
 
 function formatDate(str) {
   const s = String(str || "").trim().replace(/[-.\/]/g, ""); // 구분자 다 제거
