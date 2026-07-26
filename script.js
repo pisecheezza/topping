@@ -4,7 +4,9 @@ clickAudio.preload = "auto";
 
 function playClickSound() {
   clickAudio.currentTime = 0;
-  clickAudio.play().catch(() => {}); // 자동재생 정책으로 실패해도 조용히 무시
+  clickAudio.play().catch(err => {
+    alert("재생 실패: " + err.message);
+  });
 }
 
 // ── 시트 → CSV → JSON ────────────────────────────────────
