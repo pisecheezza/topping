@@ -7,6 +7,8 @@ function playClickSound() {
   clickAudio.play().catch(() => {});
 } */
 
+marked.setOptions({ breaks: true });
+
 // ── 시트 → CSV → JSON ────────────────────────────────────
 function sheetUrl(tabName) {
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabName)}&_ts=${Date.now()}`;
