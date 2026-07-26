@@ -81,33 +81,33 @@ document.title = SITE_TITLE;
 
 // ── Main: 대문 이미지 + 공지사항 ───────────────────────────
 fetchTab(TABS.main).then(rows => {
-  const heroEl = document.getElementById("heroImage");
+  const doorEl = document.getElementById("doorImage");
   const ledger = document.getElementById("noticesLedger");
   ledger.innerHTML = "";
 
-  const heroRow = rows.find(r => (r.image || r.video || "").trim());
-if (heroRow && (heroRow.video || "").trim()) {
+  const doorRow = rows.find(r => (r.image || r.video || "").trim());
+if (doorRow && (doorRow.video || "").trim()) {
   const iframe = document.createElement("iframe");
-  iframe.src = `https://drive.google.com/file/d/${heroRow.video.trim()}/preview`;
+  iframe.src = `https://drive.google.com/file/d/${doorRow.video.trim()}/preview`;
   iframe.allow = "autoplay";
   iframe.style.border = "0";
   iframe.style.width = "100%";
   iframe.style.height = "100%";
-  heroEl.appendChild(iframe);
-} else if (heroRow) {
+  doorEl.appendChild(iframe);
+} else if (doorRow) {
   const img = document.createElement("img");
-  img.src = driveImageUrl(heroRow.image);
+  img.src = driveImageUrl(doorRow.image);
   img.alt = "";
   img.loading = "lazy";
-  heroEl.appendChild(img);
+  doorEl.appendChild(img);
 }
 
 // 저작권 표기 추가
-if (heroRow && (heroRow.credit || "").trim()) {
+if (doorRow && (doorRow.credit || "").trim()) {
   const credit = document.createElement("span");
-  credit.className = "hero-credit";
-  credit.textContent = heroRow.credit.trim();
-  heroEl.appendChild(credit);
+  credit.className = "door-credit";
+  credit.textContent = doorRow.credit.trim();
+  doorEl.appendChild(credit);
 }
 
   const notices = rows.filter(r => (r.date || r.content || "").trim());
