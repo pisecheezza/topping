@@ -18,8 +18,8 @@ body{
   background: var(--paper);
   background-image:
     repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(33,28,22,0.025) 28px);
-  color: var(--ink);
-  font-family: "Source Serif 4", serif;
+  color: var(--ink);  
+  font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
   min-height: 100vh;
   padding-bottom: 60px;
 }
@@ -52,9 +52,9 @@ body{
   padding: 15px 5px 5px;
 }
 .masthead h1{
-  font-family:"Fraunces", serif;
+  font-family: "UnifrakturMaguntia", "Tahoma", sans-serif;
   font-optical-sizing:auto;
-  font-weight:600;
+  font-weight:400;
   font-size: clamp(2.2rem, 6vw, 3.2rem);
   margin:0;
   letter-spacing:-0.01em;
@@ -97,7 +97,7 @@ body{
 .visit-counter{
   font-family:"JetBrains Mono", monospace;
   font-size: 11px;
-  color: var(--ink-soft);
+  color: var(--ink);
   margin: 8px 0 0;
   letter-spacing: 0.04em;
 }
@@ -180,12 +180,12 @@ body{
 }
 
 .tab{
-  font-family:"JetBrains Mono", monospace;
-  font-size: 12.5px;
+  font-family: "UnifrakturMaguntia", "Tahoma", sans-serif;
+  font-size: 13.5px;   /* 이 폰트는 크기가 작으면 잘 안 보여서 살짝 키움 */
   letter-spacing: 0.04em;
   background: transparent;
   border: none;
-  color: var(--ink-soft);
+  color: var(--ink);
   padding: 10px 14px;
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -236,8 +236,10 @@ main{
 }
 
 .call-number{ font-weight:500; }
-.card-date{ color: var(--ink-soft); }
-
+.card-date{
+  color: var(--ink);
+  font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+}
 .about-body h2{
   font-family:"Fraunces", serif;
   font-size: 1.3rem;
@@ -337,17 +339,26 @@ main{
   padding: 16px 4px;
 }
 
-.ledger-date{ font-family:"JetBrains Mono", monospace; font-size:12px; color:var(--ink-soft); padding-top:2px; }
-.ledger-title{ font-family:"Fraunces", serif; font-weight:600; font-size:1.05rem; margin:0 0 4px; }
-.ledger-title-link{
-  font-family:"Fraunces", serif;
+.ledger-date{
+  font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size:12px;
+  color:var(--ink);
+  padding-top:2px;
+}
+.ledger-title, .ledger-title-link{
+  font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
   font-weight:600;
   font-size:1.05rem;
   color: var(--ink);
   text-decoration:none;
   border-bottom: 1px solid var(--teal);
 }
-
+.ledger-heading{
+  font-family: "UnifrakturMaguntia", "Tahoma", sans-serif;
+  font-size: 1.3rem;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
 .ledger-title-link:hover{ color: var(--teal-deep); }
 .ledger-content{ font-size:0.92rem; color:var(--ink); line-height:1.6; margin:0; padding-left: 20px;}
 
@@ -376,16 +387,24 @@ main{
   color: var(--ink);
 }
 
-.link-desc {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 11.5px;
-  color: var(--ink-soft);
-  text-align: center;      /* right에서 center로 변경 */
-  max-width: 100%;         /* 45% 제한 해제 */
+.link-desc{
+  font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size:11.5px;
+  color:var(--ink);
+  text-align:right;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width: 45%;
 }
 
 .link-row:hover .link-label{ color: var(--teal-deep); }
-.link-label{ font-family:"Fraunces", serif; font-weight:600; font-size:1.02rem; transition: color .15s ease; }
+.link-label{
+  font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-weight:600;
+  font-size:1.02rem;
+  transition: color .15s ease;
+}
 .link-banner-row{
   display: flex;
   flex-direction: column;
@@ -406,19 +425,18 @@ main{
 }
 
 .link-banner-label{
-  font-family: "Fraunces", serif;
+  font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
   font-weight: 600;
   font-size: 1.02rem;
   text-align: center;
 }
 
 .link-category{
-  grid-column: 1 / -1;   /* 그리드 전체 폭 차지 */
-  font-family:"JetBrains Mono", monospace;
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-family: "UnifrakturMaguntia", "Tahoma", sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.04em;
   color: var(--ink);
-  text-transform: uppercase;
+  text-transform: none;   /* UnifrakturMaguntia는 대문자로 바꾸면 알아보기 어려워서 해제 */
   margin: 24px 0 12px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--ink); 
