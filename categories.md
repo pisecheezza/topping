@@ -4,7 +4,44 @@ title: Categories
 permalink: /categories/
 ---
 
-<div id="categoryList">loading</div>
+<div id="categoryList">loading...</div>
+
+<style>
+#categoryList a {
+  text-decoration: none;
+  color: var(--ink, #222);
+}
+#categoryList a:hover {
+  color: var(--teal-deep, #0a7a6d);
+}
+#categoryList ul {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+}
+#categoryList li {
+  display: flex;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ink, #222);
+  font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+}
+#categoryList .cat-date {
+  font-size: 12px;
+  color: var(--ink, #222);
+  flex-shrink: 0;
+  width: 90px;
+}
+#categoryList h3 {
+  font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+#categoryList .back-link {
+  display: inline-block;
+  margin-top: 12px;
+}
+</style>
 
 <script>
 fetch("{{ '/posts.json' | relative_url }}", { cache: "no-store" })
@@ -15,8 +52,11 @@ fetch("{{ '/posts.json' | relative_url }}", { cache: "no-store" })
     const container = document.getElementById("categoryList");
     container.innerHTML = "";
 
+    function formatDateDot(dateStr) {
+      return String(dateStr || "").replace(/-/g, ".");
+    }
+
     if (selectedCat) {
-      // 특정 카테고리만 필터링해서 목록 표시
       const heading = document.createElement("h2");
       heading.textContent = selectedCat;
       container.appendChild(heading);
@@ -28,19 +68,17 @@ fetch("{{ '/posts.json' | relative_url }}", { cache: "no-store" })
       const ul = document.createElement("ul");
       filtered.forEach(p => {
         const li = document.createElement("li");
-        li.innerHTML = `<a href="${p.url}">${p.date} ${p.title}</a>`;
+        li.innerHTML = `<span class="cat-date">${formatDateDot(p.date)}</span><a href="${p.url}">${p.title}</a>`;
         ul.appendChild(li);
       });
       container.appendChild(ul);
 
       const backLink = document.createElement("a");
+      backLink.className = "back-link";
       backLink.href = "{{ '/categories/' | relative_url }}";
       backLink.textContent = "← All";
-      backLink.style.display = "block";
-      backLink.style.marginTop = "20px";
       container.appendChild(backLink);
     } else {
-      // 전체 카테고리 목록 표시
       const categories = {};
       posts.forEach(p => {
         if (p.category) {
@@ -51,7 +89,6 @@ fetch("{{ '/posts.json' | relative_url }}", { cache: "no-store" })
 
       Object.keys(categories).sort().forEach(cat => {
         const section = document.createElement("div");
-        section.style.marginBottom = "24px";
         section.innerHTML = `<h3><a href="?cat=${encodeURIComponent(cat)}">${cat} (${categories[cat].length})</a></h3>`;
         container.appendChild(section);
       });
