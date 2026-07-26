@@ -28,14 +28,14 @@ fetch("{{ '/posts.json' | relative_url }}", { cache: "no-store" })
       const ul = document.createElement("ul");
       filtered.forEach(p => {
         const li = document.createElement("li");
-        li.innerHTML = `<a href="${p.url}">${p.date} - ${p.title}</a>`;
+        li.innerHTML = `<a href="${p.url}">${p.date} ${p.title}</a>`;
         ul.appendChild(li);
       });
       container.appendChild(ul);
 
       const backLink = document.createElement("a");
       backLink.href = "{{ '/categories/' | relative_url }}";
-      backLink.textContent = "← 전체 카테고리 보기";
+      backLink.textContent = "← All";
       backLink.style.display = "block";
       backLink.style.marginTop = "20px";
       container.appendChild(backLink);
