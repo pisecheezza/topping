@@ -181,6 +181,10 @@ fetch("/topping/posts.json", { cache: "no-store" })
   .then(res => res.json())
   .then(posts => {
     const list = document.getElementById("pagesList");
+    if (!list) {
+      document.body.insertAdjacentHTML('beforeend', '<p style="color:red">에러: pagesList 요소를 찾을 수 없음</p>');
+      return;
+    }
     list.innerHTML = "";
     posts
       .filter(p => String(p.date || p.title || p.excerpt || "").trim())
@@ -197,6 +201,9 @@ fetch("/topping/posts.json", { cache: "no-store" })
           </div>`;
         list.appendChild(row);
       });
+  })
+  .catch(err => {
+    document.body.insertAdjacentHTML('beforeend', `<p style="color:red">에러 발생: ${err.message}</p>`);
   });
 
 // ── Pages: 문서 목록 (날짜 + 제목) ────────
