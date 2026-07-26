@@ -289,16 +289,16 @@ function loadGuestbook() {
     rows
       .filter(r => (r.message || "").trim())
       .slice()
-      .reverse() // 시트에 쌓인 순서 기준 최신이 아래에 append되므로 뒤집어서 최신순
+      .reverse()
       .forEach(r => {
         const row = document.createElement("div");
-        row.className = "ledger-row";
+        row.className = "guestbook-entry";
         row.innerHTML = `
-          <div class="ledger-date">${escapeHtml(r.timestamp || "")}</div>
-          <div>
-            <h3 class="ledger-title">${escapeHtml(r.name || "Anonymous")}</h3>
-            <p class="ledger-content">${escapeHtml(r.message || "")}</p>
-          </div>`;
+          <p class="guestbook-meta">
+            <span class="guestbook-name">${escapeHtml(r.name || "Anonymous")}</span>
+            <span class="guestbook-date">${escapeHtml(r.timestamp || "")}</span>
+          </p>
+          <p class="guestbook-message">${escapeHtml(r.message || "")}</p>`;
         list.appendChild(row);
       });
   });
