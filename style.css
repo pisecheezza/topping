@@ -471,7 +471,7 @@ main{
 
 }
 .ledger-title-link:hover{ color: var(--teal-deep); }
-.ledger-content{ font-size:0.92rem; color:var(--ink); line-height:1.6; margin:0; padding-left: 20px;}
+.ledger-content{ font-size:0.92rem; color:var(--ink); line-height:1.6; margin:0;}
 
 /* ── Links index ────────────────────────────────────────── */
 .link-banner-label{ font-family:"Fraunces", serif; font-weight:600; font-size:1.02rem; }
