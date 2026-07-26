@@ -4,7 +4,7 @@ title: Categories
 permalink: /categories/
 ---
 
-<div id="categoryList">불러오는 중...</div>
+<div id="categoryList">loading...</div>
 
 <script>
 fetch("/topping/posts.json", { cache: "no-store" })
@@ -24,7 +24,7 @@ fetch("/topping/posts.json", { cache: "no-store" })
     Object.keys(categories).sort().forEach(cat => {
       const section = document.createElement("div");
       section.style.marginBottom = "24px";
-      section.innerHTML = `<h3>${cat}</h3>`;
+      section.innerHTML = `<h4>${cat}</h4>`;
       const ul = document.createElement("ul");
       categories[cat]
         .sort((a, b) => b.date.localeCompare(a.date))
