@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 短文
+title: note
 permalink: /note/
 ---
 
