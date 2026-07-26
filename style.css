@@ -402,8 +402,7 @@ main{
 .link-row:hover .link-label{ color: var(--teal-deep); }
 .link-label{
   font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
-  font-weight:600;
-  font-size:1.02rem;
+  font-size:1.00rem;
   transition: color .15s ease;
 }
 .link-banner-row{
@@ -427,8 +426,7 @@ main{
 
 .link-banner-label{
   font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
-  font-weight: 600;
-  font-size: 1.02rem;
+  font-size: 1.00rem;
   text-align: center;
 }
 
