@@ -1,5 +1,5 @@
 // ── 탭 클릭 효과음 ────────────────────────────────────────
-const clickAudio = new Audio("tab.mp3");
+const clickAudio = new Audio("tab.wav");
 clickAudio.preload = "auto";
 
 function playClickSound() {
