@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Review
+title: review
 permalink: /review/
 ---
 
