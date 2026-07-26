@@ -19,7 +19,7 @@ const SITE_TITLE = "Web Retreat";
 // 드라이브 파일 ID로 이미지 직링크 만들기
 function driveImageUrl(fileId) {
   if (!fileId) return "";
-  return `https://lh3.googleusercontent.com/d/${fileId.trim()}`;
+  return `https://lh3.googleusercontent.com/d/${fileId.trim()}=s0`;
 }
 
 // Pages 탭의 link 값(파일ID 또는 전체 URL)으로 문서 열람 URL 만들기
