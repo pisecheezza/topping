@@ -168,7 +168,7 @@ fetchTab(TABS.storage).then(rows => {
       card.className = "storage-card";
       card.innerHTML = `
         ${imageIds.length ? `<div class="storage-thumb">${imagesHtml}</div>` : ""}
-        ${comment ? `<div class="storage-body"><p class="storage-comment">${marked.parseInline(comment)}</p>` : ""}
+        ${comment ? `<div class="storage-body"><p class="storage-comment">${marked.parseInline(comment)}</p></div>` : ""}
       `;
       grid.appendChild(card);
     });
