@@ -12,11 +12,6 @@
 
 html{ scroll-behavior: smooth; }
 
-@font-face {
-    font-family: 'Dragon is coming';
-    src: url('DragonIsComing.otf') format('opentype');
-}
-
 body{
   margin:0;
   background: var(--paper);
@@ -60,7 +55,7 @@ body{
 }
 
 .masthead h1{
-  font-family: "Dragon is coming", "Tahoma", sans-serif;
+  font-family: "Dancing Script", "Tahoma", sans-serif;
   font-optical-sizing:auto;
   font-weight:400;
   font-size: clamp(2.2rem, 6vw, 3.2rem);
@@ -114,7 +109,7 @@ body{
   background: none;
   border: none;
   text-align: left;
-  font-family: "Dragon is coming", "Tahoma", sans-serif;
+  font-family: "Dancing Script", "Tahoma", sans-serif;
   font-size: 15px;
   color: var(--ink);
   padding: 14px 24px;
@@ -149,7 +144,7 @@ body{
   align-items: center;
   justify-content: space-between;
   margin: 0;
-  font-family: "Dragon is coming", "Tahoma", sans-serif;
+  font-family: "Dancing Script", "Tahoma", sans-serif;
   font-size: 1.3rem;
   font-weight: 400;
 }
@@ -268,7 +263,7 @@ body{
 }
 
 .tab{
-  font-family: "Dragon is coming", "Tahoma", sans-serif;
+  font-family: "Dancing Script", "Tahoma", sans-serif;
   font-size: 14.5px;   /* 이 폰트는 크기가 작으면 잘 안 보여서 살짝 키움 */
   letter-spacing: 0.04em;
   background: transparent;
@@ -460,7 +455,7 @@ main{
 }
 
 .ledger-heading{
-  font-family: "Dragon is coming", "Tahoma", sans-serif;
+  font-family: "Dancing Script", "Tahoma", sans-serif;
   font-size: 1.3rem;
   margin: 15 0 15px;
   color: var(--ink);
@@ -540,11 +535,11 @@ main{
 
 .link-category{
   grid-column: 1 / -1;   /* 이 줄 추가 — 그리드 전체 폭을 차지하게 함 */
-  font-family: "Dragon is coming", "Tahoma", sans-serif;
+  font-family: "Dancing Script", "Tahoma", sans-serif;
   font-size: 15px;
   letter-spacing: 0.04em;
   color: var(--ink);
-  text-transform: none;   /* Dragon is coming는 대문자로 바꾸면 알아보기 어려워서 해제 */
+  text-transform: none;   /* Dancing Script는 대문자로 바꾸면 알아보기 어려워서 해제 */
   margin: 24px 0 12px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--ink); 
