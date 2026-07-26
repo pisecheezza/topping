@@ -329,28 +329,34 @@ main{
 
 /* ── Pages ledger ─────────────────────────────────────── */
 .ledger-row{
-  display:grid;
-  grid-template-columns: 90px 1fr;
+  display:flex;
+  align-items:flex-start;
   gap: 16px;
   padding: 16px 4px;
+  border-bottom: 1px solid var(--ink);
 }
-
 .ledger-date{
+  width: 90px;
+  flex-shrink: 0;
   font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
   font-size:12px;
   color:var(--ink);
   padding-top:2px;
 }
 .ledger-title, .ledger-title-link{
+  flex: 1;
   font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
   font-weight:600;
   font-size:1.05rem;
   color: var(--ink);
   text-decoration:none;
-  border-bottom: 1px solid var(--ink);
-  padding-bottom: 10px;  /* 이 숫자를 키우면 글자와 선 사이 간격이 늘어남 */
-
 }
+.ledger-category{
+  font-size: 0.85rem;
+  color: var(--teal-deep);
+  font-weight: 500;
+}
+
 .ledger-heading{
   font-family: "UnifrakturMaguntia", "Tahoma", sans-serif;
   font-size: 1.3rem;
