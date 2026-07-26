@@ -3,6 +3,7 @@ layout: page
 title: Categories
 permalink: /categories/
 ---
+<a href="{{ '/blog/' | relative_url }}" style="display:inline-block; margin-bottom:16px; text-decoration:none; color:var(--ink, #222); font-family: 'Tahoma', 'Malgun Gothic', 'Hiragino Kaku Gothic ProN', sans-serif;">← All Pages</a>
 
 <div id="categoryList">loading...</div>
 
