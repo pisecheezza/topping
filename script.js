@@ -8,6 +8,9 @@ function playClickSound() {
   clickAudio.play().catch(err => {
     alert("재생 실패: " + err.message);
   });
+  clickAudio.addEventListener("error", () => {
+  alert("오디오 로드 에러 코드: " + (clickAudio.error ? clickAudio.error.code : "알 수 없음"));
+});
 }
 
 // ── 시트 → CSV → JSON ────────────────────────────────────
