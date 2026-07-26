@@ -5,4 +5,4 @@ url: "https://pisecheezza.github.io"
 permalink: pretty
 
 markdown: kramdown
-theme: jekyll-theme-minimal
+theme: minima
