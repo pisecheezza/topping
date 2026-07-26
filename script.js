@@ -208,13 +208,14 @@ fetchTab(TABS.pages).then(rows => {
       row.className = "ledger-row";
       row.innerHTML = `
         <div class="ledger-date">${escapeHtml(formatDate(r.date))}</div>
-        <div>
+        <div class="ledger-body">
           <h3 class="ledger-title">${escapeHtml(String(r.title || ""))}</h3>
           <p class="ledger-content">${marked.parse(String(r.content || ""))}</p>
         </div>`;
       list.appendChild(row);
     });
 });
+
 
 function formatDate(str) {
   const s = String(str || "").trim().replace(/[-.\/]/g, ""); // 구분자 다 제거
