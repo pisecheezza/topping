@@ -130,6 +130,31 @@ body{
 .drawer-backdrop.show{
   display: block;
 }
+
+.home-section-title{
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+  margin: 32px 0 10px;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 10px;
+}
+.home-section-title h2{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  font-family: "UnifrakturMaguntia", "Tahoma", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+.home-section-title-arrow{
+  font-size: 1rem;
+  transition: transform .15s ease;
+}
+.home-section-title:hover .home-section-title-arrow{
+  transform: translateX(4px);
+}
 /* ── Hero image (Main tab) ──────────────────────────────── */
 .hero-image{
   width: 100%;
