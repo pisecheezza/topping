@@ -197,14 +197,17 @@ fetch("/topping/posts.json", { cache: "no-store" })
       .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
       .forEach(p => {
         const row = document.createElement("div");
-        row.className = "ledger-row";
-        row.innerHTML = `
-          <div class="ledger-date">${escapeHtml(formatDateDot(p.date))}</div>
-          <div>
-            <p class="ledger-title"><a href="${p.url}">${escapeHtml(p.title)}</a></p>
-          </div>`;
-        list.appendChild(row);
-      });
+              row.className = "ledger-row";
+              row.innerHTML = `
+               <div class="ledger-date">${escapeHtml(formatDateDot(p.date))}</div>
+               <div>
+                <p class="ledger-title">
+        ${p.category ? `<span class="ledger-category">[${escapeHtml(p.category)}]</span> ` : ""}
+                <a href="${p.url}">${escapeHtml(p.title)}</a>
+               </p>
+    </div>`;
+  list.appendChild(row);
+});
   })
   .catch(err => {
     document.body.insertAdjacentHTML('beforeend', `<p style="color:red">에러 발생: ${err.message}</p>`);
