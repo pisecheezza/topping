@@ -176,8 +176,31 @@ fetchTab(TABS.storage).then(rows => {
     });
 });
 
+// ── Pages: Jekyll 블로그 글 목록 (날짜 + 제목) ────────
+fetch("/topping/posts.json", { cache: "no-store" })
+  .then(res => res.json())
+  .then(posts => {
+    const list = document.getElementById("pagesList");
+    list.innerHTML = "";
+    posts
+      .filter(p => String(p.date || p.title || p.excerpt || "").trim())
+      .slice()
+      .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
+      .forEach(p => {
+        const row = document.createElement("div");
+        row.className = "ledger-row";
+        row.innerHTML = `
+          <div class="ledger-date">${escapeHtml(formatDate(p.date))}</div>
+          <div>
+            <h3 class="ledger-title"><a href="${p.url}">${escapeHtml(p.title)}</a></h3>
+            <p class="ledger-content">${escapeHtml(p.excerpt)}</p>
+          </div>`;
+        list.appendChild(row);
+      });
+  });
+
 // ── Pages: 문서 목록 (날짜 + 제목) ────────
-fetchTab(TABS.pages).then(rows => {
+/* fetchTab(TABS.pages).then(rows => {
   const list = document.getElementById("pagesList");
   list.innerHTML = "";
   rows
@@ -203,7 +226,7 @@ function formatDate(str) {
     return `${s.slice(0, 4)}.${s.slice(4, 6)}.${s.slice(6, 8)}`;
   }
   return s; // 8자리가 아니면 원본 그대로
-}
+} */
 
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
