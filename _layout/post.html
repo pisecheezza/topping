@@ -1,34 +1,10 @@
 ---
 layout: default
-title: Blog
-permalink: /blog/
 ---
-
-<div id="pagesList">loading...</div>
-
-<style>
-#pagesList { font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif; }
-#pagesList .ledger-row { display:flex; align-items:flex-start; gap:16px; padding:16px 4px; border-bottom:1px solid var(--ink, #222); }
-#pagesList .ledger-date { width:90px; flex-shrink:0; font-size:12px; }
-#pagesList a { text-decoration:none; color:inherit; font-weight:600; }
-</style>
-
-<script>
-function formatDateDot(d){ return String(d||"").replace(/-/g,"."); }
-fetch("{{ '/posts.json' | relative_url }}", { cache: "no-store" })
-  .then(res => res.json())
-  .then(posts => {
-    const list = document.getElementById("pagesList");
-    list.innerHTML = "";
-    posts
-      .sort((a,b) => b.date.localeCompare(a.date))
-      .forEach(p => {
-        const row = document.createElement("div");
-        row.className = "ledger-row";
-        row.innerHTML = `
-          <div class="ledger-date">${formatDateDot(p.date)}</div>
-          <div><a href="${p.url}">${p.category ? "["+p.category+"] " : ""}${p.title}</a></div>`;
-        list.appendChild(row);
-      });
-  });
-</script>
+<article class="jekyll-post">
+  <h1 class="post-title">{{ page.title }}</h1>
+  <p class="post-date">{{ page.date | date: "%Y.%m.%d" }}</p>
+  <div class="post-body">
+    {{ content }}
+  </div>
+</article>
