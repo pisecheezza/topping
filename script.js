@@ -110,20 +110,20 @@ if (doorRow && (doorRow.credit || "").trim()) {
   doorEl.appendChild(credit);
 }
 
-  const notices = rows.filter(r => (r.date || r.content || "").trim());
-  notices
-    .slice()
-    .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
-    .forEach(r => {
-      const row = document.createElement("div");
-      row.className = "ledger-row";
-      row.innerHTML = `
-        <div class="ledger-date">${escapeHtml(r.date || "")}</div>
-        <div>
-          <p class="ledger-content">${marked.parseInline(r.content || "")}</p>
-        </div>`;
-      ledger.appendChild(row);
-    });
+  const notices = rows.filter(r => String(r.date || r.title || "").trim());
+notices
+  .slice()
+  .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+  .forEach(r => {
+    const row = document.createElement("div");
+    row.className = "ledger-row";
+    row.innerHTML = `
+      <div class="ledger-date">${escapeHtml(r.date || "")}</div>
+      <p class="ledger-title">${escapeHtml(r.title || "")}</p>
+    `;
+    ledger.appendChild(row);
+  });
+
 });
 
 // ── Profile: 인적사항 ───────────────────────
