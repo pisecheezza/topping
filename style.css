@@ -184,7 +184,7 @@ body{
 
 .tab{
   font-family: "UnifrakturMaguntia", "Tahoma", sans-serif;
-  font-size: 13.5px;   /* 이 폰트는 크기가 작으면 잘 안 보여서 살짝 키움 */
+  font-size: 14.5px;   /* 이 폰트는 크기가 작으면 잘 안 보여서 살짝 키움 */
   letter-spacing: 0.04em;
   background: transparent;
   border: none;
