@@ -1,3 +1,12 @@
+// ── 탭 클릭 효과음 ────────────────────────────────────────
+const clickAudio = new Audio(driveAudioUrl(CLICK_SOUND_FILE_ID));
+clickAudio.preload = "auto";
+
+function playClickSound() {
+  clickAudio.currentTime = 0;
+  clickAudio.play().catch(() => {}); // 자동재생 정책으로 실패해도 조용히 무시
+}
+
 // ── 시트 → CSV → JSON ────────────────────────────────────
 function sheetUrl(tabName) {
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabName)}&_ts=${Date.now()}`;
