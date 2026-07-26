@@ -8,6 +8,6 @@ markdown: kramdown
 theme: minima
 
 header_pages:
-  - 短文.md
-  - 長文.md
-  - 資料.md
+  - short.md
+  - long.md
+  - materials.md
