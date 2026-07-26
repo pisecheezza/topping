@@ -344,12 +344,22 @@ main{
 }
 .ledger-title, .ledger-title-link{
   flex: 1;
+  margin: 0;
   font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
   font-weight:600;
   font-size:1.05rem;
   color: var(--ink);
   text-decoration:none;
 }
+
+.ledger-title a{
+  color: inherit;
+  text-decoration: none;
+}
+.ledger-title a:hover{
+  color: var(--teal-deep);
+}
+
 .ledger-category{
   font-size: 0.85rem;
   color: var(--teal-deep);
