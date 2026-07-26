@@ -16,7 +16,7 @@ permalink: /categories/
 }
 #categoryList ul {
   list-style: none;
-  margin: 0 0 24px;
+  margin: 0 0 32px;
   padding: 0;
 }
 #categoryList li {
@@ -37,18 +37,12 @@ permalink: /categories/
   font-weight: 600;
   margin-bottom: 8px;
 }
-#categoryList .back-link {
-  display: inline-block;
-  margin-top: 12px;
-}
 </style>
 
 <script>
 fetch("{{ '/posts.json' | relative_url }}", { cache: "no-store" })
   .then(res => res.json())
   .then(posts => {
-    const params = new URLSearchParams(window.location.search);
-    const selectedCat = params.get('cat');
     const container = document.getElementById("categoryList");
     container.innerHTML = "";
 
@@ -56,42 +50,29 @@ fetch("{{ '/posts.json' | relative_url }}", { cache: "no-store" })
       return String(dateStr || "").replace(/-/g, ".");
     }
 
-    if (selectedCat) {
-      const heading = document.createElement("h2");
-      heading.textContent = selectedCat;
-      container.appendChild(heading);
+    const categories = {};
+    posts.forEach(p => {
+      if (p.category) {
+        if (!categories[p.category]) categories[p.category] = [];
+        categories[p.category].push(p);
+      }
+    });
 
-      const filtered = posts
-        .filter(p => p.category === selectedCat)
-        .sort((a, b) => b.date.localeCompare(a.date));
+    Object.keys(categories).sort().forEach(cat => {
+      const section = document.createElement("div");
+      section.innerHTML = `<h4>${cat} (${categories[cat].length})</h4>`;
 
       const ul = document.createElement("ul");
-      filtered.forEach(p => {
-        const li = document.createElement("li");
-        li.innerHTML = `<span class="cat-date">${formatDateDot(p.date)}</span><a href="${p.url}">${p.title}</a>`;
-        ul.appendChild(li);
-      });
-      container.appendChild(ul);
+      categories[cat]
+        .sort((a, b) => b.date.localeCompare(a.date))
+        .forEach(p => {
+          const li = document.createElement("li");
+          li.innerHTML = `<span class="cat-date">${formatDateDot(p.date)}</span><a href="${p.url}">${p.title}</a>`;
+          ul.appendChild(li);
+        });
 
-      const backLink = document.createElement("a");
-      backLink.className = "back-link";
-      backLink.href = "{{ '/categories/' | relative_url }}";
-      backLink.textContent = "← All";
-      container.appendChild(backLink);
-    } else {
-      const categories = {};
-      posts.forEach(p => {
-        if (p.category) {
-          if (!categories[p.category]) categories[p.category] = [];
-          categories[p.category].push(p);
-        }
-      });
-
-      Object.keys(categories).sort().forEach(cat => {
-        const section = document.createElement("div");
-        section.innerHTML = `<h3><a href="?cat=${encodeURIComponent(cat)}">${cat} (${categories[cat].length})</a></h3>`;
-        container.appendChild(section);
-      });
-    }
+      section.appendChild(ul);
+      container.appendChild(section);
+    });
   });
 </script>
