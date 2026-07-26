@@ -330,10 +330,11 @@ main{
 /* ── Pages ledger ─────────────────────────────────────── */
 .ledger-row{
   display:flex;
-  align-items:flex-start;
+  align-items: baseline;   /* flex-start → baseline으로 변경 */
   gap: 10px;
   padding: 10px 4px;
 }
+
 .ledger-date{
   width: 90px;
   flex-shrink: 0;
