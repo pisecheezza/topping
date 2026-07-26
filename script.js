@@ -45,6 +45,7 @@ function activateView(viewName) {
 
 document.querySelectorAll(".tab").forEach(btn => {
   btn.addEventListener("click", () => {
+    playClickSound();   // 이 줄 추가
     activateView(btn.dataset.view);
     location.hash = btn.dataset.view;
   });
