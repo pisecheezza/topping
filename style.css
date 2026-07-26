@@ -42,9 +42,18 @@ body{
 
 /* ── Masthead ───────────────────────────────────────────── */
 .masthead{
-  text-align:center;
-  padding: 15px 5px 5px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--rule);
 }
+
 .masthead h1{
   font-family: "UnifrakturMaguntia", "Tahoma", sans-serif;
   font-optical-sizing:auto;
@@ -61,6 +70,67 @@ body{
   letter-spacing: 0.02em;
 }
 
+
+.menu-toggle{
+  position: absolute;
+  left: 20px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: var(--ink);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.site-header-drawer{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 240px;
+  background: var(--paper);
+  border-right: 1px solid var(--rule);
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  z-index: 200;
+  padding-top: 70px;
+  overflow-y: auto;
+}
+.site-header-drawer.open{
+  transform: translateX(0);
+}
+
+.site-header-drawer-nav{
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-link{
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: "UnifrakturMaguntia", "Tahoma", sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  padding: 14px 24px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--rule);
+}
+.tab-link.active{
+  color: var(--teal-deep);
+  font-weight: 600;
+}
+
+.drawer-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 150;
+  display: none;
+}
+.drawer-backdrop.show{
+  display: block;
+}
 /* ── Hero image (Main tab) ──────────────────────────────── */
 .hero-image{
   width: 100%;
