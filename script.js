@@ -195,6 +195,34 @@ fetchTab(TABS.storage).then(rows => {
     });
 });
 
+// ── Main: 최근 글 미리보기 (Jekyll posts.json 재사용) ──────
+fetch("/topping/posts.json", { cache: "no-store" })
+  .then(res => res.json())
+  .then(posts => {
+    const list = document.getElementById("recentPostsList");
+    if (!list) return;
+    list.innerHTML = "";
+    posts
+      .filter(p => String(p.date || p.title || "").trim())
+      .slice()
+      .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
+      .slice(0, 3)   // 최근 3개만
+      .forEach(p => {
+        const row = document.createElement("div");
+        row.className = "ledger-row";
+        row.innerHTML = `
+          <div class="ledger-date">${escapeHtml(formatDateDot(p.date))}</div>
+          <div>
+            <p class="ledger-title">
+              ${p.category ? `<span class="ledger-category">[${escapeHtml(p.category)}]</span> ` : ""}
+              <a href="${p.url}">${escapeHtml(p.title)}</a>
+            </p>
+          </div>`;
+        list.appendChild(row);
+      });
+  })
+  .catch(() => {});
+
 // ── Pages: Jekyll 블로그 글 목록 (날짜 + 제목) ────────
 function formatDateDot(dateStr) {
   // dateStr 예: "2026-07-26" → "2026.07.26"
