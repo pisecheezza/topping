@@ -99,7 +99,7 @@ if (heroRow && (heroRow.credit || "").trim()) {
       row.innerHTML = `
         <div class="ledger-date">${escapeHtml(r.date || "")}</div>
         <div>
-          <p class="ledger-content">${escapeHtml(r.content || "")}</p>
+          <p class="ledger-content">${marked.parseInline(r.content || "")}</p>
         </div>`;
       ledger.appendChild(row);
     });
@@ -168,7 +168,7 @@ fetchTab(TABS.storage).then(rows => {
       card.className = "storage-card";
       card.innerHTML = `
         ${imageIds.length ? `<div class="storage-thumb">${imagesHtml}</div>` : ""}
-        ${comment ? `<div class="storage-body"><p class="storage-comment">${escapeHtml(comment)}</p></div>` : ""}
+        ${comment ? `<div class="storage-body"><p class="storage-comment">${marked.parseInline(comment)}</p>` : ""}
       `;
       grid.appendChild(card);
     });
@@ -189,7 +189,7 @@ fetchTab(TABS.pages).then(rows => {
         <div class="ledger-date">${escapeHtml(formatDate(r.date))}</div>
         <div>
           <h3 class="ledger-title">${escapeHtml(String(r.title || ""))}</h3>
-          <p class="ledger-content">${escapeHtml(String(r.content || ""))}</p>
+          <p class="ledger-content">${marked.parse(String(r.content || ""))}</p>
         </div>`;
       list.appendChild(row);
     });
