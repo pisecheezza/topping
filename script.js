@@ -177,6 +177,11 @@ fetchTab(TABS.storage).then(rows => {
 });
 
 // ── Pages: Jekyll 블로그 글 목록 (날짜 + 제목) ────────
+function formatDateDot(dateStr) {
+  // dateStr 예: "2026-07-26" → "2026.07.26"
+  return String(dateStr || "").replace(/-/g, ".");
+}
+
 fetch("/topping/posts.json", { cache: "no-store" })
   .then(res => res.json())
   .then(posts => {
@@ -194,7 +199,7 @@ fetch("/topping/posts.json", { cache: "no-store" })
         const row = document.createElement("div");
         row.className = "ledger-row";
         row.innerHTML = `
-          <div class="ledger-date">${escapeHtml(formatDate(p.date))}</div>
+          <div class="ledger-date">${escapeHtml(formatDateDot(p.date))}</div>
           <div>
             <h3 class="ledger-title"><a href="${p.url}">${escapeHtml(p.title)}</a></h3>
             <p class="ledger-content">${escapeHtml(p.excerpt)}</p>
