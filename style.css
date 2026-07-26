@@ -126,8 +126,8 @@ body{
   transition: transform .15s ease;
   
   /* 가로 크기 고정 및 반응형 한계 설정 */
-  width: 300px;          
-  max-width: 300px;      
+  width: 400px;          
+  max-width: 480px;      
 }
 
 .storage-thumb{
