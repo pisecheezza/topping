@@ -3,10 +3,9 @@ description:
 baseurl: "/topping"
 url: "https://pisecheezza.github.io"
 permalink: pretty
-
 markdown: kramdown
 theme: minima
-
+future: true
 header_pages:
   - short.md
   - long.md
