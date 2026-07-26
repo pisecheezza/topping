@@ -1,11 +1,11 @@
 // ── 탭 클릭 효과음 ────────────────────────────────────────
-const clickAudio = new Audio("tab.wav");
+/* jconst clickAudio = new Audio("tab.wav");
 clickAudio.preload = "auto";
 
 function playClickSound() {
   clickAudio.currentTime = 0;
   clickAudio.play().catch(() => {});
-}
+} */
 
 // ── 시트 → CSV → JSON ────────────────────────────────────
 function sheetUrl(tabName) {
