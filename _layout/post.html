@@ -1,25 +1,34 @@
 ---
 layout: default
+title: Blog
+permalink: /blog/
 ---
-<nav class="post-nav" style="display:flex; gap:16px; margin-bottom:24px;">
-  <a href="{{ site.baseurl }}/">Home</a>
-  <a href="#" onclick="history.back(); return false;">Back</a>
-</nav>
 
-<article class="post">
-  <header class="post-header">
-    <h3 class="post-title">{{ page.title | escape }}</h3>
-    <p class="post-meta">
-      <time datetime="{{ page.date | date_to_xmlschema }}">
-        {{ page.date | date: "%Y.%m.%d" }}
-      </time>
-      {% if page.categories.size > 0 %}
-        · {{ page.categories | join: ", " }}
-      {% endif %}
-    </p>
-  </header>
+<div id="pagesList">loading...</div>
 
-  <div class="post-content">
-    {{ content }}
-  </div>
-</article>
+<style>
+#pagesList { font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif; }
+#pagesList .ledger-row { display:flex; align-items:flex-start; gap:16px; padding:16px 4px; border-bottom:1px solid var(--ink, #222); }
+#pagesList .ledger-date { width:90px; flex-shrink:0; font-size:12px; }
+#pagesList a { text-decoration:none; color:inherit; font-weight:600; }
+</style>
+
+<script>
+function formatDateDot(d){ return String(d||"").replace(/-/g,"."); }
+fetch("{{ '/posts.json' | relative_url }}", { cache: "no-store" })
+  .then(res => res.json())
+  .then(posts => {
+    const list = document.getElementById("pagesList");
+    list.innerHTML = "";
+    posts
+      .sort((a,b) => b.date.localeCompare(a.date))
+      .forEach(p => {
+        const row = document.createElement("div");
+        row.className = "ledger-row";
+        row.innerHTML = `
+          <div class="ledger-date">${formatDateDot(p.date)}</div>
+          <div><a href="${p.url}">${p.category ? "["+p.category+"] " : ""}${p.title}</a></div>`;
+        list.appendChild(row);
+      });
+  });
+</script>
