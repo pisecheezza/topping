@@ -1,16 +1,10 @@
 // ── 탭 클릭 효과음 ────────────────────────────────────────
-const clickAudio = new Audio(driveAudioUrl(CLICK_SOUND_FILE_ID));
+const clickAudio = new Audio("tab.mp3");
 clickAudio.preload = "auto";
 
 function playClickSound() {
-  alert("함수 호출됨");   // 임시 확인용
   clickAudio.currentTime = 0;
-  clickAudio.play().catch(err => {
-    alert("재생 실패: " + err.message);
-  });
-  clickAudio.addEventListener("error", () => {
-  alert("오디오 로드 에러 코드: " + (clickAudio.error ? clickAudio.error.code : "알 수 없음"));
-});
+  clickAudio.play().catch(() => {});
 }
 
 // ── 시트 → CSV → JSON ────────────────────────────────────
