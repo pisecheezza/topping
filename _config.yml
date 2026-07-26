@@ -1,8 +1,13 @@
 title: Pages
 description:
 baseurl: "/topping"
-url: "https://pisecheezza.github.io/topping/#pages"
+url: "pisecheezza.github.io/topping/"
 permalink: pretty
 
 markdown: kramdown
 theme: minima
+
+header_pages:
+  - 短文.md
+  - 長文.md
+  - 資料.md
