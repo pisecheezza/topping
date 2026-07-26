@@ -31,3 +31,10 @@ function driveDocUrl(value) {
 }
 
 const GUESTBOOK_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwop3klmiUOfX0YKjh8_dkXyGn0PCYarBJ_p94LmjRrzgAATfWIKoEw2LJPBDMI6NHVUg/exec";
+
+function driveAudioUrl(fileId) {
+  if (!fileId) return "";
+  return `https://drive.google.com/uc?export=download&id=${fileId.trim()}`;
+}
+
+const CLICK_SOUND_FILE_ID = "1_WcRUaGueXBl5tgqQMuqk1Z9wdARB7tp";
