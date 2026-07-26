@@ -13,17 +13,22 @@
 <body>
 
 <header class="masthead">
-  <h1 id="siteName">hoheo taralna, rondero tarel</h1>
+  <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기">☰</button>
+  <h1 id="siteName">Web Retreat</h1>
 </header>
 
-<nav class="tabs">
-  <button class="tab active" data-view="main">Main</button>
-  <button class="tab" data-view="profile">Profile</button>
-  <button class="tab" data-view="storage">Storage</button>
-  <button class="tab" data-view="pages">Pages</button>
-  <button class="tab" data-view="links">Links</button>
-  <button class="tab" data-view="guestbook">Guestbook</button>
-</nav>
+<aside class="site-header-drawer" id="siteDrawer">
+  <nav class="site-header-drawer-nav">
+    <button class="tab-link active" data-view="main">Main</button>
+    <button class="tab-link" data-view="profile">Profile</button>
+    <button class="tab-link" data-view="storage">Storage</button>
+    <button class="tab-link" data-view="pages">Pages</button>
+    <button class="tab-link" data-view="links">Links</button>
+    <button class="tab-link" data-view="guestbook">Guestbook</button>
+  </nav>
+</aside>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
 
 <main>
   <section id="view-main" class="view active">
