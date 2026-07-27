@@ -133,6 +133,10 @@ body{
   display: block;
 }
 
+.main-icon{
+  display-content: center;
+}
+
 .home-section-title{
   display: block;
   text-decoration: none;
