@@ -230,10 +230,10 @@ body{
   align-items: center;       /* 추가: 카드 내부 요소들을 수평 가운데 정렬 */
   transition: transform .15s ease;
   
-  /* 가로 크기 고정 및 반응형 한계 설정 */
+  /* 가로 크기 고정 및 반응형 한계 설정 
   width: 400px;          
   max-width: 480px;      
-}
+} */
 
 .storage-thumb{
   width: 100%;
