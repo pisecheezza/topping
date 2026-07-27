@@ -84,22 +84,23 @@ body{
   padding: 4px 8px;
 }
 
-/* 왼쪽 상단 고정 버튼 스타일 */
-.menu-toggle-btn {
+/* 1. 버튼 좌측 상단 고정 및 기본 스타일 제거 */
+.menu-toggle {
   position: fixed;
-  top: 16px;        /* 위쪽 여백 */
-  left: 16px;       /* 왼쪽 여백 */
-  z-index: 10000;   /* 내비게이션 바보다 위에 떠 있도록 설정 */
-  background: transparent;
+  top: 16px;        /* 화면 위쪽 여백 */
+  left: 16px;       /* 화면 왼쪽 여백 */
+  z-index: 200;     /* backdrop(150)보다 높게 설정하여 검은 배경 뒤로 안 숨김 */
+  background: none;
   border: none;
   padding: 0;
-  cursor: pointer;  /* 마우스 올렸을 때 손가락 모양 */
+  cursor: pointer;
+  display: flex;    /* 이미지 하단 미세 여백 제거 */
 }
 
-/* 아이콘 이미지 크기 */
-.menu-toggle-btn img {
-  width: 36px;      /* 원하는 이미지 너비 */
-  height: auto;
+/* 2. 600x564 이미지 크기 줄이기 */
+.menu-toggle img {
+  width: 40px;      /* 원하는 아이콘 크기 (32px ~ 48px 추천) */
+  height: auto;     /* 원래 비율(600:564)을 유지하면서 자동 축소 */
   display: block;
 }
 
