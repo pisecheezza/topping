@@ -64,20 +64,7 @@ body{
   margin:0;
   letter-spacing:-0.01em;
 }
-/* 아이콘 감싸는 p 태그 여백 및 정렬 */
-.main-icon {
-  margin: 0 0 16px 0; /* 아래 메뉴 버튼들과의 간격 */
-  text-align: center;
-}
 
-/* morpho.png 이미지 크기 조절 */
-.main-icon img {
-  max-width: 48px;  /* 원하시는 크기로 조절 (예: 32px ~ 60px) */
-  width: 100%;
-  height: auto;     /* 비율 유지 */
-  display: block;
-  margin: 0 auto;   /* 중앙 정렬 */
-}
 .tagline{
   font-family:"JetBrains Mono", monospace;
   font-size: 13px;
@@ -145,12 +132,6 @@ body{
 .drawer-backdrop.show{
   display: block;
 }
-
-.main-icon{
-  width: 80%;
-  height: flex;
-  padding: 0 0 10px;
-  display-content: center;
 .main-icon {
   margin: 0 0 16px 0; /* 아래 버튼들과의 간격 (필요에 따라 조절) */
   text-align: center;  /* 이미지 중앙 정렬 */
@@ -162,7 +143,6 @@ body{
   display: block;   /* 하단 미세 여백(line-height) 제거 */
   margin: 0 auto;   /* 중앙 정렬 */
 }
-
 .home-section-title{
   display: block;
   text-decoration: none;
