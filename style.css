@@ -42,100 +42,63 @@ body{
 .drawer-tag{ font-weight:500; }
 .drawer-range{ opacity:0.6; }
 
-.top-left-icon {
-    position: fixed;      /* 스크롤을 내려도 화면에 고정 */
-    top: 0;               /* 위쪽 간격 0 */
-    left: 0;              /* 왼쪽 간격 0 */
-    width: 98px;          /* 아이콘 너비 (원하는 크기로 변경) */
-    height: 64px;         /* 아이콘 높이 (원하는 크기로 변경) */
-    z-index: 9999;        /* 다른 요소들보다 위에 보이도록 최상단 배치 */
-    cursor: pointer;      /* 클릭할 수 있다는 것을 알리는 손가락 마우스 커서 */
-
-  .scroll-icon {
-    position: fixed;
-    right: 10px;          /* 스크롤바 바로 옆에 위치하도록 간격을 줍니다 */
-    top: 0;               /* 초기 위치 (JS로 계속 변경됨) */
-    width: 77px;          /* 아이콘 너비 */
-    height: 69px;         /* 아이콘 높이 */
-    z-index: 9999;        /* 화면 최상단에 노출 */
-    pointer-events: none; /* 아이콘이 스크롤 동작을 방해하지 않도록 클릭/터치 무시 */
-}
-
 /* ── Masthead ───────────────────────────────────────────── */
 .masthead{
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: var(--paper);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 15px 20px;
-  border-bottom: 1px solid var(--ink);
+  position: relative;
+  text-align: center;
+  padding: 15px 5px 5px;
 }
 
-.masthead h1{
-  font-family: "Dancing Script", "Tahoma", sans-serif;
-  font-optical-sizing:auto;
-  font-weight:400;
-  font-size: clamp(2.2rem, 6vw, 3.2rem);
-  margin:0;
-  letter-spacing:-0.01em;
-}
-
-.tagline{
-  font-family:"JetBrains Mono", monospace;
-  font-size: 13px;
-  color: var(--ink);
-  margin: 10px 0 0;
-  letter-spacing: 0.02em;
-}
-
-.menu-toggle{
+.top-left-icon{
   position: absolute;
   left: 20px;
-  background: none;
-  border: none;
-  font-size: 22px;
-  color: var(--ink);
+  top: 18px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
-  padding: 4px 8px;
 }
 
-.site-header-drawer{
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100px;
-  background: var(--paper);
-  border-right: 1px solid var(--ink);
-  transform: translateX(-100%);
-  transition: transform .25s ease;
-  z-index: 200;
-  padding-top: 70px;
-  overflow-y: auto;
-}
-.site-header-drawer.open{
-  transform: translateX(0);
-}
-
-.site-header-drawer-nav{
+.dropdown-menu{
+  position: absolute;
+  top: 55px;
+  left: 20px;
   display: flex;
   flex-direction: column;
+  z-index: 200;
+  pointer-events: none;
 }
 
-.tab-link{
-  background: none;
-  border: none;
+.dropdown-menu .tab-link{
+  background: var(--paper);
+  border: 1px solid var(--rule);
   text-align: left;
-  font-family: "Dancing Script", "Tahoma", sans-serif;
+  font-family: "UnifrakturMaguntia", "Tahoma", sans-serif;
   font-size: 15px;
   color: var(--ink);
-  padding: 14px 24px;
-  cursor: pointer:
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity .2s ease, transform .2s ease;
+  transition-delay: 0s;
 }
+
+.dropdown-menu.open .tab-link{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* 위에서부터 하나씩 순차적으로 나타나게 */
+.dropdown-menu.open .tab-link:nth-child(1){ transition-delay: .03s; }
+.dropdown-menu.open .tab-link:nth-child(2){ transition-delay: .08s; }
+.dropdown-menu.open .tab-link:nth-child(3){ transition-delay: .13s; }
+.dropdown-menu.open .tab-link:nth-child(4){ transition-delay: .18s; }
+.dropdown-menu.open .tab-link:nth-child(5){ transition-delay: .23s; }
+.dropdown-menu.open .tab-link:nth-child(6){ transition-delay: .28s; }
+
 .tab-link.active{
   color: var(--teal-deep);
   font-weight: 600;
@@ -144,13 +107,14 @@ body{
 .drawer-backdrop{
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
   z-index: 150;
   display: none;
 }
 .drawer-backdrop.show{
   display: block;
 }
+
+
 .home-section-title{
   display: block;
   text-decoration: none;
