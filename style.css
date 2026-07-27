@@ -42,6 +42,20 @@ body{
 .drawer-tag{ font-weight:500; }
 .drawer-range{ opacity:0.6; }
 
+.floating-icon {
+    position: fixed;      /* 화면(뷰포트)을 기준으로 위치를 고정합니다 */
+    right: 5px;          /* 화면 오른쪽 끝에서 30px 떨어지게 설정 */
+    bottom: 5px;         /* 화면 아래쪽 끝에서 30px 떨어지게 설정 */
+    width: 77px;          /* 아이콘의 너비 (원하는 크기로 조절) */
+    height: 69px;         /* 아이콘의 높이 (원하는 크기로 조절) */
+    z-index: 9999;        /* 다른 요소들보다 무조건 맨 위에 보이도록 설정 */
+    cursor: pointer;      /* 마우스를 올렸을 때 클릭(손가락) 모양으로 변경 */
+    
+    /* 아래는 선택 사항입니다 (디자인 요소) */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);  /* 아이콘에 그림자 효과를 줍니다 */
+    transition: transform 0.3s ease;        /* 애니메이션 효과 속도 설정 */
+}
+
 /* ── Masthead ───────────────────────────────────────────── */
 .masthead{
   position: sticky;
