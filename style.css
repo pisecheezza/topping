@@ -84,19 +84,36 @@ body{
   padding: 4px 8px;
 }
 
-.site-header-drawer{
+/* 왼쪽 상단 고정 버튼 스타일 */
+.menu-toggle-btn {
+  position: fixed;
+  top: 16px;        /* 위쪽 여백 */
+  left: 16px;       /* 왼쪽 여백 */
+  z-index: 10000;   /* 내비게이션 바보다 위에 떠 있도록 설정 */
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;  /* 마우스 올렸을 때 손가락 모양 */
+}
+
+/* 아이콘 이미지 크기 */
+.menu-toggle-btn img {
+  width: 36px;      /* 원하는 이미지 너비 */
+  height: auto;
+  display: block;
+}
+
+/* 내비게이션 바 기본 열림/닫힘 애니메이션 예시 */
+.site-header-drawer {
   position: fixed;
   top: 0;
+  left: -250px;     /* 처음에는 화면 왼쪽 밖으로 숨김 (너비에 맞게 조절) */
+  transition: left 0.3s ease; /* 부드럽게 슬라이드 효과 */
+}
+
+/* active 클래스가 붙으면 화면에 나타남 */
+.site-header-drawer.active {
   left: 0;
-  height: 100vh;
-  width: 100px;
-  background: var(--paper);
-  border-right: 1px solid var(--ink);
-  transform: translateX(-100%);
-  transition: transform .25s ease;
-  z-index: 200;
-  padding-top: 70px;
-  overflow-y: auto;
 }
 .site-header-drawer.open{
   transform: translateX(0);
