@@ -36,7 +36,25 @@ function padNum(n) {
 }
 
 // ── 장식 ───────────────────────────────────────────────────
+(function () {
+  const morpho = document.getElementById("scrollMorpho");
+  if (!morpho) return;
 
+  function updateMorphoPosition() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+
+    const trackHeight = window.innerHeight - 50; // 이미지 높이(50px)만큼 빼서 화면 밖으로 안 나가게
+    const top = scrollPercent * trackHeight;
+
+    morpho.style.top = `${top}px`;
+  }
+
+  window.addEventListener("scroll", updateMorphoPosition);
+  window.addEventListener("resize", updateMorphoPosition);
+  updateMorphoPosition();
+})();
 // ── 탭 전환 ────────────────────────────────────────────────
 function activateView(viewName) {
   const btn = document.querySelector(`.tab-link[data-view="${viewName}"]`);
