@@ -119,7 +119,7 @@ notices
     row.className = "ledger-row";
     row.innerHTML = `
       <div class="ledger-date">${escapeHtml(r.date || "")}</div>
-      <p class="ledger-title">${escapeHtml(r.title || "")}</p>
+      <p class="door-notice">${escapeHtml(r.title || "")}</p>
     `;
     ledger.appendChild(row);
   });
