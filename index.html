@@ -86,6 +86,154 @@
 
 <script src="config.js"></script>
 <script src="script.js"></script>
+
+
+<div id="character-container">
+<img src="morpho.png" class="character-image" alt="Triplet" />
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', initialize);
+window.addEventListener('load', initialize);
+document.addEventListener('turbolinks:load', initialize);
+
+function initialize() {
+const characterContainer = document.getElementById('character-container');
+if (!characterContainer) return;
+
+setTimeout(() => {
+characterContainer.classList.remove('fade-out');
+}, 50);
+
+const characterImage = characterContainer.querySelector('.character-image');
+const scrollBubble = document.getElementById('scroll-bubble');
+
+let initialTopPosition = 40;
+const isMobile = window.innerWidth <= 768;
+
+if (isMobile) {
+characterContainer.classList.add('no-transition');
+}
+
+function moveCharacterToTop() {
+if (!characterContainer) return;
+
+window.removeEventListener('scroll', onScroll);
+window.removeEventListener('resize', onScroll);
+isTicking = true;
+
+if (isMobile) {
+characterContainer.style.transform = `translateY(${initialTopPosition}px)`;
+
+if (scrollBubble) {
+scrollBubble.style.opacity = '0';
+scrollBubble.style.visibility = 'hidden';
+}
+}
+else {
+if (window.scrollY > 0) {
+characterContainer.classList.add('fade-out');
+}
+}
+}
+
+document.addEventListener("turbolinks:before-visit", moveCharacterToTop);
+window.addEventListener("beforeunload", moveCharacterToTop);
+
+let isTicking = false;
+
+function hasScrollbar() {
+const documentHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+return documentHeight > window.innerHeight;
+}
+
+function updatePosition() {
+const scrollbarExists = hasScrollbar();
+
+if (isMobile && !scrollbarExists) {
+characterContainer.style.display = 'none';
+isTicking = false;
+return;
+}
+
+characterContainer.style.display = 'block';
+
+if (!isMobile) {
+if (!scrollbarExists) {
+if(scrollBubble) {
+scrollBubble.style.opacity = '1';
+scrollBubble.style.visibility = 'visible';
+}
+characterContainer.style.top = `${initialTopPosition}px`;
+} else {
+if(scrollBubble) {
+scrollBubble.style.opacity = '0';
+scrollBubble.style.visibility = 'hidden';
+}
+
+const scrollY = window.scrollY;
+const windowHeight = window.innerHeight;
+const documentHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+
+const imageSize = 64.8;
+const bottomOffset = 40;
+const maxScrollY = documentHeight - windowHeight;
+
+let scrollRatio = 0;
+if (maxScrollY > 0) {
+scrollRatio = scrollY / maxScrollY;
+}
+
+const maxMovement = windowHeight - imageSize - initialTopPosition - bottomOffset;
+const newTopPosition = initialTopPosition + maxMovement * scrollRatio;
+
+const finalPosition = Math.min(Math.max(newTopPosition, initialTopPosition), windowHeight - imageSize - bottomOffset).toFixed(1);
+characterContainer.style.top = `${finalPosition}px`;
+}
+} else if (isMobile && scrollbarExists) {
+const scrollY = window.scrollY;
+const windowHeight = window.innerHeight;
+const documentHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+
+const imageSize = characterImage.clientWidth;
+const bottomOffset = 40;
+const maxScrollY = documentHeight - windowHeight;
+
+let scrollRatio = 0;
+if (maxScrollY > 0) {
+scrollRatio = scrollY / maxScrollY;
+}
+
+const maxMovement = windowHeight - imageSize - initialTopPosition - bottomOffset;
+const newTopPosition = initialTopPosition + maxMovement * scrollRatio;
+const finalPosition = Math.min(Math.max(newTopPosition, initialTopPosition), windowHeight - imageSize - bottomOffset).toFixed(1);
+characterContainer.style.transform = `translateY(${finalPosition}px)`;
+}
+
+isTicking = false;
+}
+
+function onScroll() {
+if (!isTicking) {
+
+window.requestAnimationFrame(updatePosition);
+isTicking = true;
+}
+}
+
+updatePosition();
+
+if (isMobile) {
+setTimeout(() => {
+characterContainer.classList.remove('no-transition');
+}, 10);
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScroll, { passive: true });
+}
+</script>
+
 <style>
 
 /* 사이버-턴테이블
