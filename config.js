@@ -30,7 +30,7 @@ function driveDocUrl(value) {
   return `https://drive.google.com/file/d/${v}/view`;
 }
 
-const GUESTBOOK_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwop3klmiUOfX0YKjh8_dkXyGn0PCYarBJ_p94LmjRrzgAATfWIKoEw2LJPBDMI6NHVUg/exec";
+const GUESTBOOK_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwHou9yZgkYdvwYIkeFlJeJhvZ6BjYPWLQcl5GMcl6jhi7YzpKKo9o3HTHjpjskQup9/exec";
 
 function driveAudioUrl(fileId) {
   if (!fileId) return "";
