@@ -244,6 +244,12 @@ function formatDate(str) {
   return s; // 8자리가 아니면 원본 그대로
 }
 
+// -- 리더 ----------------------------------------------------
+/* const CONFIG = {
+  GAS_URL: "https://script.google.com/macros/s/AKfycbwCQg6Gt5OMlErhETk-e2RkpLKkxyLDzlsSU7wv9_Y7S2HdjxleSeI26Z1VsC0guSTGmA/exec",
+  GOOGLE_DOCS_URL: "https://docs.google.com/document/d/문서ID/edit?usp=sharing"
+}; */
+
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
   const index = document.getElementById("linksIndex");
