@@ -418,12 +418,10 @@ main{
 /* 전체 행: 세로 방향(Column)으로 배치하여 1행(날짜+제목)과 2행(내용)을 분리 */
 .ledger-row{
   display: flex;
-  align-items: center;   /* 날짜와 제목의 수직 정렬 (baseline으로 변경 가능) */
-  gap: 10px;
-  padding: 10px 4px;
-  /* 만약 이전 설정에 flex-direction: column이 있다면 반드시 지워주세요! */
+  flex-direction: column;
+  gap: 8px; /* 첫 번째 줄과 내용 사이의 간격 */
+  padding: 12px 4px;
 }
-
 
 /* 1행: 날짜와 제목을 나란히(Row) 배치 */
 .ledger-header{
