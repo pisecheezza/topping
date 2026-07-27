@@ -36,46 +36,6 @@ function padNum(n) {
 }
 
 // ── 장식 ───────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
-
-    // ==========================================
-    // 1. 좌측 상단 햄버거 메뉴 아이콘 연동
-    // ==========================================
-    const triggerIcon = document.getElementById('menuTriggerIcon');
-    const originalMenuBtn = document.getElementById('menuToggle');
-
-    // 두 요소가 화면에 잘 존재하는지 확인한 후 실행
-    if (triggerIcon && originalMenuBtn) {
-        triggerIcon.addEventListener('click', function() {
-            originalMenuBtn.click(); // 원래 버튼 대신 클릭
-        });
-    }
-
-    // ==========================================
-    // 2. 우측 스크롤바 따라다니는 아이콘
-    // ==========================================
-    const scrollIcon = document.getElementById('scrollIcon');
-    
-    if (scrollIcon) {
-        window.addEventListener('scroll', function() {
-            // 현재 스크롤 위치 계산
-            const scrollTop = window.scrollY || document.documentElement.scrollTop;
-            // 전체 스크롤 가능한 높이 계산
-            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            
-            // 스크롤 비율 계산 (오류 방지를 위해 0 이상일 때만 작동)
-            const scrollPercentage = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
-            
-            // 아이콘이 화면 밖으로 나가지 않도록 최대 이동 거리 계산
-            const iconHeight = scrollIcon.offsetHeight || 40; // 40은 기본 높이
-            const maxTop = window.innerHeight - iconHeight;
-            
-            // 스크롤 비율에 맞춰 top 위치 지정
-            const currentTop = scrollPercentage * maxTop;
-            scrollIcon.style.top = currentTop + 'px';
-        });
-    }
-});
 
 // ── 탭 전환 ────────────────────────────────────────────────
 function activateView(viewName) {
@@ -87,30 +47,29 @@ function activateView(viewName) {
   document.getElementById(`view-${viewName}`).classList.add("active");
 }
 
-const drawer = document.getElementById("siteDrawer");
+const dropdownMenu = document.getElementById("dropdownMenu");
 const backdrop = document.getElementById("drawerBackdrop");
-const menuToggle = document.getElementById("menuToggle");
+const menuIcon = document.getElementById("menuTriggerIcon");
 
-function openDrawer() {
-  drawer.classList.add("open");
+function openMenu() {
+  dropdownMenu.classList.add("open");
   backdrop.classList.add("show");
 }
-function closeDrawer() {
-  drawer.classList.remove("open");
+function closeMenu() {
+  dropdownMenu.classList.remove("open");
   backdrop.classList.remove("show");
 }
 
-menuToggle.addEventListener("click", () => {
-  if (drawer.classList.contains("open")) closeDrawer();
-  else openDrawer();
+menuIcon.addEventListener("click", () => {
+  dropdownMenu.classList.contains("open") ? closeMenu() : openMenu();
 });
-backdrop.addEventListener("click", closeDrawer);
+backdrop.addEventListener("click", closeMenu);
 
 document.querySelectorAll(".tab-link").forEach(btn => {
   btn.addEventListener("click", () => {
     activateView(btn.dataset.view);
     location.hash = btn.dataset.view;
-    closeDrawer();
+    closeMenu();
   });
 });
 
