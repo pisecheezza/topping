@@ -34,6 +34,46 @@ function escapeHtml(str) {
 function padNum(n) {
   return String(n + 1).padStart(3, "0");
 }
+// ── 장식 ───────────────────────────────────────────────────
+// 1. 좌측 상단에 새로 만든 아이콘 가져오기
+const triggerIcon = document.getElementById('menuTriggerIcon');
+
+// 2. 방금 알려주신 기존 햄버거 버튼 가져오기
+const originalMenuBtn = document.getElementById('menuToggle');
+
+// 3. 새 아이콘을 클릭했을 때의 동작
+triggerIcon.addEventListener('click', function() {
+    // 기존 햄버거 버튼을 자바스크립트가 대신 클릭(실행)합니다.
+    originalMenuBtn.click();
+});
+
+
+// 아이콘 요소를 가져옵니다.
+const scrollIcon = document.getElementById('scrollIcon');
+
+// 스크롤을 할 때마다 아래 함수를 실행합니다.
+window.addEventListener('scroll', function() {
+    
+    // 1. 현재 스크롤된 높이 (얼마나 스크롤을 내렸는지)
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    
+    // 2. 전체 스크롤 가능한 높이 = (문서 전체의 높이) - (현재 화면에 보이는 창의 높이)
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    
+    // 3. 스크롤 진행 비율 (0 ~ 1 사이의 값)
+    // 문서 길이가 짧아서 스크롤이 없는 경우를 대비해 0으로 처리하는 방어 코드 추가
+    const scrollPercentage = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+    
+    // 4. 아이콘이 움직일 수 있는 최대 범위 (화면 높이에서 아이콘 높이를 뺀 값)
+    const iconHeight = scrollIcon.offsetHeight;
+    const maxTop = window.innerHeight - iconHeight;
+    
+    // 5. 스크롤 비율에 맞춰 아이콘의 top 위치를 계산하여 적용합니다.
+    const currentTop = scrollPercentage * maxTop;
+    scrollIcon.style.top = currentTop + 'px';
+    
+});
+
 
 // ── 탭 전환 ────────────────────────────────────────────────
 function activateView(viewName) {
