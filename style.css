@@ -309,12 +309,11 @@ main{
 /* ── Index card ─────────────────────────────────────────── */
 .index-card{
   background: var(--paper);
-  border: 1px solid var(--ink);
+  border: 4px double var(--ink);
   outline: 1px solid var(--ink);
-  outline-offset: 2px;
+  outline-offset: -6px;
   border-radius: 0;
-  padding: 26px 24px;
-  box-shadow: none;
+  padding: 30px;
   position: relative;
 }
 
