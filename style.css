@@ -313,21 +313,14 @@ main{
 
 /* ── Index card ─────────────────────────────────────────── */
 .index-card{
-  background: var(--paper);
+  background: #cccccc;
   border: 4px double var(--ink);
   outline: 1px solid var(--ink);
   outline-offset: -6px;
-  background: #cccccc;
   border-radius: 0;
   padding: 30px;
   position: relative;
 }
-
-.index-card::after{
-  content: none; /* 이전 골드 장식선 제거 */
-}
-
-.index-card.wide{ padding-left: 28px; }
 
 .card-topline{
   display:flex;
