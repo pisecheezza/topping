@@ -156,6 +156,14 @@ body{
   transform: translateX(4px);
 }
 /* ── door image (Main tab) ──────────────────────────────── */
+.door-notice{
+  display: flex;
+  align-items: center;   /* 날짜와 제목의 수직 정렬 (baseline으로 변경 가능) */
+  gap: 10px;
+  padding: 10px 4px;
+  /* 만약 이전 설정에 flex-direction: column이 있다면 반드시 지워주세요! */
+}
+
 .door-image{
   width: 100%;
   max-width: 460px;
