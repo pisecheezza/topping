@@ -438,16 +438,18 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
         // 2. 플레이리스트 (유튜브 링크와 제목을 입력하세요)
         playlist: [
             
-            { url: "https://youtu.be/zbKWAzNF6ao?si=lEwzBU42Us7HTl6p", title: "SHIVER" },
-            { url: "https://youtu.be/ApJ-vd-9RU0?si=WYZt7B8oU-2onGXz", title: "Fragile Mind" },
-            { url: "https://youtu.be/AePhG6R6UdE?si=V6ios13wn-4JYu3r", title: "Cruelly Eyes" },
+            { url: "https://www.youtube.com/watch?v=zbKWAzNF6ao", title: "SHIVER - the GazettE" },
+            { url: "https://www.youtube.com/watch?v=ApJ-vd-9RU0", title: "Fragile Mind" },
             { url: "https://www.youtube.com/watch?v=Ol7PzD0iwMk", title: "The Slighty Chipped Full Moon" },
+            { url: "https://www.youtube.com/watch?v=AePhG6R6UdE", title: "Cruelly Eyes" },
+            { url: "https://www.youtube.com/watch?v=ulp9XrKjKQE", title: "Suo Gân - Emilie Parry Williams" },
+            { url: "https://www.youtube.com/watch?v=Ui9YLBHq490", title: "The Slighty Chipped Full Moon - Kalafina" },
             { url: "https://www.youtube.com/watch?v=kWk95U_njJ0", title: "Medieval Style" },
-            { url: "https://youtu.be/iv5vSbC6188?si=foDRQR8Atzy43y8k", title: "The Butler of Trancy's" },
+            { url: "https://www.youtube.com/watch?v=iv5vSbC6188", title: "The Butler of Trancy's" },
             { url: "https://www.youtube.com/watch?v=Nx5c_JZIM6M", title: "RV315, Summer, III. Presto" },
-            { url: "https://youtu.be/RuNqttY67O4?si=XQsEaFLVowmSc65j", title: "A Spider's Thread" },
-            { url: "https://youtu.be/7eNmrTcpW9g?si=TCy0q0RE89_tYPWW", title: "Cena d'amore" },
-            { url: "https://youtu.be/7eNmrTcpW9g?si=TCy0q0RE89_tYPWW", title: "Love Remembered" },
+            { url: "https://www.youtube.com/watch?v=RuNqttY67O4", title: "A Spider's Thread" },
+            { url: "https://www.youtube.com/watch?v=7eNmrTcpW9g", title: "Cena d'amore" },
+            { url: "https://www.youtube.com/watch?v=7eNmrTcpW9g", title: "Dracula OST - Love Remembered" },
          ]
     };
 
