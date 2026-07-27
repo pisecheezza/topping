@@ -441,10 +441,11 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
             { url: "https://youtu.be/zbKWAzNF6ao?si=lEwzBU42Us7HTl6p", title: "SHIVER" },
             { url: "https://youtu.be/ApJ-vd-9RU0?si=WYZt7B8oU-2onGXz", title: "Fragile Mind" },
             { url: "https://youtu.be/AePhG6R6UdE?si=V6ios13wn-4JYu3r", title: "Cruelly Eyes" },
-            { url: "https://youtu.be/RuNqttY67O4?si=XQsEaFLVowmSc65j", title: "A Spider's Thread" },
+            { url: "https://www.youtube.com/watch?v=Ol7PzD0iwMk", title: "The Slighty Chipped Full Moon" },
+            { url: "https://www.youtube.com/watch?v=kWk95U_njJ0", title: "Medieval Style" },
             { url: "https://youtu.be/iv5vSbC6188?si=foDRQR8Atzy43y8k", title: "The Butler of Trancy's" },
             { url: "https://www.youtube.com/watch?v=Nx5c_JZIM6M", title: "RV315, Summer, III. Presto" },
-            { url: "https://www.youtube.com/watch?v=kWk95U_njJ0", title: "Medieval Style" },
+            { url: "https://youtu.be/RuNqttY67O4?si=XQsEaFLVowmSc65j", title: "A Spider's Thread" },
             { url: "https://youtu.be/7eNmrTcpW9g?si=TCy0q0RE89_tYPWW", title: "Cena d'amore" },
             { url: "https://youtu.be/7eNmrTcpW9g?si=TCy0q0RE89_tYPWW", title: "Love Remembered" },
          ]
