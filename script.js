@@ -116,10 +116,10 @@ notices
   .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
   .forEach(r => {
     const row = document.createElement("div");
-    row.className = "ledger-row";
+    row.className = "door-noticr";
     row.innerHTML = `
       <div class="ledger-date">${escapeHtml(r.date || "")}</div>
-      <p class="door-notice">${escapeHtml(r.title || "")}</p>
+      <p class="door-title">${escapeHtml(r.title || "")}</p>
     `;
     ledger.appendChild(row);
   });
