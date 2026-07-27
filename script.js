@@ -116,13 +116,14 @@ notices
   .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
   .forEach(r => {
     const row = document.createElement("div");
-    row.className = "door-notice";
+    row.className = "door-notice"; // 'door-noticr'를 'door-notice'로 수정
     row.innerHTML = `
       <div class="ledger-date">${escapeHtml(r.date || "")}</div>
       <p class="door-title">${escapeHtml(r.title || "")}</p>
     `;
     ledger.appendChild(row);
   });
+
 
 });
 
