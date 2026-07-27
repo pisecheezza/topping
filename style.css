@@ -84,46 +84,21 @@ body{
   padding: 4px 8px;
 }
 
-/* 1. 버튼 좌측 상단 고정 및 기본 스타일 제거 */
-.menu-toggle {
-  position: fixed;
-  top: 16px;        /* 화면 위쪽 여백 */
-  left: 16px;       /* 화면 왼쪽 여백 */
-  z-index: 200;     /* backdrop(150)보다 높게 설정하여 검은 배경 뒤로 안 숨김 */
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  display: flex;    /* 이미지 하단 미세 여백 제거 */
-}
-
-/* 2. 600x564 이미지 크기 줄이기 */
-.menu-toggle img {
-  width: 40px;      /* 원하는 아이콘 크기 (32px ~ 48px 추천) */
-  height: auto;     /* 원래 비율(600:564)을 유지하면서 자동 축소 */
-  display: block;
-}
-
-/* 서랍(내비게이션) 기본 스타일 지정 */
-.site-header-drawer {
+.site-header-drawer{
   position: fixed;
   top: 0;
   left: 0;
-  width: 280px;               /* 서랍의 가로 너비 */
-  height: 100vh;              /* 화면 전체 세로 높이 */
-  background-color: #ffffff;  /* 서랍 배경색 (원하는 색상으로 변경 가능) */
-  z-index: 200;               /* ★ 핵심: backdrop(150)보다 높아야 위에 보입니다 */
-  
-  /* 기본 숨김 처리 및 애니메이션 */
+  height: 100vh;
+  width: 100px;
+  background: var(--paper);
+  border-right: 1px solid var(--ink);
   transform: translateX(-100%);
-  transition: transform 0.3s ease-in-out;
-  
-  /* 내용이 길어질 경우 스크롤 허용 */
-  overflow-y: auto; 
+  transition: transform .25s ease;
+  z-index: 200;
+  padding-top: 70px;
+  overflow-y: auto;
 }
-
-/* open 클래스가 붙었을 때 서랍이 열림 */
-.site-header-drawer.open {
+.site-header-drawer.open{
   transform: translateX(0);
 }
 
@@ -157,6 +132,12 @@ body{
 .drawer-backdrop.show{
   display: block;
 }
+
+.main-icon{
+  width: 80%;
+  height: flex;
+  padding: 0 0 10px;
+  display-content: center;
 .main-icon {
   margin: 0 0 16px 0; /* 아래 버튼들과의 간격 (필요에 따라 조절) */
   text-align: center;  /* 이미지 중앙 정렬 */
@@ -168,6 +149,7 @@ body{
   display: block;   /* 하단 미세 여백(line-height) 제거 */
   margin: 0 auto;   /* 중앙 정렬 */
 }
+
 .home-section-title{
   display: block;
   text-decoration: none;
