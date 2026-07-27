@@ -42,18 +42,23 @@ body{
 .drawer-tag{ font-weight:500; }
 .drawer-range{ opacity:0.6; }
 
-.floating-icon {
-    position: fixed;      /* 화면(뷰포트)을 기준으로 위치를 고정합니다 */
-    right: 5px;          /* 화면 오른쪽 끝에서 30px 떨어지게 설정 */
-    bottom: 5px;         /* 화면 아래쪽 끝에서 30px 떨어지게 설정 */
-    width: 77px;          /* 아이콘의 너비 (원하는 크기로 조절) */
-    height: 69px;         /* 아이콘의 높이 (원하는 크기로 조절) */
-    z-index: 9999;        /* 다른 요소들보다 무조건 맨 위에 보이도록 설정 */
-    cursor: pointer;      /* 마우스를 올렸을 때 클릭(손가락) 모양으로 변경 */
-    
-    /* 아래는 선택 사항입니다 (디자인 요소) */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);  /* 아이콘에 그림자 효과를 줍니다 */
-    transition: transform 0.3s ease;        /* 애니메이션 효과 속도 설정 */
+.top-left-icon {
+    position: fixed;      /* 스크롤을 내려도 화면에 고정 */
+    top: 0;               /* 위쪽 간격 0 */
+    left: 0;              /* 왼쪽 간격 0 */
+    width: 98px;          /* 아이콘 너비 (원하는 크기로 변경) */
+    height: 64px;         /* 아이콘 높이 (원하는 크기로 변경) */
+    z-index: 9999;        /* 다른 요소들보다 위에 보이도록 최상단 배치 */
+    cursor: pointer;      /* 클릭할 수 있다는 것을 알리는 손가락 마우스 커서 */
+
+  .scroll-icon {
+    position: fixed;
+    right: 10px;          /* 스크롤바 바로 옆에 위치하도록 간격을 줍니다 */
+    top: 0;               /* 초기 위치 (JS로 계속 변경됨) */
+    width: 77px;          /* 아이콘 너비 */
+    height: 69px;         /* 아이콘 높이 */
+    z-index: 9999;        /* 화면 최상단에 노출 */
+    pointer-events: none; /* 아이콘이 스크롤 동작을 방해하지 않도록 클릭/터치 무시 */
 }
 
 /* ── Masthead ───────────────────────────────────────────── */
