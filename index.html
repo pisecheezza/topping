@@ -13,8 +13,6 @@
 <link rel="stylesheet" href="style.css">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-06BWCGZJMD"></script>
-<style> #content { display: none; } </style>
-  
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -24,8 +22,7 @@
 </script>
 </head>
 <body>
-<div id="content">
-  
+
 <header class="masthead">
   <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기">☰</button>
   <h1 id="siteName">Web Retreat</h1>
@@ -88,6 +85,1206 @@
 
 <script src="config.js"></script>
 <script src="script.js"></script>
+<style>
+
+/* 사이버-턴테이블
+https://sardina.tistory.com
+© 2026. 닻과 파도의 항해일지
+All rights reserved. */
+
+    /* ==============================
+       [사용자 설정1] 색상 코드 변경
+       ============================== */
+    :root {
+        /* 1. 턴테이블 본체 색상 */
+        --lp-body-color: #7F462C;
+        /* 2. 본체 그림자/테두리 (본체보다 조금 어두운 색 추천) */
+        --lp-shadow-color: #42261F;
+        /* 3. 재생 중 LED 불빛 색상 */
+        --lp-led-on-color: #FFEF00;
+        /* 4. 플리 포인트 색상 (제목, 닫기 버튼 등) */
+        --lp-accent-color: #000000;
+        /* 5. 플리 선택된 곡 배경색 */
+        --lp-playlist-active-bg: #FFEF00;
+        /* 6. 플리 선택된 곡 글자색 */
+        --lp-playlist-active-text: #000000;
+        /* 7. 플리 마우스 올렸을 때 하이라이트 배경색 */
+        --lp-playlist-hover-bg: #000000;
+        /* 8. LP판 이미지 */
+        --lp-vinyl-img: url("https://i.imgur.com/JOPdp2L.jpeg");
+    }
+
+    /* --------------------------------------------------------------------------
+       [시스템 스타일] 아래 코드는 수정하지 마세요.
+       (기능 작동에 필수적입니다)
+       -------------------------------------------------------------------------- */
+
+    #lp-widget {
+    position: fixed;
+    bottom: 30px; left: 40px; z-index: 9999;
+    font-family: sans-serif;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transform-origin: center center; 
+    user-select: none;
+    opacity: 1 !important;
+    visibility: visible !important; 
+    pointer-events: auto;
+    }
+    #lp-widget.lp-collapsed { 
+        opacity: 0;
+        visibility: hidden; pointer-events: none; transform: none; 
+    }
+    #lp-widget button, #lp-expand-btn {
+        outline: none !important;
+        border: none !important;
+        -webkit-tap-highlight-color: transparent !important;
+        user-select: none; cursor: pointer; transition: transform 0.1s ease;
+    }
+    #lp-deck { 
+        width: 178px; height: 124px; 
+        background-color: var(--lp-body-color);
+        /* 사용자 설정 색상 적용 */
+        border-radius: 8px;
+        box-shadow: 0 3px 0 var(--lp-shadow-color), 0 15px 35px rgba(0,0,0,0.25), inset 0 1px 2px rgba(255,255,255,0.4);
+        position: relative; display: flex;
+    }
+    #lp-expand-btn {
+        position: fixed; bottom: 30px; left: 40px;
+        width: 36px; height: 36px; 
+        background: var(--lp-body-color); /* 사용자 설정 색상 적용 */
+        color: #fff;
+        border-radius: 50%; display: flex; 
+        opacity: 0; visibility: hidden; pointer-events: none;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        align-items: center;
+        justify-content: center; z-index: 10000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-size: 20px; transform: none;
+    }
+    #lp-expand-btn:active { transform: scale(0.9); } 
+    #lp-widget.lp-collapsed + #lp-expand-btn { 
+        opacity: 1;
+        visibility: visible; pointer-events: auto; transform: none; 
+    }
+    @media (max-width: 768px) { 
+        #lp-widget, #lp-expand-btn { bottom: 15px;
+        left: 15px; } 
+    }
+    #lp-modal {
+        position: absolute;
+        bottom: 135px; left: 0; width: 180px; height: auto; max-height: none; 
+        background: rgba(255, 255, 255, 0.98); border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12); display: none; flex-direction: column;
+        overflow: hidden; z-index: 100;
+    }
+    #lp-modal.is-open { display: flex; animation: lpSlideUp 0.3s ease-out forwards;
+    }
+    #lp-modal.is-closing { display: flex; animation: lpSlideDown 0.25s ease-out forwards;
+    }
+
+    @keyframes lpSlideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0);
+    } }
+    @keyframes lpSlideDown { from { opacity: 1; transform: translateY(0); } to { opacity: 0;
+    transform: translateY(10px); } }
+
+    .lp-modal-header { 
+        position: relative;
+        padding: 10px; font-size: 9px; font-weight: bold; 
+        color: var(--lp-accent-color); /* 사용자 설정 색상 적용 */
+        text-align: center;
+        border-bottom: 1px solid #ffffff; letter-spacing: 1px; 
+    }
+    #lp-modal-close {
+        position: absolute;
+        right: 10px; top: 50%; transform: translateY(-50%);
+        width: 18px; height: 18px; background: #ffffff; 
+        color: var(--lp-accent-color);
+        /* 사용자 설정 색상 적용 */
+        border-radius: 4px; font-size: 12px; display: flex;
+        align-items: center; justify-content: center;
+    }
+    #lp-modal-close:active { background: #e0f0ff; transform: translateY(-50%) scale(0.9);
+    }
+    #lp-modal-items { list-style: none; margin: 0; padding: 4px 0; overflow: hidden;
+    }
+    .lp-modal-item { 
+        padding: 8px 14px; font-size: 11px;
+        color: #666; transition: background 0.1s; 
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2;
+    }
+    .lp-modal-item:active { background: #ffffff; }
+    
+    /* 선택된 곡 스타일 - 사용자 설정 변수 적용 */
+    .lp-modal-item.active { 
+        background: var(--lp-playlist-active-bg);
+        font-weight: bold;
+        color: var(--lp-playlist-active-text);
+    }
+
+    .lp-record-area { position: absolute;
+        top: 2px; left: -10px; width: 120px; height: 120px; z-index: 10; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+.lp-vinyl {
+        width: 100%; height: 100%;
+        border-radius: 50%;
+        position: relative;
+        background-color: #111; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        background-image: var(--lp-vinyl-img);
+        background-size: cover; 
+        background-position: center;
+        transform: rotate(0deg); transition: box-shadow 0.3s ease; overflow: hidden;
+        will-change: transform;
+        backface-visibility: hidden;
+    }
+    .lp-vinyl::before { 
+        content: ''; position: absolute; top: 0;
+        left: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none;
+        background: conic-gradient(from 200deg, transparent 0deg, rgba(255, 255, 255, 0.05) 15deg, rgba(255, 255, 255, 0.3) 30deg, rgba(255, 255, 255, 0.05) 45deg, transparent 60deg, transparent 180deg, rgba(255, 255, 255, 0.05) 195deg, rgba(255, 255, 255, 0.3) 210deg, rgba(255, 255, 255, 0.05) 225deg, transparent 240deg);
+        filter: blur(0.5px); opacity: 0.8; 
+    }
+/* 수정 후 */
+.lp-vinyl::after {
+    content: '';
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; border-radius: 50%;
+    background: repeating-radial-gradient(circle, transparent 0, transparent 3px, rgba(0, 0, 0, 0.15) 3.5px, transparent 4px);
+    filter: blur(0.8px);
+}
+    .lp-vinyl[style*="background-image"]::after { opacity: 0.15; }
+
+    .lp-label { 
+        position: absolute;
+        top: 50%; left: 50%; transform: translate(-50%, -50%); 
+        width: 34px; height: 34px; background: radial-gradient(circle, #e74c3c 30%, #c0392b 100%);
+        border-radius: 50%;
+        z-index: 5; 
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.2), inset 0 0 4px rgba(0,0,0,0.3);
+        display: none;
+    }
+    .lp-vinyl[style*="background-image"] { background-size: cover; background-position: center; }
+    .lp-vinyl[style*="background-image"] .lp-label { display: none;
+    }
+    .lp-vinyl.spinning { animation: lpSpin 3s linear infinite;
+    }
+    .lp-spindle { 
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%); width: 6px; height: 6px; 
+        background: #ccc; border-radius: 50%; border: 1px solid #999; z-index: 11;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.3); 
+    }
+    .lp-tooltip { 
+        position: absolute;
+        top: -40px; left: 0; right: 0; margin: 0 auto; width: max-content;
+        background: rgba(255, 255, 255, 0.95); color: #555;
+        padding: 6px 12px; 
+        font-size: 11px; font-weight: bold; border-radius: 12px; pointer-events: none; 
+        opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
+        white-space: nowrap; z-index: 50; box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
+    }
+    .lp-tooltip::after { 
+        content: '';
+        position: absolute; top: 100%; left: 50%; margin-left: -5px; 
+        border-width: 5px; border-style: solid; border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
+    }
+    @media (min-width: 769px) {
+        .lp-record-area:hover .lp-vinyl { box-shadow: 0 0 15px 4px rgba(255, 255, 255, 0.9) !important;
+        }
+        .lp-record-area:hover .lp-tooltip { opacity: 1; transform: translateY(-5px);
+        }
+        
+        /* 마우스 호버(하이라이트) 스타일 - 사용자 설정 변수 적용 */
+        .lp-modal-item:not(.active):hover { 
+            background-color: var(--lp-playlist-hover-bg); 
+            color: #F5BD02; /* 기본 연한 파랑 텍스트 유지 (필요시 변경 가능) */
+            cursor: pointer;
+        }
+    }
+    @media (max-width: 768px) { .lp-tooltip { display: none !important;
+    } }
+    #lp-modal.is-open ~ #lp-deck .lp-vinyl, #lp-modal.is-closing ~ #lp-deck .lp-vinyl { box-shadow: 0 0 15px 4px rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .lp-tonearm { 
+        position: absolute; top: 15px; right: 0;
+        width: 100%; height: 100%; pointer-events: none; 
+        transform-origin: 125px 20px; transform: rotate(-85deg); 
+        transition: none; 
+        z-index: 20;
+    }
+    .lp-part-pivot { 
+        position: absolute; right: 43px; top: 11px;
+        width: 20px; height: 20px;
+        background: radial-gradient(circle at 30% 30%, #777, #444); border-radius: 50%; box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    }
+    .lp-part-rod { 
+        position: absolute; top: 20px; right: 55px;
+        width: 50px; height: 5px;
+        background: linear-gradient(to bottom, #e0e0e0, #b0b0b0 40%, #999 60%, #cfcfcf); 
+        border-radius: 2px; transform-origin: right center;
+        box-shadow: 2px 3px 5px rgba(0,0,0,0.2);
+    }
+    .lp-part-neck { 
+        position: absolute;
+        top: 20px; right: 102px; width: 18px; height: 5px;
+        background: linear-gradient(to bottom, #e0e0e0, #b0b0b0 40%, #999 60%, #cfcfcf); 
+        border-radius: 2px;
+        transform-origin: right center; transform: rotate(25deg); box-shadow: 2px 3px 5px rgba(0,0,0,0.2);
+    }
+    .lp-part-head { 
+        position: absolute; top: 10px; right: 115px;
+        width: 14px; height: 8px; 
+        background: linear-gradient(135deg, #444, #222); border-radius: 2px; transform: rotate(25deg); box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .lp-part-head::after { 
+        content: ''; position: absolute; top: 60%;
+        right: 0px; transform-origin: left center; transform: rotate(90deg);
+        width: 7px; height: 1.5px; background: #444; border-radius: 1px; box-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+    }
+    .lp-part-weight { 
+        position: absolute; top: 15px; right: 45px;
+        width: 16px; height: 12px;
+        background: linear-gradient(to right, #444, #222, #444); border-radius: 2px; transform: rotate(0deg); 
+        box-shadow: 2px 3px 6px rgba(0,0,0,0.3);
+        border-left: 1px solid #666;
+    }
+
+    #lp-deck.is-playing .lp-tonearm { transform: rotate(-60deg);
+    }
+
+    .lp-btn-group { position: absolute; bottom: 15px; right: 15px; display: flex; flex-direction: column; align-items: center; gap: 5px;
+    z-index: 30; }
+    
+    #lp-led { 
+        width: 15px;
+        height: 15px; fill: #999; transition: all 0.4s ease; margin-bottom: 2px; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.25));
+    }
+    #lp-led.is-on { 
+        fill: var(--lp-led-on-color);
+        /* 사용자 설정 색상 적용 */
+        filter: drop-shadow(0 0 1px var(--lp-led-on-color)) drop-shadow(0 0 12px rgba(255, 204, 0, 0.4));
+    }
+    #lp-widget button:not(#lp-modal-close) {
+        width: 24px; height: 24px; border-radius: 50%;
+        background: #fff; color: #888; font-size: 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.08);
+        flex-shrink: 0; padding: 0;
+        display: flex; align-items: center; justify-content: center;
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    #lp-widget button:not(#lp-modal-close):active { transform: scale(0.9) !important; background: #f7f7f7; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .lp-volume-wrap {
+        position: absolute;
+        top: 10px; right: 15px; width: 58px; height: 15px; 
+        display: flex; align-items: center; justify-content: flex-start; z-index: 40; cursor: pointer; touch-action: none;
+    }
+    .lp-vol-rail {
+        width: 100%; height: 4px;
+        background: rgba(0, 0, 0, 0.25); border-radius: 2px; position: relative;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.3);
+    }
+    .lp-vol-fill {
+        position: absolute; top: 0; left: 0;
+        height: 100%; width: 50%; background: #999; 
+        border-radius: 2px; pointer-events: none; box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);
+    }
+    .lp-vol-handle {
+        position: absolute; top: 50%; left: 50%;
+        width: 6px; height: 10px; background: #888; border: none;
+        transform: translate(-50%, -50%); box-shadow: 0 2px 4px rgba(0,0,0,0.35); border-radius: 1px; pointer-events: none;
+    }
+    .lp-vol-hitbox { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2;
+    }
+    
+    .lp-pause-icon { display: inline-block; width: 8px; height: 9px; border-left: 2px solid #555;
+    border-right: 2px solid #555; box-sizing: border-box; }
+    @keyframes lpSpin { 0% { transform: rotate(0deg);
+    } 100% { transform: rotate(360deg); } }
+    #lp-yt-container { 
+        position: fixed; 
+        top: 0; left: 0; 
+        width: 1px; height: 1px; 
+        opacity: 0.01; 
+        pointer-events: none; 
+        z-index: -100;
+    }
+    #lp-modal.is-open ~ #lp-deck .lp-tooltip, #lp-modal.is-closing ~ #lp-deck .lp-tooltip {
+        opacity: 0 !important;
+        visibility: hidden !important; transform: none !important; display: none !important;
+    }
+
+    #lp-deck.is-loaded .lp-tonearm {
+        transition: transform 1.0s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+</style>
+
+<div id="lp-widget" class="lp-expanded" style="opacity: 0; visibility: hidden; transition: none;">
+    <div id="lp-modal">
+        <div class="lp-modal-header">
+            PLAYLIST
+            <button id="lp-modal-close" title="닫기">×</button>
+        </div>
+        <ul id="lp-modal-items"></ul>
+    </div>
+    <div id="lp-yt-container"><div id="lp-yt-player"></div></div>
+    <div id="lp-deck">
+        <div class="lp-record-area">
+        
+<div class="lp-vinyl">
+    <div class="lp-label"></div> 
 </div>
+            <div class="lp-spindle"></div>
+            <div class="lp-tooltip">Loading...</div>
+        </div>
+        <div class="lp-controls">
+            <div class="lp-volume-wrap" title="음량 조절">
+       
+                 <div class="lp-vol-rail">
+                    <div class="lp-vol-fill" id="lp-vol-fill-sync"></div>
+                    <div class="lp-vol-handle" id="lp-vol-handle-sync"></div>
+                </div>
+                <div class="lp-vol-hitbox"></div>
+            </div>
+ 
+            <div class="lp-tonearm">
+                <div class="lp-part-pivot"></div> 
+                <div class="lp-part-rod"></div> 
+                <div class="lp-part-neck"></div> 
+                <div class="lp-part-weight"></div>
+                <div 
+ class="lp-part-head"></div> 
+            </div>
+            <div class="lp-btn-group">
+                <svg id="lp-led" viewBox="0 0 24 24" title="재생 중 알림">
+                    <path d="M12,2 L14.5,9.5 L22,12 L14.5,14.5 L12,22 L9.5,14.5 L2,12 L9.5,9.5 Z"></path>
+                </svg>
+     
+            <button id="lp-play-btn" title="プレイ">&#9654;</button>
+                <button id="lp-close-btn" title="折る">&minus;</button>
+            </div>
+        </div>
+    </div>
+</div>
+<button id="lp-expand-btn" title="플레이어 열기">&#9836;</button>
+
+<script>
+    (function() {
+
+        var widget = document.getElementById('lp-widget');
+        var deck = document.getElementById('lp-deck');
+        var tonearm = document.querySelector('.lp-tonearm');
+        var vinyl = document.querySelector('.lp-vinyl');
+        var playBtn = document.getElementById('lp-play-btn');
+        var led = document.getElementById('lp-led');
+
+        var volFill = document.getElementById('lp-vol-fill-sync');
+        var volHandle = document.getElementById('lp-vol-handle-sync');
+
+        var isReload = false;
+        try {
+            if (window.performance && window.performance.getEntriesByType) {
+                var navs = window.performance.getEntriesByType("navigation");
+                if (navs.length > 0 && navs[0].type === 'reload') isReload = true;
+            }
+            if (!isReload && window.performance && window.performance.navigation) {
+                if (window.performance.navigation.type === 1) isReload = true;
+            }
+        } catch(e) {}
+
+        if (isReload) {
+            sessionStorage.setItem('lp_playing', 'false');
+        
+        }
+
+        var savedVol = sessionStorage.getItem('lp_volume');
+        var targetVol = savedVol ? parseInt(savedVol) : 70; 
+        
+        if (volFill) volFill.style.width = targetVol + '%';
+        if (volHandle) volHandle.style.left = targetVol + '%';
+
+        var isCollapsed = sessionStorage.getItem('lp_collapsed') === 'true';
+        if (isCollapsed) {
+            if (widget) widget.classList.add('lp-collapsed');
+        } else {
+            if (widget) widget.classList.remove('lp-collapsed');
+        }
+
+        if (widget) {
+            widget.style.removeProperty('opacity');
+            widget.style.removeProperty('visibility');
+        }
+        var isPlaying = sessionStorage.getItem('lp_playing') === 'true';
+        
+        if (isPlaying) {
+            if (deck) deck.classList.add('is-playing');
+            if (led) led.classList.add('is-on');
+            if (tonearm) tonearm.style.transform = 'rotate(-60deg)';
+            if (vinyl) vinyl.classList.add('spinning');
+            if (playBtn) playBtn.innerHTML = '<i class="lp-pause-icon"></i>';
+        }
+    })();
+</script>
+
+<script>
+    /* ===========================================
+       [사용자 설정2] 노래 목록, 이미지, 볼륨 설정
+       =========================================== */
+    const LP_CONFIG = {
+
+        // 1. 기본 볼륨 (0 ~ 100 사이)
+        defaultVolume: 70,
+
+        // 2. 플레이리스트 (유튜브 링크와 제목을 입력하세요)
+        playlist: [
+            
+            { url: "https://youtu.be/ApJ-vd-9RU0?si=WYZt7B8oU-2onGXz", title: "Fragile Mind" },
+            { url: "https://youtu.be/RuNqttY67O4?si=XQsEaFLVowmSc65j", title: "A Spider's Thread" },
+            { url: "https://www.youtube.com/watch?v=kWk95U_njJ0", title: "Medieval Style" },
+            { url: "https://youtu.be/zbKWAzNF6ao?si=lEwzBU42Us7HTl6p", title: "SHIVER" },
+            { url: "https://www.youtube.com/watch?v=Nx5c_JZIM6M", title: "RV315, Summer, III. Presto" }
+         ]
+    };
+
+    /* ==========================================================================
+       [시스템 로직] 이 아래부터는 코드를 수정하지 마세요.
+       (안정화 버전 6.0)
+       ========================================================================== */
+    try {
+        if (window.performance && window.performance.getEntriesByType) {
+            var navEntries = window.performance.getEntriesByType("navigation");
+            if (navEntries.length > 0 && navEntries[0].type === 'reload') {
+                sessionStorage.setItem('lp_playing', 'false');
+                sessionStorage.removeItem('lp_spin_base');
+            }
+        } else {
+            if (window.performance && window.performance.navigation && window.performance.navigation.type === 1) {
+                sessionStorage.setItem('lp_playing', 'false');
+                sessionStorage.removeItem('lp_spin_base');
+            }
+        }
+    } catch(e) {}
+
+    var lpPlaylist = LP_CONFIG.playlist;
+    function extractLpVideoId(url) {
+        var regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+        var match = url.match(regex);
+        return (match && match[1]) ? match[1] : url;
+    }
+
+    var lpPlayer;
+    var lpCurrentIndex = 0;
+    var lpIsPlaying = false; 
+    var lpIsRestoring = false; 
+    var lpIsNavigating = false; 
+    var SYNC_LATENCY = 0.5; 
+    var checkInterval = null;
+    var rebuildTimer 
+    = null;
+    var fadeInterval = null; 
+    var fadeOutInterval = null;
+    var lpIsPcBackNav = false; 
+    
+    var savedVol = sessionStorage.getItem('lp_volume');
+    var lpVolume = savedVol ? parseInt(savedVol) : LP_CONFIG.defaultVolume; 
+
+    var lpWidget = document.getElementById('lp-widget');
+    var lpDeck = document.getElementById('lp-deck');
+    var lpTonearm = document.querySelector('.lp-tonearm');
+    var lpPlayBtn = document.getElementById('lp-play-btn');
+    var lpCloseBtn = document.getElementById('lp-close-btn');
+    var lpExpandBtn = document.getElementById('lp-expand-btn');
+    var lpVinyl = document.querySelector('.lp-vinyl');
+    var lpLed = document.getElementById('lp-led');
+    var lpModal = document.getElementById('lp-modal');
+    var lpModalItems = document.getElementById('lp-modal-items');
+    var lpTooltip = document.querySelector('.lp-tooltip');
+    var lpYtContainer = document.getElementById('lp-yt-container');
+
+    var lpVolWrap = document.querySelector('.lp-volume-wrap');
+    var lpVolFill = document.querySelector('.lp-vol-fill');
+    var lpVolHandle = document.querySelector('.lp-vol-handle');
+    function isMobileDevice() { return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent); }
+
+    (function init() {
+
+        if (lpTooltip) {
+            lpTooltip.style.visibility = 'hidden';
+            lpTooltip.style.opacity = '0';
+            lpTooltip.style.transition = 'none';
+        }
+
+        var isReload = false;
+        try {
+            if (window.performance && window.performance.getEntriesByType) {
+                var navs = window.performance.getEntriesByType("navigation");
+                if (navs.length > 0 && navs[0].type === 'reload') isReload = true;
+            }
+            if (!isReload && window.performance && window.performance.navigation) {
+                if (window.performance.navigation.type === 1) isReload = true;
+            }
+        } catch(e) {}
+
+        if (isReload) {
+            sessionStorage.setItem('lp_playing', 'false');
+            sessionStorage.removeItem('lp_spin_base');
+            sessionStorage.removeItem('lp_angle');
+            sessionStorage.removeItem('lp_valid_nav');
+            sessionStorage.removeItem('lp_time'); 
+        }
+
+        if (lpVolFill && lpVolHandle) {
+            lpVolFill.style.width = lpVolume + '%';
+            lpVolHandle.style.left = lpVolume + '%';
+        }
+
+        var sessionIndex = sessionStorage.getItem('lp_index');
+        var historyIndex = localStorage.getItem('lp_saved_history');
+        
+        var savedTime = parseFloat(sessionStorage.getItem('lp_time'));
+        var savedDuration = parseFloat(sessionStorage.getItem('lp_total_duration'));
+        var wasPlaying = sessionStorage.getItem('lp_playing') === 'true';
+
+        if (sessionIndex !== null) {
+            lpCurrentIndex = parseInt(sessionIndex);
+        } else if (historyIndex !== null) {
+            var savedIdx = parseInt(historyIndex);
+            if (!isNaN(savedIdx) && savedIdx >= 0 && savedIdx < lpPlaylist.length) {
+                lpCurrentIndex = savedIdx;
+            }
+        }
+
+        if (!isReload && wasPlaying && savedDuration > 0 && savedTime > 0) {
+            if ((savedDuration - savedTime) < 1.5) {
+                console.log("노래 끝자락(1.5초 미만) 감지 -> 다음 곡으로 자연스럽게 연결");
+                lpCurrentIndex = (lpCurrentIndex + 1) % lpPlaylist.length; 
+                
+                sessionStorage.setItem('lp_index', lpCurrentIndex);
+                sessionStorage.removeItem('lp_time'); 
+                sessionStorage.removeItem('lp_total_duration');
+                
+                savedTime = 0; 
+            }
+        }
+
+        renderLpPlaylist();
+        updateLpTooltip();
+
+        if (wasPlaying) {
+            lpIsPlaying = true;
+            lpIsRestoring = true;
+
+            if(lpTonearm) {
+                lpTonearm.style.setProperty('transition', 'none', 'important');
+                lpTonearm.style.transform = 'rotate(-60deg)';
+            }
+            
+            lpDeck.classList.add('is-playing');
+            if(lpLed) lpLed.classList.add('is-on');
+            lpPlayBtn.innerHTML = '<i class="lp-pause-icon"></i>'; 
+
+            var spinBase = sessionStorage.getItem('lp_spin_base');
+            if (spinBase) {
+                var correction = 40;
+                var elapsed = Date.now() - parseInt(spinBase) + correction;
+                var syncDelay = (elapsed % 3000) / 1000;
+                
+                lpVinyl.classList.add('spinning');
+                lpVinyl.style.animation = 'lpSpin 3s linear infinite';
+                lpVinyl.style.animationDelay = '-' + syncDelay + 's';
+            }
+        } else {
+            lpIsPlaying = false;
+            lpDeck.classList.remove('is-playing');
+            if(lpLed) lpLed.classList.remove('is-on');
+            lpPlayBtn.innerHTML = "&#9654;";
+            
+            lpVinyl.style.transform = 'rotate(0deg)';
+            
+            if (lpTonearm) {
+                lpTonearm.style.transition = 'none';
+                lpTonearm.style.transform = ''; 
+                setTimeout(function() { lpTonearm.style.removeProperty('transition'); }, 50);
+            }
+        }
+
+        setTimeout(function() {
+            if(lpWidget) lpWidget.style.removeProperty('transition');
+        }, 100);
+        setTimeout(function() {
+            if (lpTooltip) {
+                lpTooltip.style.removeProperty('visibility');
+                lpTooltip.style.removeProperty('opacity');
+                lpTooltip.style.removeProperty('transition');
+            }
+            if (lpDeck) lpDeck.classList.add('is-loaded');
+        }, 500);
+    })();
+
+document.addEventListener("visibilitychange", function() {
+        if (document.visibilityState === 'visible') {
+            var wasPlaying = sessionStorage.getItem('lp_playing');
+            if (wasPlaying === 'true') {
+                if (!lpPlayer || typeof lpPlayer.playVideo !== 'function') {
+                    performEmergencyRebuild();
+                } else {
+                    var state = lpPlayer.getPlayerState && lpPlayer.getPlayerState();
+                    if (state !== YT.PlayerState.PLAYING && state !== YT.PlayerState.BUFFERING) {
+                        lpPlayer.playVideo();
+                    }
+                }
+                if (lpVinyl && !lpVinyl.classList.contains('spinning')) {
+                    lpVinyl.classList.add('spinning');
+                }
+            }
+        }
+    });
+
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+            var wasPlaying = sessionStorage.getItem('lp_playing');
+            if (wasPlaying === 'true') {
+                if (!isMobileDevice()) lpIsPcBackNav = true; 
+                performEmergencyRebuild();
+            }
+  
+        }
+    });
+    function updateVolumeFromEvent(e) {
+        var rect = lpVolWrap.getBoundingClientRect();
+        var clientX = e.touches ?
+        e.touches[0].clientX : e.clientX;
+        var offsetX = clientX - rect.left;
+        var width = rect.width;
+        var percentage = (offsetX / width) * 100;
+        if (percentage < 0) percentage = 0;
+        if (percentage > 100) percentage = 100;
+        
+        if (fadeInterval) clearInterval(fadeInterval);
+        if (fadeOutInterval) clearInterval(fadeOutInterval);
+        
+        setVolume(Math.round(percentage));
+    }
+
+    function setVolume(vol) {
+        lpVolume = vol;
+        sessionStorage.setItem('lp_volume', vol);
+        lpVolFill.style.width = vol + '%';
+        lpVolHandle.style.left = vol + '%';
+        if (lpPlayer && typeof lpPlayer.setVolume === 'function') {
+            lpPlayer.setVolume(lpVolume);
+        }
+    }
+
+    if(lpVolWrap) {
+        var isDragging = false;
+        lpVolWrap.addEventListener('mousedown', function(e) { isDragging = true; updateVolumeFromEvent(e); });
+        document.addEventListener('mousemove', function(e) { if (isDragging) { e.preventDefault(); updateVolumeFromEvent(e); } });
+        document.addEventListener('mouseup', function() { isDragging = false; });
+        lpVolWrap.addEventListener('touchstart', function(e) { isDragging = true; updateVolumeFromEvent(e); }, {passive: false});
+        lpVolWrap.addEventListener('touchmove', function(e) { if (isDragging) { e.preventDefault(); updateVolumeFromEvent(e); } }, {passive: false});
+        lpVolWrap.addEventListener('touchend', function() { isDragging = false; });
+    }
+
+    function performEmergencyRebuild() {
+        if (rebuildTimer) clearTimeout(rebuildTimer);
+        rebuildTimer = setTimeout(function() {
+            if (lpPlayer) { try { lpPlayer.destroy(); } catch(e){} lpPlayer = null; }
+            lpYtContainer.innerHTML = ''; 
+            var newDiv = document.createElement('div');
+            newDiv.id = 'lp-yt-player';
+            lpYtContainer.appendChild(newDiv);
+            tryRebuildPlayer(0);
+      
+        }, 200);
+    }
+
+    function tryRebuildPlayer(attempt) {
+        if (attempt > 10) return;
+        if (window.YT && window.YT.Player) {
+            createPlayerInstance();
+        } else {
+            if (!document.getElementById('yt-api-script-reload')) {
+                var tag = document.createElement('script');
+                tag.id = 'yt-api-script-reload';
+                tag.src = "https://www.youtube.com/iframe_api";
+                document.head.appendChild(tag);
+            }
+            setTimeout(function() { tryRebuildPlayer(attempt + 1); }, 300);
+        }
+    }
+
+function createPlayerInstance() {
+        try {
+            lpPlayer = new YT.Player('lp-yt-player', {
+                height: '200', width: '200',
+                videoId: extractLpVideoId(lpPlaylist[lpCurrentIndex].url),
+                host: 'https://www.youtube-nocookie.com',
+                playerVars: { 
+                    'playsinline': 1, 
+                    'controls': 0, 
+                    'loop': 0,
+                    'origin': window.location.origin
+                },
+            events: { 'onReady': onLpPlayerReady, 'onStateChange': onLpPlayerStateChange }
+            });
+        } catch(e) {
+            setTimeout(function() { 
+                lpTonearm.style.removeProperty('transition'); 
+                lpTonearm.style.removeProperty('transform');
+            }, 500);
+        }
+    }
+
+    function renderLpPlaylist() {
+        lpModalItems.innerHTML = '';
+        lpPlaylist.forEach(function(song, index) {
+            var li = document.createElement('li');
+            li.className = 'lp-modal-item' + (index === lpCurrentIndex ? ' active' : '');
+            li.innerText = song.title;
+            li.onclick = function() { changeLpSong(index); };
+            lpModalItems.appendChild(li);
+        });
+    }
+
+    function updateLpTooltip() { if(lpTooltip) lpTooltip.innerText = lpPlaylist[lpCurrentIndex].title;
+    }
+
+    function smoothAudioReveal(targetPlayer) {
+        if (!targetPlayer || typeof targetPlayer.setVolume !== 'function') return;
+        if (document.hidden) {
+            targetPlayer.setVolume(lpVolume);
+            targetPlayer.unMute();
+            return;
+        }
+
+        targetPlayer.setVolume(0);
+        targetPlayer.unMute();
+        
+        if (fadeInterval) clearInterval(fadeInterval);
+        if (fadeOutInterval) clearInterval(fadeOutInterval);
+        
+        var vol = 0;
+        fadeInterval = setInterval(function() {
+            vol += 20; 
+            
+            if (vol >= lpVolume) { 
+                vol = lpVolume; 
+                clearInterval(fadeInterval); 
+            }
+            targetPlayer.setVolume(vol);
+        }, 20);
+    }
+
+    function smoothAudioVanish(targetPlayer, callback) {
+        if (!targetPlayer || typeof targetPlayer.getVolume !== 'function') {
+            if(callback) callback();
+            return;
+        }
+        
+        if (fadeInterval) clearInterval(fadeInterval);
+        if (fadeOutInterval) clearInterval(fadeOutInterval);
+        if (window.lpFadeTimer) clearTimeout(window.lpFadeTimer);
+
+        var vol = targetPlayer.getVolume();
+        fadeOutInterval = setInterval(function() {
+            vol -= 6; 
+            
+            if (vol <= 0) {
+                vol = 0; 
+                clearInterval(fadeOutInterval);
+                
+   
+              try {
+                    targetPlayer.setVolume(0);
+                    targetPlayer.mute(); 
+                } catch(e) {}
+                
+           
+             setTimeout(function() {
+                    if(callback) callback();
+                }, 100);
+                
+            } else {
+                targetPlayer.setVolume(vol);
+          
+            }
+        }, 20);
+    }
+
+function changeLpSong(index) {
+        lpCurrentIndex = index;
+        sessionStorage.setItem('lp_index', index);
+        localStorage.setItem('lp_saved_history', index); 
+
+        sessionStorage.removeItem('lp_time'); 
+        renderLpPlaylist();
+        updateLpTooltip();
+
+        if (!lpDeck.classList.contains('is-playing')) {
+            var currentAngle = 0;
+            var style = window.getComputedStyle(lpVinyl);
+            var matrix = new WebKitCSSMatrix(style.transform);
+            if (matrix.a !== 1 || matrix.b !== 0) { 
+                 currentAngle = Math.atan2(matrix.b, matrix.a) * (180 / Math.PI);
+                 if (currentAngle < 0) currentAngle += 360;
+            }
+
+            lpVinyl.style.transition = 'none';
+            lpVinyl.style.transform = 'rotate(' + currentAngle + 'deg)';
+            lpVinyl.classList.remove('spinning');
+            void lpVinyl.offsetWidth; 
+
+            var duration = 3.0;
+            var timeOffset = (currentAngle / 360) * duration;
+            lpVinyl.style.animationDelay = '-' + timeOffset + 's';
+        }
+        
+        lpIsRestoring = false;
+        lpIsPcBackNav = false;
+
+        if (lpPlayer && typeof lpPlayer.loadVideoById === 'function') {
+
+            if (document.hidden) {
+                lpPlayer.unMute();
+                lpPlayer.setVolume(lpVolume);
+            } else {
+                lpPlayer.mute();
+                lpPlayer.setVolume(0);
+            }
+            
+            lpPlayer.loadVideoById(extractLpVideoId(lpPlaylist[lpCurrentIndex].url));
+            lpPlayer.playVideo(); 
+            
+            lpIsPlaying = true; 
+            sessionStorage.setItem('lp_playing', 'true');
+            setLpState(true);
+        } else {
+            performEmergencyRebuild();
+        }
+        closeLpModal();
+    }
+
+    function onYouTubeIframeAPIReady() { createPlayerInstance();
+    }
+
+    function enableTouchToWake(targetPlayer) {
+        var strongEvents = ['click', 'keydown', 'touchstart'];
+        var wakeUp = function() {
+            if(targetPlayer && typeof targetPlayer.playVideo === 'function') {
+                targetPlayer.playVideo();
+                targetPlayer.unMute();    
+            }
+            smoothAudioReveal(targetPlayer);
+            strongEvents.forEach(function(evt) { document.removeEventListener(evt, wakeUp); });
+        };
+        strongEvents.forEach(function(evt) { document.addEventListener(evt, wakeUp, { once: true }); });
+    }
+
+function onLpPlayerReady(event) {
+        event.target.mute();
+        event.target.setVolume(lpVolume);
+
+        var savedTime = parseFloat(sessionStorage.getItem('lp_time'));
+        var savedRealTime = parseFloat(sessionStorage.getItem('lp_realtime'));
+        var wasPlaying = sessionStorage.getItem('lp_playing');
+        var now = Date.now();
+
+        if (wasPlaying === 'true' && savedTime && savedRealTime) {
+            var timePassed = (now - savedRealTime) / 1000;
+            if (timePassed > 0 && timePassed < 3600) savedTime += (timePassed + SYNC_LATENCY);
+        }
+        
+        if (savedTime) event.target.seekTo(savedTime);
+        
+        if (wasPlaying === 'true') {
+            event.target.playVideo();
+            if (lpIsPcBackNav) {
+                enableTouchToWake(event.target);
+                lpIsPcBackNav = false; 
+            }
+            lpDeck.classList.add('is-playing');
+            setTimeout(function() { lpTonearm.style.transition = 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)'; }, 100);
+        } else {
+            event.target.pauseVideo();
+        }
+
+        if(checkInterval) clearInterval(checkInterval);
+        checkInterval = setInterval(function(){
+            if(lpPlayer && typeof lpPlayer.getCurrentTime === 'function' && lpIsPlaying) {
+                var cTime = lpPlayer.getCurrentTime();
+                var dTime = lpPlayer.getDuration();
+                
+                sessionStorage.setItem('lp_time', cTime);
+                if (dTime > 0) sessionStorage.setItem('lp_total_duration', dTime);
+                
+                sessionStorage.setItem('lp_playing', 'true');
+                sessionStorage.setItem('lp_realtime', Date.now());
+            }
+        }, 1000);
+    }
+
+    window.addEventListener('beforeunload', function() {
+        lpIsNavigating = true; 
+        var isReallyPlaying = lpIsPlaying || (sessionStorage.getItem('lp_playing') === 'true');
+        if (isReallyPlaying) {
+            var style = window.getComputedStyle(lpVinyl);
+            var matrix = new WebKitCSSMatrix(style.transform);
+            var angle = Math.atan2(matrix.b, matrix.a) * (180 / Math.PI);
+       
+             if (angle < 0) angle += 360;
+            var visualOffset = (angle / 360) * 3000;
+            sessionStorage.setItem('lp_spin_base', Date.now() - visualOffset);
+            sessionStorage.setItem('lp_angle', angle.toFixed(2));
+            sessionStorage.setItem('lp_playing', 'true'); 
+        } else {
+            sessionStorage.removeItem('lp_angle');
+      
+             sessionStorage.setItem('lp_playing', 'false');
+        }
+        if (lpPlayer) { 
+            try { lpPlayer.mute(); lpPlayer.setVolume(0); } catch(e){} 
+        }
+    });
+    
+    function onLpPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.ENDED) {
+            var nextIndex = (lpCurrentIndex + 1) % lpPlaylist.length;
+            sessionStorage.setItem('lp_index', nextIndex);
+            sessionStorage.setItem('lp_playing', 'true'); 
+            sessionStorage.removeItem('lp_time'); 
+            
+            changeLpSong(nextIndex); 
+            return;
+        }
+
+        if (lpIsNavigating) return;
+
+        if (event.data == YT.PlayerState.PLAYING) {
+            if (sessionStorage.getItem('lp_playing') === 'false') { 
+                sessionStorage.setItem('lp_playing', 'true');
+            }
+            lpIsPlaying = true; 
+            setLpState(true);
+            lpPlayBtn.innerHTML = '<i class="lp-pause-icon"></i>'; 
+            
+            if (event.target.isMuted()) {
+                if (document.hidden) {
+                    smoothAudioReveal(event.target);
+                } else {
+                    setTimeout(function() { smoothAudioReveal(event.target); }, 150);
+                }
+            }
+        } 
+        else if (event.data == YT.PlayerState.PAUSED) {
+            if (!lpIsNavigating) lpIsPlaying = false;
+        }
+    }
+
+    function handlePlayClick() {
+        lpIsRestoring = false;
+        if (lpIsPlaying) {
+            lpIsPlaying = false; 
+            sessionStorage.setItem('lp_playing', 'false');
+            setLpState(false);
+            lpPlayBtn.innerHTML = "&#9654;";
+            if(lpPlayer) {
+                smoothAudioVanish(lpPlayer, function() { if(lpPlayer.pauseVideo) lpPlayer.pauseVideo(); });
+            }
+        } else {
+            lpIsPlaying = true;
+            sessionStorage.setItem('lp_playing', 'true');
+            if (!sessionStorage.getItem('lp_spin_base')) {
+                sessionStorage.setItem('lp_spin_base', Date.now());
+            }
+            setLpState(true);
+            setTimeout(function() { 
+                if (lpPlayer && typeof lpPlayer.playVideo === 'function') {
+                    lpPlayer.mute(); lpPlayer.setVolume(0);
+                    lpPlayer.playVideo();
+                    setTimeout(function() { smoothAudioReveal(lpPlayer); }, 200);
+          
+                } else { performEmergencyRebuild(); }
+            }, 300);
+        }
+    }
+
+    function setLpState(playing) {
+        if (playing) {
+            lpDeck.classList.add('is-playing');
+            if (lpLed) lpLed.classList.add('is-on');
+            if (!lpIsRestoring) {
+                if (!lpVinyl.classList.contains('spinning')) {
+                    lpVinyl.style.transition = 'none';
+                    lpVinyl.style.transform = ''; 
+                    lpVinyl.style.animation = '';
+                    var currentDelay = lpVinyl.style.animationDelay;
+                    if (!currentDelay || currentDelay === '0s') {
+                        lpVinyl.style.animationDelay = '0s';
+                        void lpVinyl.offsetWidth;
+                    }
+                }
+            } else {
+                lpIsRestoring = false;
+            }
+            lpVinyl.classList.add('spinning');
+            lpPlayBtn.innerHTML = '<i class="lp-pause-icon"></i>';
+        } else {
+            stopLpSmoothly();
+            if (lpLed) lpLed.classList.remove('is-on');
+            lpDeck.classList.remove('is-playing');
+            lpPlayBtn.innerHTML = "&#9654;";
+            if (lpTonearm) {
+                lpTonearm.style.transform = '';
+                setTimeout(() => { lpTonearm.style.transition = ''; }, 50); 
+            }
+        }
+    }
+
+    function stopLpSmoothly() {
+        sessionStorage.removeItem('lp_spin_base');
+        if (!lpVinyl) return;
+        const style = window.getComputedStyle(lpVinyl);
+        const matrix = new WebKitCSSMatrix(style.transform);
+        let currentAngle = Math.atan2(matrix.b, matrix.a) * (180 / Math.PI);
+        if (currentAngle < 0) currentAngle += 360;
+
+        lpVinyl.style.transition = 'none';
+        lpVinyl.style.transform = `rotate(${currentAngle}deg)`;
+        lpVinyl.classList.remove('spinning');
+        lpVinyl.style.animation = 'none';
+        lpVinyl.style.animationDelay = '0s';
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                let remaining = 360 - currentAngle;
+                let linearDuration = remaining / 120;
+                let duration = linearDuration + 0.5;
+                if (duration < 0.6) duration 
+                = 0.6;
+                lpVinyl.style.transition = `transform ${duration}s cubic-bezier(0, 0, 0.2, 1)`;
+                lpVinyl.style.transform = 'rotate(360deg)';
+                setTimeout(() => {
+                    if (!lpVinyl.classList.contains('spinning')) {
+                  
+                        lpVinyl.style.transition = 'none';
+                        lpVinyl.style.transform = 'rotate(0deg)';
+                    }
+                }, duration * 1000 + 50);
+            });
+        });
+    }
+
+    function closeLpModal() {
+        if (lpModal.classList.contains('is-closing') || !lpModal.classList.contains('is-open')) return;
+        lpModal.classList.add('is-closing');
+        setTimeout(function() {
+            lpModal.classList.remove('is-open');
+            lpModal.classList.remove('is-closing');
+        }, 250);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        lpPlayBtn.onclick = handlePlayClick;
+        lpCloseBtn.onclick = function() { lpWidget.classList.add('lp-collapsed'); sessionStorage.setItem('lp_collapsed', 'true'); };
+        lpExpandBtn.onclick = function() { lpWidget.classList.remove('lp-collapsed'); sessionStorage.setItem('lp_collapsed', 'false'); };
+        
+        var lpModalClose = document.getElementById('lp-modal-close');
+        if(lpModalClose) { 
+            lpModalClose.onclick = function(e) { e.stopPropagation(); closeLpModal(); }; 
+      
+        }
+        var lpArea = document.querySelector('.lp-record-area');
+        lpArea.onclick = function(e) {
+            e.stopPropagation();
+            if (lpModal.classList.contains('is-open')) closeLpModal(); else lpModal.classList.add('is-open');
+        };
+        document.addEventListener('click', function() { if (lpModal.classList.contains('is-open')) closeLpModal(); });
+        lpModal.onclick = function(e) { e.stopPropagation();
+        };
+    });
+
+    document.addEventListener('click', function(e) {
+        var anchor = e.target.closest('a');
+        if (!anchor) return;
+        var href = anchor.getAttribute('href');
+        var target = anchor.getAttribute('target');
+        
+        if (href && href.indexOf('#') !== 0 && href.indexOf('javascript') === -1 && target !== '_blank') {
+             sessionStorage.setItem('lp_valid_nav', Date.now().toString());
+        }
+
+ 
+        if (lpIsPlaying && lpPlayer && href && href.indexOf('#') !== 0 && href.indexOf('javascript') === -1 && target !== '_blank') {
+            e.preventDefault();
+            var moveTimer = setTimeout(function() { window.location.href = href; }, 800); 
+            smoothAudioVanish(lpPlayer, function() {
+                clearTimeout(moveTimer);
+           
+             window.location.href = href;
+            });
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+
+        var shouldBePlaying = sessionStorage.getItem('lp_playing') === 'true';
+        
+        if (shouldBePlaying && lpPlayer && typeof lpPlayer.getPlayerState === 'function') {
+            var state = lpPlayer.getPlayerState();
+
+            if (state !== YT.PlayerState.PLAYING && state !== YT.PlayerState.BUFFERING) {
+                lpPlayer.playVideo();
+                setLpState(true); 
+                console.log("클릭 감지: 음악 재생 복구");
+            }
+        }
+
+        if (shouldBePlaying && !lpPlayer) {
+            performEmergencyRebuild();
+        }
+    });
+</script>
+<div class="floating-ticket">
+        <div class="ticket-inner">
+            <!-- 1. 메인 구역 -->
+            <div class="ticket-main">
+                <span class="dday-title">いろんな所を<br>旅してから</span>
+            </div>
+            
+            <!-- 2. DAYS 세로 라벨 구역 -->
+            <div class="ticket-days">
+                <span class="dday-label">DAYS</span>
+            </div>
+
+            <!-- 3. 자동 계산되는 숫자 구역 -->
+            <div class="ticket-stub">
+                <span class="dday-number" id="dday-count"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 자동 계산 JavaScript -->
+    <script>
+        const startDate = new Date('1884-11-05');
+
+        function calculateDays() {
+            const today = new Date();
+            const diffTime = today.getTime() - startDate.getTime();
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+            const ddayElement = document.getElementById('dday-count');
+            
+            if (diffDays > 0) {
+                // 앞에 DAYS가 있으므로 '일'이라는 글자를 빼고 숫자만 출력합니다.
+                ddayElement.innerText = `${diffDays}`; 
+            } else if (diffDays < 0) {
+                ddayElement.innerText = `D${diffDays}`;
+            } else {
+                ddayElement.innerText = `DAY`;
+            }
+        }
+
+        calculateDays();
+    </script>
+
 </body>
 </html>
