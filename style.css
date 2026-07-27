@@ -61,7 +61,7 @@ body{
 
 .dropdown-menu{
   position: fixed;
-  top: 30px;
+  top: 100px;   
   left: 0;
   display: flex;
   flex-direction: column;
