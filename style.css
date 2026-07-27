@@ -151,17 +151,6 @@ body{
 .drawer-backdrop.show{
   display: block;
 }
-.main-icon {
-  margin: 0 0 16px 0; /* 아래 버튼들과의 간격 (필요에 따라 조절) */
-  text-align: center;  /* 이미지 중앙 정렬 */
-}
-.main-icon img {
-  max-width: 48px;  /* 원하시는 최대 너비 (예: 32px, 40px, 60px 등) */
-  width: 100%;      /* 부모 또는 max-width에 맞게 축소 */
-  height: auto;     /* 이미지 비율이 깨지지 않도록 자동 조절 */
-  display: block;   /* 하단 미세 여백(line-height) 제거 */
-  margin: 0 auto;   /* 중앙 정렬 */
-}
 .home-section-title{
   display: block;
   text-decoration: none;
