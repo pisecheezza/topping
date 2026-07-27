@@ -290,7 +290,7 @@ fetchTab(TABS.links).then(rows => {
 });
 
 // ── Guestbook: 목록 불러오기 ─────────────────────────────
-const GUESTBOOK_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwHou9yZgkYdvwYIkeFlJeJhvZ6BjYPWLQcl5GMcl6jhi7YzpKKo9o3HTHjpjskQup9/exec";
+
 
 function loadGuestbook() {
   fetchTab(TABS.guestbook).then(rows => {
