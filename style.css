@@ -134,6 +134,9 @@ body{
 }
 
 .main-icon{
+  width: 80%;
+  height: flex;
+  padding: 0 0 10px;
   display-content: center;
 }
 
