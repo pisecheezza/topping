@@ -659,7 +659,7 @@ main{
 
 .floating-ticket {
             position: fixed;
-            bottom: 30px;
+            top: 30px;
             right: 30px;
             width: 180px; /* 구역이 늘어나 가로폭을 조금 넓혔습니다 */
             height: 70px;
