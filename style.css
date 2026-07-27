@@ -51,10 +51,10 @@ body{
 
 .top-left-icon{
   position: absolute;
-  left: 20px;
-  top: 18px;
-  width: 28px;
-  height: 28px;
+  left: 0;
+  top: 0;
+  width: 138px;
+  height: 96px;
   cursor: pointer;
 }
 
