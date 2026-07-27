@@ -163,6 +163,13 @@ body{
   padding: 10px 4px;
   /* 만약 이전 설정에 flex-direction: column이 있다면 반드시 지워주세요! */
 }
+.door-title{
+  margin: 0;
+  font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 1.05rem;
+  color: var(--ink);
+  text-decoration: none;
+}
 
 .door-image{
   width: 100%;
