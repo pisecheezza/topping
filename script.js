@@ -392,8 +392,147 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
 
         calculateDays();
 
+// ══════════════════════════════════════════════════════
+// Reader: 구글독스 실시간 뷰어
+// ══════════════════════════════════════════════════════
+const READER_COLUMN_GAP = 24;
+let readerCurrentPage = 0;
+let readerTotalPages = 1;
+let readerViewerWidth = 0;
+
+fetchTab(TABS.reader).then(rows => {
+  const list = document.getElementById("readerList");
+  list.innerHTML = "";
+  rows
+    .filter(r => (r.title || "").trim())
+    .forEach(r => {
+      const row = document.createElement("div");
+      row.className = "ledger-row";
+      row.innerHTML = `<div><button class="ledger-title-link" type="button">${escapeHtml(r.title)}</button></div>`;
+      row.querySelector("button").addEventListener("click", () => {
+        document.getElementById("readerList").style.display = "none";
+        document.getElementById("readerViewerBox").style.display = "block";
+        loadReaderDoc((r.docId || "").trim());
+      });
+      list.appendChild(row);
+    });
+});
+
+document.getElementById("readerBack").addEventListener("click", () => {
+  document.getElementById("readerViewerBox").style.display = "none";
+  document.getElementById("readerList").style.display = "block";
+  document.getElementById("reader-end-modal-overlay").classList.remove("show");
+});
+
+function loadReaderDoc(docId) {
+  document.getElementById("reader-viewer-content").innerHTML = "";
+  document.getElementById("reader-loading-container").style.display = "flex";
+
+  fetch(`${GUESTBOOK_WEBAPP_URL}?id=${encodeURIComponent(docId)}`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("reader-loading-container").style.display = "none";
+      if (!data.success) throw new Error(data.error || "로드 실패");
+      renderReaderBook(data.content);
+    })
+    .catch(err => {
+      document.getElementById("reader-loading-container").style.display = "none";
+      document.getElementById("reader-viewer-content").innerHTML =
+        `<p style="color:red;">오류: ${escapeHtml(err.message)}</p>`;
+    });
+}
+
+function renderReaderBook(contentData) {
+  const contentDiv = document.getElementById("reader-viewer-content");
+  let html = "";
+
+  if (Array.isArray(contentData)) {
+    contentData.forEach(item => {
+      if (!item) return;
+      if (item.type === "image") {
+        html += `<div class="reader-img-wrap"><img src="${item.value}"></div>`;
+      } else if (item.type === "text") {
+        const cleanText = (item.value || "").replace(/(<([^>]+)>)/gi, "").trim();
+        if (cleanText === "") {
+          html += `<p>&nbsp;</p>`;
+        } else {
+          const align = item.align || "justify";
+          html += `<p style="text-align:${align};">${item.value}</p>`;
+        }
+      }
+    });
+  }
+
+  contentDiv.innerHTML = html;
+  readerCurrentPage = 0;
+  setTimeout(calculateReaderPagination, 150);
+}
+
+function calculateReaderPagination() {
+  const viewer = document.getElementById("reader-viewer");
+  const contentDiv = document.getElementById("reader-viewer-content");
+  readerViewerWidth = viewer.getBoundingClientRect().width;
+  contentDiv.style.columnWidth = readerViewerWidth + "px";
+  contentDiv.style.columnGap = READER_COLUMN_GAP + "px";
+
+  setTimeout(() => {
+    readerTotalPages = Math.round((contentDiv.scrollWidth + READER_COLUMN_GAP) / (readerViewerWidth + READER_COLUMN_GAP));
+    if (readerTotalPages === 0) readerTotalPages = 1;
+    document.getElementById("reader-progress-slider").disabled = false;
+    changeReaderPage(0);
+  }, 100);
+}
+
+function changeReaderPage(targetPage) {
+  readerCurrentPage = targetPage;
+  const contentDiv = document.getElementById("reader-viewer-content");
+  contentDiv.style.transform = `translateX(-${readerCurrentPage * (readerViewerWidth + READER_COLUMN_GAP)}px)`;
+  updateReaderSliderUI();
+}
+
+function goReaderNext() {
+  if (readerCurrentPage < readerTotalPages - 1) {
+    changeReaderPage(readerCurrentPage + 1);
+  } else {
+    document.getElementById("reader-end-modal-overlay").classList.add("show");
+  }
+}
+function goReaderPrev() {
+  if (readerCurrentPage > 0) changeReaderPage(readerCurrentPage - 1);
+}
+
+function updateReaderSliderUI() {
+  const slider = document.getElementById("reader-progress-slider");
+  const tooltip = document.getElementById("reader-slider-tooltip");
+  const percent = readerTotalPages > 1 ? (readerCurrentPage / (readerTotalPages - 1)) : 1;
+  slider.value = Math.floor(percent * 1000);
+  slider.style.backgroundImage = `linear-gradient(to right, var(--ink) ${percent * 100}%, var(--rule, #ccc) ${percent * 100}%)`;
+  tooltip.innerText = (percent * 100).toFixed(0) + "%";
+}
+
+document.getElementById("reader-next-btn").addEventListener("click", goReaderNext);
+document.getElementById("reader-prev-btn").addEventListener("click", goReaderPrev);
+document.getElementById("reader-touch-right").addEventListener("click", goReaderNext);
+document.getElementById("reader-touch-left").addEventListener("click", goReaderPrev);
+
+document.getElementById("reader-restart-btn").addEventListener("click", () => {
+  document.getElementById("reader-end-modal-overlay").classList.remove("show");
+});
+
+document.getElementById("reader-progress-slider").addEventListener("change", (e) => {
+  const percent = e.target.value / 1000;
+  const targetPg = Math.round(percent * (readerTotalPages - 1));
+  changeReaderPage(targetPg);
+});
+
+window.addEventListener("resize", () => {
+  const contentDiv = document.getElementById("reader-viewer-content");
+  if (contentDiv && contentDiv.innerHTML !== "") calculateReaderPagination();
+});
 
 
+
+// LP 위젯
     (function() {
 
         var widget = document.getElementById('lp-widget');
