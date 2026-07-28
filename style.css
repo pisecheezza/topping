@@ -166,6 +166,19 @@ body{
   transition: top 0.05s linear;
 }
 
+.touch-cursor{
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;   /* 커서 자체가 클릭/터치를 가로채지 않게 */
+  z-index: 9999;
+  opacity: 0;
+  transform: translate(-4px, -4px);   /* 손가락 끝이 이미지 좌상단에 오도록 미세 조정 */
+  transition: opacity 0.1s ease;
+}
+.touch-cursor.active{
+  opacity: 1;
+}
 /* ── door image (Main tab) ──────────────────────────────── */
 .door-notice{
   display: flex;
