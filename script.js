@@ -58,20 +58,21 @@ function padNum(n) {
 
 const cursor = document.getElementById('cursor');
 
-window.addEventListener('touchstart', (e) => {
-  const touch = e.touches[0];
+window.addEventListener('pointerdown', (e) => {
   cursor.style.display = 'block';
-  cursor.style.left = `${touch.clientX}px`;
-  cursor.style.top = `${touch.clientY}px`;
+  cursor.style.left = `${e.clientX}px`;
+  cursor.style.top = `${e.clientY}px`;
 });
 
-window.addEventListener('touchmove', (e) => {
-  const touch = e.touches[0];
-  cursor.style.left = `${touch.clientX}px`;
-  cursor.style.top = `${touch.clientY}px`;
+window.addEventListener('pointermove', (e) => {
+  // 화면을 누른 채로 움직일 때만 위치 변경
+  if (cursor.style.display === 'block') {
+    cursor.style.left = `${e.clientX}px`;
+    cursor.style.top = `${e.clientY}px`;
+  }
 });
 
-window.addEventListener('touchend', () => {
+window.addEventListener('pointerup', () => {
   cursor.style.display = 'none';
 });
 
