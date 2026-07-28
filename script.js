@@ -56,26 +56,27 @@ function padNum(n) {
   updateMorphoPosition();
 })();
 
-const cursor = document.getElementById('cursor');
+// ── 모바일 터치 커서 (hand.png) ────────────────────────────
+(function () {
+  const cursor = document.getElementById("touchCursor");
+  if (!cursor) return;
 
-        // 마우스가 움직일 때마다 커서 요소의 위치를 업데이트
-        window.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
+  function moveCursor(x, y) {
+    cursor.style.left = `${x}px`;
+    cursor.style.top = `${y}px`;
+    cursor.classList.add("active");
+  }
 
-            cursor.style.left = `${x}px`;
-            cursor.style.top = `${y}px`;
-        });
+  document.addEventListener("touchstart", (e) => {
+    const touch = e.touches[0];
+    moveCursor(touch.clientX, touch.clientY);
+  }, { passive: true });
 
-        // 마우스 클릭 시 약간 작아지는 효과 (선택사항)
-        window.addEventListener('mousedown', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(0.9)';
-        });
-
-        window.addEventListener('mouseup', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-
+  document.addEventListener("touchmove", (e) => {
+    const touch = e.touches[0];
+    moveCursor(touch.clientX, touch.clientY);
+  }, { passive: true });
+})();
 // ── 탭 전환 ────────────────────────────────────────────────
 function activateView(viewName) {
   const btn = document.querySelector(`.tab-link[data-view="${viewName}"]`);
