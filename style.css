@@ -28,15 +28,18 @@ body{
 
 ::selection{ background: var(--teal); color: var(--paper); }
 
-#cursor {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background: url('hand.png') no-repeat center/contain;
-  pointer-events: none; /* 터치 이벤트를 방해하지 않도록 설정 */
-  transform: translate(-50%, -50%);
-  display: none;
-  z-index: 9999;
+.cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 32px; /* 이미지 크기에 맞게 조절하세요 */
+            height: 32px; /* 이미지 크기에 맞게 조절하세요 */
+            background-image: url('hand.png');
+            background-size: cover;
+            pointer-events: none; /* 커서가 클릭벤트를 방해하지 않도록 설정 */
+            transform: translate(-50%, -50%); /* 마우스 포인터의 정확한 위치에 오도록 조정 */
+            z-index: 9999;
+            transition: transform 0.1s ease; /* 부드러운 움직임 효과 (선택사항) */
 }
 
 /* ── Drawer label strip ─────────────────────────────────── */
