@@ -57,7 +57,6 @@ function padNum(n) {
 })();
 
 const cursor = document.getElementById('cursor');
-const cursor = document.getElementById('cursor');
 
         // 마우스가 움직일 때마다 커서 요소의 위치를 업데이트
         window.addEventListener('mousemove', (e) => {
@@ -67,6 +66,16 @@ const cursor = document.getElementById('cursor');
             cursor.style.left = `${x}px`;
             cursor.style.top = `${y}px`;
         });
+
+        // 마우스 클릭 시 약간 작아지는 효과 (선택사항)
+        window.addEventListener('mousedown', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(0.9)';
+        });
+
+        window.addEventListener('mouseup', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+
 // ── 탭 전환 ────────────────────────────────────────────────
 function activateView(viewName) {
   const btn = document.querySelector(`.tab-link[data-view="${viewName}"]`);
