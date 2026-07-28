@@ -24,7 +24,7 @@ body{
   padding-bottom: 60px;
 }
 
-::selection{ background: var(--teal); color: var(--paper); 
+::selection{ background: var(--teal); color: var(--paper);}
 /* ── Drawer label strip ─────────────────────────────────── */
 .drawer-label{
   display:flex;
