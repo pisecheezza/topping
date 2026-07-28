@@ -9,6 +9,7 @@ const TABS = {
   profile: "Profile", // 이름/직업/성별/생년월일 등 인적사항
   storage: "Storage", // 그림 + 코멘트
   pages: "Pages",      // 문서
+  reader: "Reader",    // 리더
   links: "Links",      // 링크 모음 (배너 이미지 지원)
   guestbook: "Guestbook"
 };
