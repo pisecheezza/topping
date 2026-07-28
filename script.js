@@ -55,6 +55,30 @@ function padNum(n) {
   window.addEventListener("resize", updateMorphoPosition);
   updateMorphoPosition();
 })();
+
+// ── 모바일 터치 커서 (hand.png) ────────────────────────────
+(function () {
+  const cursor = document.getElementById("touchCursor");
+  if (!cursor) return;
+
+  function moveCursor(x, y) {
+    cursor.style.left = `${x}px`;
+    cursor.style.top = `${y}px`;
+    cursor.classList.add("active");
+  }
+
+  document.addEventListener("touchstart", (e) => {
+    const touch = e.touches[0];
+    moveCursor(touch.clientX, touch.clientY);
+  }, { passive: true });
+
+  document.addEventListener("touchmove", (e) => {
+    const touch = e.touches[0];
+    moveCursor(touch.clientX, touch.clientY);
+  }, { passive: true });
+
+  // touchend에서 숨기는 코드 삭제 — 이제 손을 떼도 그 자리에 남아있음
+})();
 // ── 탭 전환 ────────────────────────────────────────────────
 function activateView(viewName) {
   const btn = document.querySelector(`.tab-link[data-view="${viewName}"]`);
