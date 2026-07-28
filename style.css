@@ -169,7 +169,7 @@ body{
 .touch-cursor{
   position: fixed;
   width: 32px;
-  height: 32px;
+  height: 41px;
   pointer-events: none;   /* 커서 자체가 클릭/터치를 가로채지 않게 */
   z-index: 9999;
   opacity: 0;
