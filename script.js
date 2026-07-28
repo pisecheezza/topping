@@ -530,7 +530,15 @@ window.addEventListener("resize", () => {
   if (contentDiv && contentDiv.innerHTML !== "") calculateReaderPagination();
 });
 
-
+// ── Reader: 텍스트 선택/드래그 방지 ───────────────────────
+const readerWrapper = document.getElementById("reader-wrapper");
+if (readerWrapper) {
+  readerWrapper.addEventListener("contextmenu", (e) => e.preventDefault());
+  readerWrapper.addEventListener("dragstart", (e) => {
+    if (e.target.tagName && e.target.tagName.toUpperCase() === "INPUT") return;
+    e.preventDefault();
+  });
+}
 
 // LP 위젯
     (function() {
