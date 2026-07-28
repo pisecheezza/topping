@@ -48,6 +48,10 @@ body{
   padding: 15px 5px 5px;
 }
 
+#siteName{
+  visibility: hidden;
+}
+
 .top-left-icon{
   position: fixed;
   left: 0;
@@ -1279,4 +1283,8 @@ All rights reserved. */
   .tab{ padding: 8px 8px; font-size: 11.5px; }
   .ledger-row{ display:flex; gap:8px; }
   .link-desc{ display:none; }
+  
+  main{
+    padding-bottom: 180px;   /* LP 플레이어 높이만큼 하단 여백 확보 */
+  }
 }
