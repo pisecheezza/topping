@@ -67,17 +67,45 @@
   <div class="ledger" id="pagesList"></div>
   </section>
   
-<!-- 리더 기능 추가 중
   <section id="view-reader" class="view">
   <div class="ledger" id="readerList"></div>
-   <div id="readerViewerBox" style="display:none">
-    <button class="back-link" id="readerBack">← list</button>
-    <div id="reader-wrapper">
-      <!-- 아까 주신 뷰어 위젯의 #reader-wrapper 내부 구조 전체를 여기 그대로 붙여넣기 -->
-      <!-- (end-modal-overlay, header-controls, viewer-container, footer-controls 등) -->
-<!--    </div>
+
+  <div id="readerViewerBox" style="display:none">
+    <button class="back-link" id="readerBack">← リスト</button>
+
+    <div id="reader-wrapper" class="index-card wide">
+      <div id="reader-end-modal-overlay">
+        <div id="reader-end-modal-content">
+          <p id="reader-end-modal-msg">&nbsp;</p>
+          <button id="reader-restart-btn">戻る</button>
+        </div>
+      </div>
+
+      <div id="reader-viewer-container">
+        <div id="reader-touch-left" class="reader-touch-zone">&nbsp;</div>
+        <div id="reader-touch-right" class="reader-touch-zone">&nbsp;</div>
+
+        <div id="reader-viewer">
+          <div id="reader-viewer-content">&nbsp;</div>
+          <div id="reader-loading-container">
+            <div id="reader-loading-text">読み込み中...</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="reader-footer-controls">
+        <div id="reader-slider-container">
+          <div id="reader-slider-tooltip">&nbsp;</div>
+          <input id="reader-progress-slider" disabled max="1000" min="0" type="range" value="0">
+        </div>
+        <div id="reader-button-container">
+          <button id="reader-prev-btn" class="reader-nav-btn">◀</button>
+          <button id="reader-next-btn" class="reader-nav-btn">▶</button>
+        </div>
+      </div>
+    </div>
   </div>
-  </section> -->
+  </section>
   
   <section id="view-guestbook" class="view">
   <form id="guestbookForm" class="guestbook-form">
