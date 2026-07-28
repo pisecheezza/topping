@@ -55,6 +55,26 @@ function padNum(n) {
   window.addEventListener("resize", updateMorphoPosition);
   updateMorphoPosition();
 })();
+
+const cursor = document.getElementById('cursor');
+
+window.addEventListener('touchstart', (e) => {
+  const touch = e.touches[0];
+  cursor.style.display = 'block';
+  cursor.style.left = `${touch.clientX}px`;
+  cursor.style.top = `${touch.clientY}px`;
+});
+
+window.addEventListener('touchmove', (e) => {
+  const touch = e.touches[0];
+  cursor.style.left = `${touch.clientX}px`;
+  cursor.style.top = `${touch.clientY}px`;
+});
+
+window.addEventListener('touchend', () => {
+  cursor.style.display = 'none';
+});
+
 // ── 탭 전환 ────────────────────────────────────────────────
 function activateView(viewName) {
   const btn = document.querySelector(`.tab-link[data-view="${viewName}"]`);
