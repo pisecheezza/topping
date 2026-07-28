@@ -12,6 +12,7 @@
 * {
   cursor: url('hand.png'), auto;
 }
+
 html{ scroll-behavior: smooth; }
 
 body{
@@ -26,6 +27,17 @@ body{
 }
 
 ::selection{ background: var(--teal); color: var(--paper); }
+
+#cursor {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: url('hand.png') no-repeat center/contain;
+  pointer-events: none; /* 터치 이벤트를 방해하지 않도록 설정 */
+  transform: translate(-50%, -50%);
+  display: none;
+  z-index: 9999;
+}
 
 /* ── Drawer label strip ─────────────────────────────────── */
 .drawer-label{
