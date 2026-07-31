@@ -7,7 +7,7 @@ const SHEET_ID = "14DVjPLKuq4pkBjoAw_h1J0BanWgJif4jNSw-6qhU4q0";
 const TABS = {
   main: "Main",       // 대문 이미지 + 공지사항
   profile: "Profile", // 이름/직업/성별/생년월일 등 인적사항
-  storage: "Storage", // 그림 + 코멘트
+  gallery: "Gallery", // 그림 + 코멘트
   pages: "Pages",      // 문서
   reader: "Reader",    // 리더
   links: "Links",      // 링크 모음 (배너 이미지 지원)
