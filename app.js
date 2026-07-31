@@ -13,13 +13,13 @@ function escapeHtml(str) {
 
 function renderMain() {
   fetchTab(TABS.main).then(rows => {
-    const heroEl = document.getElementById("heroImage");
+    const doorEl = document.getElementById("doorImage");
     const typeline = document.getElementById("noticestypeline");
-    const heroRow = rows.find(r => (r.image || "").trim());
-    if (heroRow) {
+    const doorRow = rows.find(r => (r.image || "").trim());
+    if (doorRow) {
       const img = document.createElement("img");
-      img.src = driveImageUrl(heroRow.image);
-      heroEl.appendChild(img);
+      img.src = driveImageUrl(doorRow.image);
+      doorEl.appendChild(img);
     }
     rows.filter(r => (r.date || r.content || "").trim())
       .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
