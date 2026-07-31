@@ -216,9 +216,9 @@ fetchTab(TABS.profile).then(rows => {
   });
 });
 
-// ── Storage: 그림 + 코멘트 ──────────────────────────────────
-fetchTab(TABS.storage).then(rows => {
-  const grid = document.getElementById("storageGrid");
+// ── gallery: 그림 + 코멘트 ──────────────────────────────────
+fetchTab(TABS.gallery).then(rows => {
+  const grid = document.getElementById("galleryGrid");
   grid.innerHTML = "";
   rows
     .filter(r => (r.image || r.comment || "").trim())
@@ -230,10 +230,10 @@ fetchTab(TABS.storage).then(rows => {
         .join("");
 
       const card = document.createElement("article");
-      card.className = "storage-card";
+      card.className = "gallery-card";
       card.innerHTML = `
-        ${imageIds.length ? `<div class="storage-thumb">${imagesHtml}</div>` : ""}
-        ${comment ? `<div class="storage-body"><p class="storage-comment">${marked.parseInline(comment)}</p></div>` : ""}
+        ${imageIds.length ? `<div class="gallery-thumb">${imagesHtml}</div>` : ""}
+        ${comment ? `<div class="gallery-body"><p class="gallery-comment">${marked.parseInline(comment)}</p></div>` : ""}
       `;
       grid.appendChild(card);
     });
@@ -565,17 +565,17 @@ if (readerWrapper) {
         } catch(e) {}
 
         if (isReload) {
-            sessionStorage.setItem('lp_playing', 'false');
+            sessiongallery.setItem('lp_playing', 'false');
         
         }
 
-        var savedVol = sessionStorage.getItem('lp_volume');
+        var savedVol = sessiongallery.getItem('lp_volume');
         var targetVol = savedVol ? parseInt(savedVol) : 70; 
         
         if (volFill) volFill.style.width = targetVol + '%';
         if (volHandle) volHandle.style.left = targetVol + '%';
 
-        var isCollapsed = sessionStorage.getItem('lp_collapsed') === 'true';
+        var isCollapsed = sessiongallery.getItem('lp_collapsed') === 'true';
         if (isCollapsed) {
             if (widget) widget.classList.add('lp-collapsed');
         } else {
@@ -586,7 +586,7 @@ if (readerWrapper) {
             widget.style.removeProperty('opacity');
             widget.style.removeProperty('visibility');
         }
-        var isPlaying = sessionStorage.getItem('lp_playing') === 'true';
+        var isPlaying = sessiongallery.getItem('lp_playing') === 'true';
         
         if (isPlaying) {
             if (deck) deck.classList.add('is-playing');
@@ -632,13 +632,13 @@ if (readerWrapper) {
         if (window.performance && window.performance.getEntriesByType) {
             var navEntries = window.performance.getEntriesByType("navigation");
             if (navEntries.length > 0 && navEntries[0].type === 'reload') {
-                sessionStorage.setItem('lp_playing', 'false');
-                sessionStorage.removeItem('lp_spin_base');
+                sessiongallery.setItem('lp_playing', 'false');
+                sessiongallery.removeItem('lp_spin_base');
             }
         } else {
             if (window.performance && window.performance.navigation && window.performance.navigation.type === 1) {
-                sessionStorage.setItem('lp_playing', 'false');
-                sessionStorage.removeItem('lp_spin_base');
+                sessiongallery.setItem('lp_playing', 'false');
+                sessiongallery.removeItem('lp_spin_base');
             }
         }
     } catch(e) {}
@@ -663,7 +663,7 @@ if (readerWrapper) {
     var fadeOutInterval = null;
     var lpIsPcBackNav = false; 
     
-    var savedVol = sessionStorage.getItem('lp_volume');
+    var savedVol = sessiongallery.getItem('lp_volume');
     var lpVolume = savedVol ? parseInt(savedVol) : LP_CONFIG.defaultVolume; 
 
     var lpWidget = document.getElementById('lp-widget');
@@ -704,11 +704,11 @@ if (readerWrapper) {
         } catch(e) {}
 
         if (isReload) {
-            sessionStorage.setItem('lp_playing', 'false');
-            sessionStorage.removeItem('lp_spin_base');
-            sessionStorage.removeItem('lp_angle');
-            sessionStorage.removeItem('lp_valid_nav');
-            sessionStorage.removeItem('lp_time'); 
+            sessiongallery.setItem('lp_playing', 'false');
+            sessiongallery.removeItem('lp_spin_base');
+            sessiongallery.removeItem('lp_angle');
+            sessiongallery.removeItem('lp_valid_nav');
+            sessiongallery.removeItem('lp_time'); 
         }
 
         if (lpVolFill && lpVolHandle) {
@@ -716,12 +716,12 @@ if (readerWrapper) {
             lpVolHandle.style.left = lpVolume + '%';
         }
 
-        var sessionIndex = sessionStorage.getItem('lp_index');
-        var historyIndex = localStorage.getItem('lp_saved_history');
+        var sessionIndex = sessiongallery.getItem('lp_index');
+        var historyIndex = localgallery.getItem('lp_saved_history');
         
-        var savedTime = parseFloat(sessionStorage.getItem('lp_time'));
-        var savedDuration = parseFloat(sessionStorage.getItem('lp_total_duration'));
-        var wasPlaying = sessionStorage.getItem('lp_playing') === 'true';
+        var savedTime = parseFloat(sessiongallery.getItem('lp_time'));
+        var savedDuration = parseFloat(sessiongallery.getItem('lp_total_duration'));
+        var wasPlaying = sessiongallery.getItem('lp_playing') === 'true';
 
         if (sessionIndex !== null) {
             lpCurrentIndex = parseInt(sessionIndex);
@@ -737,9 +737,9 @@ if (readerWrapper) {
                 console.log("노래 끝자락(1.5초 미만) 감지 -> 다음 곡으로 자연스럽게 연결");
                 lpCurrentIndex = (lpCurrentIndex + 1) % lpPlaylist.length; 
                 
-                sessionStorage.setItem('lp_index', lpCurrentIndex);
-                sessionStorage.removeItem('lp_time'); 
-                sessionStorage.removeItem('lp_total_duration');
+                sessiongallery.setItem('lp_index', lpCurrentIndex);
+                sessiongallery.removeItem('lp_time'); 
+                sessiongallery.removeItem('lp_total_duration');
                 
                 savedTime = 0; 
             }
@@ -761,7 +761,7 @@ if (readerWrapper) {
             if(lpLed) lpLed.classList.add('is-on');
             lpPlayBtn.innerHTML = '<i class="lp-pause-icon"></i>'; 
 
-            var spinBase = sessionStorage.getItem('lp_spin_base');
+            var spinBase = sessiongallery.getItem('lp_spin_base');
             if (spinBase) {
                 var correction = 40;
                 var elapsed = Date.now() - parseInt(spinBase) + correction;
@@ -801,7 +801,7 @@ if (readerWrapper) {
 
 document.addEventListener("visibilitychange", function() {
         if (document.visibilityState === 'visible') {
-            var wasPlaying = sessionStorage.getItem('lp_playing');
+            var wasPlaying = sessiongallery.getItem('lp_playing');
             if (wasPlaying === 'true') {
                 if (!lpPlayer || typeof lpPlayer.playVideo !== 'function') {
                     performEmergencyRebuild();
@@ -820,7 +820,7 @@ document.addEventListener("visibilitychange", function() {
 
     window.addEventListener('pageshow', function(event) {
         if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-            var wasPlaying = sessionStorage.getItem('lp_playing');
+            var wasPlaying = sessiongallery.getItem('lp_playing');
             if (wasPlaying === 'true') {
                 if (!isMobileDevice()) lpIsPcBackNav = true; 
                 performEmergencyRebuild();
@@ -846,7 +846,7 @@ document.addEventListener("visibilitychange", function() {
 
     function setVolume(vol) {
         lpVolume = vol;
-        sessionStorage.setItem('lp_volume', vol);
+        sessiongallery.setItem('lp_volume', vol);
         lpVolFill.style.width = vol + '%';
         lpVolHandle.style.left = vol + '%';
         if (lpPlayer && typeof lpPlayer.setVolume === 'function') {
@@ -992,10 +992,10 @@ function createPlayerInstance() {
 
 function changeLpSong(index) {
         lpCurrentIndex = index;
-        sessionStorage.setItem('lp_index', index);
-        localStorage.setItem('lp_saved_history', index); 
+        sessiongallery.setItem('lp_index', index);
+        localgallery.setItem('lp_saved_history', index); 
 
-        sessionStorage.removeItem('lp_time'); 
+        sessiongallery.removeItem('lp_time'); 
         renderLpPlaylist();
         updateLpTooltip();
 
@@ -1035,7 +1035,7 @@ function changeLpSong(index) {
             lpPlayer.playVideo(); 
             
             lpIsPlaying = true; 
-            sessionStorage.setItem('lp_playing', 'true');
+            sessiongallery.setItem('lp_playing', 'true');
             setLpState(true);
         } else {
             performEmergencyRebuild();
@@ -1063,9 +1063,9 @@ function onLpPlayerReady(event) {
         event.target.mute();
         event.target.setVolume(lpVolume);
 
-        var savedTime = parseFloat(sessionStorage.getItem('lp_time'));
-        var savedRealTime = parseFloat(sessionStorage.getItem('lp_realtime'));
-        var wasPlaying = sessionStorage.getItem('lp_playing');
+        var savedTime = parseFloat(sessiongallery.getItem('lp_time'));
+        var savedRealTime = parseFloat(sessiongallery.getItem('lp_realtime'));
+        var wasPlaying = sessiongallery.getItem('lp_playing');
         var now = Date.now();
 
         if (wasPlaying === 'true' && savedTime && savedRealTime) {
@@ -1093,18 +1093,18 @@ function onLpPlayerReady(event) {
                 var cTime = lpPlayer.getCurrentTime();
                 var dTime = lpPlayer.getDuration();
                 
-                sessionStorage.setItem('lp_time', cTime);
-                if (dTime > 0) sessionStorage.setItem('lp_total_duration', dTime);
+                sessiongallery.setItem('lp_time', cTime);
+                if (dTime > 0) sessiongallery.setItem('lp_total_duration', dTime);
                 
-                sessionStorage.setItem('lp_playing', 'true');
-                sessionStorage.setItem('lp_realtime', Date.now());
+                sessiongallery.setItem('lp_playing', 'true');
+                sessiongallery.setItem('lp_realtime', Date.now());
             }
         }, 1000);
     }
 
     window.addEventListener('beforeunload', function() {
         lpIsNavigating = true; 
-        var isReallyPlaying = lpIsPlaying || (sessionStorage.getItem('lp_playing') === 'true');
+        var isReallyPlaying = lpIsPlaying || (sessiongallery.getItem('lp_playing') === 'true');
         if (isReallyPlaying) {
             var style = window.getComputedStyle(lpVinyl);
             var matrix = new WebKitCSSMatrix(style.transform);
@@ -1112,13 +1112,13 @@ function onLpPlayerReady(event) {
        
              if (angle < 0) angle += 360;
             var visualOffset = (angle / 360) * 3000;
-            sessionStorage.setItem('lp_spin_base', Date.now() - visualOffset);
-            sessionStorage.setItem('lp_angle', angle.toFixed(2));
-            sessionStorage.setItem('lp_playing', 'true'); 
+            sessiongallery.setItem('lp_spin_base', Date.now() - visualOffset);
+            sessiongallery.setItem('lp_angle', angle.toFixed(2));
+            sessiongallery.setItem('lp_playing', 'true'); 
         } else {
-            sessionStorage.removeItem('lp_angle');
+            sessiongallery.removeItem('lp_angle');
       
-             sessionStorage.setItem('lp_playing', 'false');
+             sessiongallery.setItem('lp_playing', 'false');
         }
         if (lpPlayer) { 
             try { lpPlayer.mute(); lpPlayer.setVolume(0); } catch(e){} 
@@ -1128,9 +1128,9 @@ function onLpPlayerReady(event) {
     function onLpPlayerStateChange(event) {
         if (event.data == YT.PlayerState.ENDED) {
             var nextIndex = (lpCurrentIndex + 1) % lpPlaylist.length;
-            sessionStorage.setItem('lp_index', nextIndex);
-            sessionStorage.setItem('lp_playing', 'true'); 
-            sessionStorage.removeItem('lp_time'); 
+            sessiongallery.setItem('lp_index', nextIndex);
+            sessiongallery.setItem('lp_playing', 'true'); 
+            sessiongallery.removeItem('lp_time'); 
             
             changeLpSong(nextIndex); 
             return;
@@ -1139,8 +1139,8 @@ function onLpPlayerReady(event) {
         if (lpIsNavigating) return;
 
         if (event.data == YT.PlayerState.PLAYING) {
-            if (sessionStorage.getItem('lp_playing') === 'false') { 
-                sessionStorage.setItem('lp_playing', 'true');
+            if (sessiongallery.getItem('lp_playing') === 'false') { 
+                sessiongallery.setItem('lp_playing', 'true');
             }
             lpIsPlaying = true; 
             setLpState(true);
@@ -1163,7 +1163,7 @@ function onLpPlayerReady(event) {
         lpIsRestoring = false;
         if (lpIsPlaying) {
             lpIsPlaying = false; 
-            sessionStorage.setItem('lp_playing', 'false');
+            sessiongallery.setItem('lp_playing', 'false');
             setLpState(false);
             lpPlayBtn.innerHTML = "&#9654;";
             if(lpPlayer) {
@@ -1171,9 +1171,9 @@ function onLpPlayerReady(event) {
             }
         } else {
             lpIsPlaying = true;
-            sessionStorage.setItem('lp_playing', 'true');
-            if (!sessionStorage.getItem('lp_spin_base')) {
-                sessionStorage.setItem('lp_spin_base', Date.now());
+            sessiongallery.setItem('lp_playing', 'true');
+            if (!sessiongallery.getItem('lp_spin_base')) {
+                sessiongallery.setItem('lp_spin_base', Date.now());
             }
             setLpState(true);
             setTimeout(function() { 
@@ -1220,7 +1220,7 @@ function onLpPlayerReady(event) {
     }
 
     function stopLpSmoothly() {
-        sessionStorage.removeItem('lp_spin_base');
+        sessiongallery.removeItem('lp_spin_base');
         if (!lpVinyl) return;
         const style = window.getComputedStyle(lpVinyl);
         const matrix = new WebKitCSSMatrix(style.transform);
@@ -1263,8 +1263,8 @@ function onLpPlayerReady(event) {
 
     document.addEventListener("DOMContentLoaded", function() {
         lpPlayBtn.onclick = handlePlayClick;
-        lpCloseBtn.onclick = function() { lpWidget.classList.add('lp-collapsed'); sessionStorage.setItem('lp_collapsed', 'true'); };
-        lpExpandBtn.onclick = function() { lpWidget.classList.remove('lp-collapsed'); sessionStorage.setItem('lp_collapsed', 'false'); };
+        lpCloseBtn.onclick = function() { lpWidget.classList.add('lp-collapsed'); sessiongallery.setItem('lp_collapsed', 'true'); };
+        lpExpandBtn.onclick = function() { lpWidget.classList.remove('lp-collapsed'); sessiongallery.setItem('lp_collapsed', 'false'); };
         
         var lpModalClose = document.getElementById('lp-modal-close');
         if(lpModalClose) { 
@@ -1288,7 +1288,7 @@ function onLpPlayerReady(event) {
         var target = anchor.getAttribute('target');
         
         if (href && href.indexOf('#') !== 0 && href.indexOf('javascript') === -1 && target !== '_blank') {
-             sessionStorage.setItem('lp_valid_nav', Date.now().toString());
+             sessiongallery.setItem('lp_valid_nav', Date.now().toString());
         }
 
  
@@ -1305,7 +1305,7 @@ function onLpPlayerReady(event) {
 
     document.addEventListener('click', function(e) {
 
-        var shouldBePlaying = sessionStorage.getItem('lp_playing') === 'true';
+        var shouldBePlaying = sessiongallery.getItem('lp_playing') === 'true';
         
         if (shouldBePlaying && lpPlayer && typeof lpPlayer.getPlayerState === 'function') {
             var state = lpPlayer.getPlayerState();
