@@ -125,8 +125,8 @@ document.title = SITE_TITLE;
 // ── Main: 대문 이미지 + 공지사항 ───────────────────────────
 fetchTab(TABS.main).then(rows => {
   const doorEl = document.getElementById("doorImage");
-  const ledger = document.getElementById("noticesLedger");
-  ledger.innerHTML = "";
+  const typeline = document.getElementById("noticestypeline");
+  typeline.innerHTML = "";
 
   const doorRow = rows.find(r => (r.image || r.video || "").trim());
 if (doorRow && (doorRow.video || "").trim()) {
@@ -161,10 +161,10 @@ notices
     const row = document.createElement("div");
     row.className = "door-notice"; // 'door-noticr'를 'door-notice'로 수정
     row.innerHTML = `
-      <div class="ledger-date">${escapeHtml(r.date || "")}</div>
+      <div class="typeline-date">${escapeHtml(r.date || "")}</div>
       <p class="door-title">${escapeHtml(r.title || "")}</p>
     `;
-    ledger.appendChild(row);
+    typeline.appendChild(row);
   });
 
 
@@ -249,13 +249,13 @@ fetchTab(TABS.pages).then(rows => {
     .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
     .forEach(r => {
       const row = document.createElement("div");
-      row.className = "ledger-row";
+      row.className = "typeline-row";
       row.innerHTML = `
-        <div class="ledger-header">
-          <div class="ledger-date">${escapeHtml(formatDate(r.date))}</div>
-          <h3 class="ledger-title">${escapeHtml(String(r.title || ""))}</h3>
+        <div class="typeline-header">
+          <div class="typeline-date">${escapeHtml(formatDate(r.date))}</div>
+          <h3 class="typeline-title">${escapeHtml(String(r.title || ""))}</h3>
         </div>
-        <div class="ledger-content">${marked.parse(String(r.content || ""))}</div>`;
+        <div class="typeline-content">${marked.parse(String(r.content || ""))}</div>`;
       list.appendChild(row);
     });
 });
@@ -407,8 +407,8 @@ fetchTab(TABS.reader).then(rows => {
     .filter(r => (r.title || "").trim())
     .forEach(r => {
       const row = document.createElement("div");
-      row.className = "ledger-row";
-      row.innerHTML = `<div><button class="ledger-title-link" type="button">${escapeHtml(r.title)}</button></div>`;
+      row.className = "typeline-row";
+      row.innerHTML = `<div><button class="typeline-title-link" type="button">${escapeHtml(r.title)}</button></div>`;
       row.querySelector("button").addEventListener("click", () => {
         document.getElementById("readerList").style.display = "none";
         document.getElementById("readerViewerBox").style.display = "block";
