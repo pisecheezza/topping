@@ -449,9 +449,9 @@ main{
 
 .work-link:hover{ color: var(--teal); }
 
-/* ── Pages ledger ─────────────────────────────────────── */
+/* ── Pages typeline ─────────────────────────────────────── */
 /* 전체 행: 세로 방향(Column)으로 배치하여 1행(날짜+제목)과 2행(내용)을 분리 */
-.ledger-row{
+.typeline-row{
   display: flex;
   flex-direction: column;
   gap: 8px; /* 첫 번째 줄과 내용 사이의 간격 */
@@ -459,13 +459,13 @@ main{
 }
 
 /* 1행: 날짜와 제목을 나란히(Row) 배치 */
-.ledger-header{
+.typeline-header{
   display: flex;
   align-items: center; /* 날짜와 제목의 수직 가운데 정렬 */
   gap: 10px;
 }
 
-.ledger-date{
+.typeline-date{
   width: 90px;
   flex-shrink: 0;
   font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
@@ -473,7 +473,7 @@ main{
   color: var(--ink);
 }
 
-.ledger-title, .ledger-title-link{
+.typeline-title, .typeline-title-link{
   margin: 0;
   font-family: "Tahoma", "Malgun Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
   font-weight: 600;
@@ -482,22 +482,22 @@ main{
   text-decoration: none;
 }
 
-.ledger-title a{
+.typeline-title a{
   color: inherit;
   text-decoration: none;
 }
 
-.ledger-title a:hover{
+.typeline-title a:hover{
   color: var(--teal-deep);
 }
 
-.ledger-category{
+.typeline-category{
   font-size: 0.85rem;
   color: var(--teal-deep);
   font-weight: 500;
 }
 
-.ledger-heading{
+.typeline-heading{
   font-family: "Tahoma", sans-serif;
   font-size: 1.3rem;
   margin: 15px 0;
@@ -506,12 +506,12 @@ main{
   padding-bottom: 10px;
 }
 
-.ledger-title-link:hover{ 
+.typeline-title-link:hover{ 
   color: var(--teal-deep); 
 }
 
 /* 2행: 내용 영역 */
-.ledger-content{ 
+.typeline-content{ 
   font-size: 0.92rem; 
   color: var(--ink); 
   line-height: 1.6; 
@@ -1281,7 +1281,7 @@ All rights reserved. */
 @media (max-width: 480px){
   .tabs{ gap:0; }
   .tab{ padding: 8px 8px; font-size: 11.5px; }
-  .ledger-row{ display:flex; gap:8px; }
+  .typeline-row{ display:flex; gap:8px; }
   .link-desc{ display:none; }
   
   main{
