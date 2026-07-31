@@ -14,7 +14,7 @@ function escapeHtml(str) {
 function renderMain() {
   fetchTab(TABS.main).then(rows => {
     const heroEl = document.getElementById("heroImage");
-    const ledger = document.getElementById("noticesLedger");
+    const typeline = document.getElementById("noticestypeline");
     const heroRow = rows.find(r => (r.image || "").trim());
     if (heroRow) {
       const img = document.createElement("img");
@@ -25,9 +25,9 @@ function renderMain() {
       .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
       .forEach(r => {
         const row = document.createElement("div");
-        row.className = "ledger-row";
-        row.innerHTML = `<div class="ledger-date">${escapeHtml(r.date || "")}</div><div><p class="ledger-content">${escapeHtml(r.content || "")}</p></div>`;
-        ledger.appendChild(row);
+        row.className = "typeline-row";
+        row.innerHTML = `<div class="typeline-date">${escapeHtml(r.date || "")}</div><div><p class="typeline-content">${escapeHtml(r.content || "")}</p></div>`;
+        typeline.appendChild(row);
       });
   });
 }
