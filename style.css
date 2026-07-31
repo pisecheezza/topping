@@ -245,8 +245,8 @@ body{
   margin: 0 0 14px;
 }
 
-/* ── Storage cards (image + comment) ─────────────────────── */
-.storage-card {
+/* ── gallery cards (image + comment) ─────────────────────── */
+.gallery-card {
   background: var(--paper);
   border: 1px solid var(--ink);
   overflow: hidden;
@@ -260,7 +260,7 @@ body{
   max-width: 480px;      
 }
 
-.storage-thumb{
+.gallery-thumb{
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -268,20 +268,20 @@ body{
   align-items: flex-start;
   gap: 0px;
 }
-.storage-thumb img{
+.gallery-thumb img{
   width: auto;
   height: auto;
   max-width: 100%;
   display: block;
 }
 
-.storage-body { 
+.gallery-body { 
   padding: 12px 14px 14px; 
   text-align: center;        /* 추가: 본문 영역 텍스트 가운데 정렬 */
   width: 100%;               /* 추가: 전체 너비를 차지하게 설정 */
 }
 
-.storage-comment { 
+.gallery-comment { 
   font-size: 0.92rem; 
   color: var(--ink); 
   line-height: 1.6; 
@@ -289,7 +289,7 @@ body{
   text-align: center;        /* 추가: 코멘트 텍스트 가운데 정렬 보완 */
 }
 
-.storage-card:hover { 
+.gallery-card:hover { 
   transform: translateY(-2px); 
 }
 
