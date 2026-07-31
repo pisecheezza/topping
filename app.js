@@ -44,14 +44,14 @@ function renderProfile() {
   });
 }
 
-function renderStorage() {
-  fetchTab(TABS.storage).then(rows => {
-    const grid = document.getElementById("storageGrid");
+function rendergallery() {
+  fetchTab(TABS.gallery).then(rows => {
+    const grid = document.getElementById("galleryGrid");
     rows.filter(r => (r.image || r.comment || "").trim()).forEach(r => {
       const imgUrl = driveImageUrl(r.image);
       const card = document.createElement("article");
-      card.className = "storage-card";
-      card.innerHTML = `${imgUrl ? `<div class="storage-thumb"><img src="${imgUrl}"></div>` : ""}<div class="storage-body"><p class="storage-comment">${escapeHtml(r.comment || "")}</p></div>`;
+      card.className = "gallery-card";
+      card.innerHTML = `${imgUrl ? `<div class="gallery-thumb"><img src="${imgUrl}"></div>` : ""}<div class="gallery-body"><p class="gallery-comment">${escapeHtml(r.comment || "")}</p></div>`;
       grid.appendChild(card);
     });
   });
