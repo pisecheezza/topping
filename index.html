@@ -115,6 +115,118 @@
   </section> 
 </main>
 
+
+
+
+<div id="shimeji" aria-hidden="true"></div>
+
+<style>
+  #shimeji {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    font-size: 40px;
+    line-height: 1;
+    z-index: 9999;
+    pointer-events: none;
+    user-select: none;
+    transition: transform 0.1s linear;
+    will-change: left, bottom;
+  }
+
+  #shimeji.flip { transform: scaleX(-1); }
+
+  #shimeji.dragging {
+    pointer-events: auto;
+    cursor: grabbing;
+  }
+</style>
+
+<script>
+(function () {
+  const el = document.getElementById('shimeji');
+  if (!el) return;
+
+  const SPRITES = { walk: '👣', idle: '👻', drag: '👁', climb: '💨' };
+  el.textContent = SPRITES.idle;
+  el.style.pointerEvents = 'auto';
+  el.style.cursor = 'grab';
+
+  let x = 40;
+  let y = 0; // bottom 기준
+  let vx = 0;
+  let state = 'idle';
+  let stateTimer = 0;
+  let dragging = false;
+  let onWall = null; // 'left' | 'right' | null
+
+  function rand(min, max) { return Math.random() * (max - min) + min; }
+
+  function pickState() {
+    const roll = Math.random();
+    if (roll < 0.4) { state = 'idle'; vx = 0; }
+    else if (roll < 0.85) { state = 'walk'; vx = rand(0.6, 1.4) * (Math.random() < 0.5 ? -1 : 1); }
+    else { state = 'idle'; vx = 0; }
+    stateTimer = rand(2000, 5000);
+    el.textContent = SPRITES[state] || SPRITES.idle;
+    el.classList.toggle('flip', vx < 0);
+  }
+
+  function tick(dt) {
+    if (dragging) return;
+
+    stateTimer -= dt;
+    if (stateTimer <= 0) pickState();
+
+    const maxX = window.innerWidth - el.offsetWidth;
+    x += vx * (dt / 16);
+
+    if (x <= 0) { x = 0; vx = Math.abs(vx); el.classList.remove('flip'); }
+    if (x >= maxX) { x = maxX; vx = -Math.abs(vx); el.classList.add('flip'); }
+
+    el.style.left = x + 'px';
+    el.style.bottom = y + 'px';
+  }
+
+  let last = performance.now();
+  function loop(now) {
+    const dt = now - last;
+    last = now;
+    tick(dt);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // 드래그로 집어 옮기기
+  el.addEventListener('pointerdown', (e) => {
+    dragging = true;
+    el.classList.add('dragging');
+    el.textContent = SPRITES.drag;
+    el.setPointerCapture(e.pointerId);
+  });
+
+  el.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    x = e.clientX - el.offsetWidth / 2;
+    y = window.innerHeight - e.clientY - el.offsetHeight / 2;
+    y = Math.max(0, y);
+    el.style.left = x + 'px';
+    el.style.bottom = y + 'px';
+  });
+
+  el.addEventListener('pointerup', () => {
+    dragging = false;
+    el.classList.remove('dragging');
+    pickState();
+  });
+
+  pickState();
+})();
+</script>
+
+
+
+  
 <div id="lp-widget" class="lp-expanded" style="opacity: 0; visibility: hidden; transition: none;">
     <div id="lp-modal">
         <div class="lp-modal-header">
