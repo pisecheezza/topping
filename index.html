@@ -118,6 +118,7 @@
 
 
 
+
 <div id="shimeji" aria-hidden="true"></div>
 
 <style>
@@ -128,37 +129,39 @@
     font-size: 40px;
     line-height: 1;
     z-index: 9999;
-    pointer-events: none;
     user-select: none;
-    transition: transform 0.1s linear;
+    transition: transform 0.15s ease;
     will-change: left, bottom;
+    cursor: grab;
+    pointer-events: auto;
+    touch-action: none; /* 모바일에서 드래그가 스크롤/줌 제스처로 가로채이지 않도록 */
   }
 
   #shimeji.flip { transform: scaleX(-1); }
+  #shimeji.flip.climbing { transform: scaleX(-1) rotate(90deg); }
+  #shimeji.climbing { transform: rotate(-90deg); }
 
   #shimeji.dragging {
-    pointer-events: auto;
     cursor: grabbing;
   }
 </style>
-
 
 <script>
 (function () {
   const el = document.getElementById('shimeji');
   if (!el) return;
 
-  const SPRITES = { walk: '👣', idle: '👻', drag: '😈', climb: '💨' };
+  const SPRITES = { walk: '🐾', idle: '🐕', drag: '🐶', climb: '🐎' };
   el.textContent = SPRITES.idle;
 
   let x = 40;
-  let y = 0;       // bottom 기준 위치
+  let y = 0;
   let vx = 0;
   let vy = 0;
   let state = 'idle';
   let stateTimer = 0;
   let dragging = false;
-  let onWall = null; // 'left' | 'right' | null — 벽에 붙어 오르는 중인지
+  let onWall = null;
 
   function rand(min, max) { return Math.random() * (max - min) + min; }
 
@@ -179,7 +182,7 @@
   function startClimb(wall) {
     onWall = wall;
     state = 'climb';
-    vy = -rand(0.6, 1.3); // 위로 이동 (bottom 값 증가)
+    vy = -rand(0.6, 1.3);
     stateTimer = rand(2500, 5000);
     el.textContent = SPRITES.climb;
     el.classList.add('climbing');
@@ -188,7 +191,6 @@
   function endClimb() {
     onWall = null;
     el.classList.remove('climbing');
-    // 벽 끝까지 갔으면 잠깐 멈췄다가 다시 걷기/대기 상태로
     pickState();
   }
 
@@ -203,7 +205,7 @@
 
       if (y >= maxY) { y = maxY; endClimb(); }
       else if (y <= 0) { y = 0; endClimb(); }
-      else if (stateTimer <= 0) { endClimb(); } // 시간 다 되면 벽에서 내려와 이어서 걷기
+      else if (stateTimer <= 0) { endClimb(); }
 
       el.style.left = x + 'px';
       el.style.bottom = y + 'px';
@@ -247,7 +249,6 @@
   }
   requestAnimationFrame(loop);
 
-  // 드래그로 집어 옮기기
   el.addEventListener('pointerdown', (e) => {
     dragging = true;
     onWall = null;
@@ -267,6 +268,12 @@
   });
 
   el.addEventListener('pointerup', () => {
+    dragging = false;
+    el.classList.remove('dragging');
+    pickState();
+  });
+
+  el.addEventListener('pointercancel', () => {
     dragging = false;
     el.classList.remove('dragging');
     pickState();
