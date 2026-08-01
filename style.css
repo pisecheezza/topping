@@ -893,8 +893,10 @@ All rights reserved. */
     pointer-events: auto;
     }
     #lp-widget.lp-collapsed { 
-        opacity: 0;
-        visibility: hidden; pointer-events: none; transform: none; 
+        opacity: 0 !important; 
+        visibility: hidden !important;
+        pointer-events: none; 
+        transform: none; 
     }
     #lp-widget button, #lp-expand-btn {
         outline: none !important;
