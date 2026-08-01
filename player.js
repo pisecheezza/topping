@@ -23,17 +23,17 @@
         } catch(e) {}
 
         if (isReload) {
-            sessionstorage.setItem('lp_playing', 'false');
+            sessionStorage.setItem('lp_playing', 'false');
         
         }
 
-        var savedVol = sessionstorage.getItem('lp_volume');
+        var savedVol = sessionStorage.getItem('lp_volume');
         var targetVol = savedVol ? parseInt(savedVol) : 70; 
         
         if (volFill) volFill.style.width = targetVol + '%';
         if (volHandle) volHandle.style.left = targetVol + '%';
 
-        var isCollapsed = sessionstorage.getItem('lp_collapsed') === 'true';
+        var isCollapsed = sessionStorage.getItem('lp_collapsed') === 'true';
         if (isCollapsed) {
             if (widget) widget.classList.add('lp-collapsed');
         } else {
@@ -44,7 +44,7 @@
             widget.style.removeProperty('opacity');
             widget.style.removeProperty('visibility');
         }
-        var isPlaying = sessionstorage.getItem('lp_playing') === 'true';
+        var isPlaying = sessionStorage.getItem('lp_playing') === 'true';
         
         if (isPlaying) {
             if (deck) deck.classList.add('is-playing');
@@ -90,13 +90,13 @@
         if (window.performance && window.performance.getEntriesByType) {
             var navEntries = window.performance.getEntriesByType("navigation");
             if (navEntries.length > 0 && navEntries[0].type === 'reload') {
-                sessionstorage.setItem('lp_playing', 'false');
-                sessionstorage.removeItem('lp_spin_base');
+                sessionStorage.setItem('lp_playing', 'false');
+                sessionStorage.removeItem('lp_spin_base');
             }
         } else {
             if (window.performance && window.performance.navigation && window.performance.navigation.type === 1) {
-                sessionstorage.setItem('lp_playing', 'false');
-                sessionstorage.removeItem('lp_spin_base');
+                sessionStorage.setItem('lp_playing', 'false');
+                sessionStorage.removeItem('lp_spin_base');
             }
         }
     } catch(e) {}
@@ -121,7 +121,7 @@
     var fadeOutInterval = null;
     var lpIsPcBackNav = false; 
     
-    var savedVol = sessionstorage.getItem('lp_volume');
+    var savedVol = sessionStorage.getItem('lp_volume');
     var lpVolume = savedVol ? parseInt(savedVol) : LP_CONFIG.defaultVolume; 
 
     var lpWidget = document.getElementById('lp-widget');
@@ -162,11 +162,11 @@
         } catch(e) {}
 
         if (isReload) {
-            sessionstorage.setItem('lp_playing', 'false');
-            sessionstorage.removeItem('lp_spin_base');
-            sessionstorage.removeItem('lp_angle');
-            sessionstorage.removeItem('lp_valid_nav');
-            sessionstorage.removeItem('lp_time'); 
+            sessionStorage.setItem('lp_playing', 'false');
+            sessionStorage.removeItem('lp_spin_base');
+            sessionStorage.removeItem('lp_angle');
+            sessionStorage.removeItem('lp_valid_nav');
+            sessionStorage.removeItem('lp_time'); 
         }
 
         if (lpVolFill && lpVolHandle) {
@@ -174,12 +174,12 @@
             lpVolHandle.style.left = lpVolume + '%';
         }
 
-        var sessionIndex = sessionstorage.getItem('lp_index');
-        var historyIndex = localstorage.getItem('lp_saved_history');
+        var sessionIndex = sessionStorage.getItem('lp_index');
+        var historyIndex = localStorage.getItem('lp_saved_history');
         
-        var savedTime = parseFloat(sessionstorage.getItem('lp_time'));
-        var savedDuration = parseFloat(sessionstorage.getItem('lp_total_duration'));
-        var wasPlaying = sessionstorage.getItem('lp_playing') === 'true';
+        var savedTime = parseFloat(sessionStorage.getItem('lp_time'));
+        var savedDuration = parseFloat(sessionStorage.getItem('lp_total_duration'));
+        var wasPlaying = sessionStorage.getItem('lp_playing') === 'true';
 
         if (sessionIndex !== null) {
             lpCurrentIndex = parseInt(sessionIndex);
@@ -195,9 +195,9 @@
                 console.log("노래 끝자락(1.5초 미만) 감지 -> 다음 곡으로 자연스럽게 연결");
                 lpCurrentIndex = (lpCurrentIndex + 1) % lpPlaylist.length; 
                 
-                sessionstorage.setItem('lp_index', lpCurrentIndex);
-                sessionstorage.removeItem('lp_time'); 
-                sessionstorage.removeItem('lp_total_duration');
+                sessionStorage.setItem('lp_index', lpCurrentIndex);
+                sessionStorage.removeItem('lp_time'); 
+                sessionStorage.removeItem('lp_total_duration');
                 
                 savedTime = 0; 
             }
@@ -219,7 +219,7 @@
             if(lpLed) lpLed.classList.add('is-on');
             lpPlayBtn.innerHTML = '<i class="lp-pause-icon"></i>'; 
 
-            var spinBase = sessionstorage.getItem('lp_spin_base');
+            var spinBase = sessionStorage.getItem('lp_spin_base');
             if (spinBase) {
                 var correction = 40;
                 var elapsed = Date.now() - parseInt(spinBase) + correction;
@@ -259,7 +259,7 @@
 
 document.addEventListener("visibilitychange", function() {
         if (document.visibilityState === 'visible') {
-            var wasPlaying = sessionstorage.getItem('lp_playing');
+            var wasPlaying = sessionStorage.getItem('lp_playing');
             if (wasPlaying === 'true') {
                 if (!lpPlayer || typeof lpPlayer.playVideo !== 'function') {
                     performEmergencyRebuild();
@@ -278,7 +278,7 @@ document.addEventListener("visibilitychange", function() {
 
     window.addEventListener('pageshow', function(event) {
         if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-            var wasPlaying = sessionstorage.getItem('lp_playing');
+            var wasPlaying = sessionStorage.getItem('lp_playing');
             if (wasPlaying === 'true') {
                 if (!isMobileDevice()) lpIsPcBackNav = true; 
                 performEmergencyRebuild();
@@ -304,7 +304,7 @@ document.addEventListener("visibilitychange", function() {
 
     function setVolume(vol) {
         lpVolume = vol;
-        sessionstorage.setItem('lp_volume', vol);
+        sessionStorage.setItem('lp_volume', vol);
         lpVolFill.style.width = vol + '%';
         lpVolHandle.style.left = vol + '%';
         if (lpPlayer && typeof lpPlayer.setVolume === 'function') {
@@ -450,10 +450,10 @@ function createPlayerInstance() {
 
 function changeLpSong(index) {
         lpCurrentIndex = index;
-        sessionstorage.setItem('lp_index', index);
-        localstorage.setItem('lp_saved_history', index); 
+        sessionStorage.setItem('lp_index', index);
+        localStorage.setItem('lp_saved_history', index); 
 
-        sessionstorage.removeItem('lp_time'); 
+        sessionStorage.removeItem('lp_time'); 
         renderLpPlaylist();
         updateLpTooltip();
 
@@ -493,7 +493,7 @@ function changeLpSong(index) {
             lpPlayer.playVideo(); 
             
             lpIsPlaying = true; 
-            sessionstorage.setItem('lp_playing', 'true');
+            sessionStorage.setItem('lp_playing', 'true');
             setLpState(true);
         } else {
             performEmergencyRebuild();
@@ -521,9 +521,9 @@ function onLpPlayerReady(event) {
         event.target.mute();
         event.target.setVolume(lpVolume);
 
-        var savedTime = parseFloat(sessionstorage.getItem('lp_time'));
-        var savedRealTime = parseFloat(sessionstorage.getItem('lp_realtime'));
-        var wasPlaying = sessionstorage.getItem('lp_playing');
+        var savedTime = parseFloat(sessionStorage.getItem('lp_time'));
+        var savedRealTime = parseFloat(sessionStorage.getItem('lp_realtime'));
+        var wasPlaying = sessionStorage.getItem('lp_playing');
         var now = Date.now();
 
         if (wasPlaying === 'true' && savedTime && savedRealTime) {
@@ -551,18 +551,18 @@ function onLpPlayerReady(event) {
                 var cTime = lpPlayer.getCurrentTime();
                 var dTime = lpPlayer.getDuration();
                 
-                sessionstorage.setItem('lp_time', cTime);
-                if (dTime > 0) sessionstorage.setItem('lp_total_duration', dTime);
+                sessionStorage.setItem('lp_time', cTime);
+                if (dTime > 0) sessionStorage.setItem('lp_total_duration', dTime);
                 
-                sessionstorage.setItem('lp_playing', 'true');
-                sessionstorage.setItem('lp_realtime', Date.now());
+                sessionStorage.setItem('lp_playing', 'true');
+                sessionStorage.setItem('lp_realtime', Date.now());
             }
         }, 1000);
     }
 
     window.addEventListener('beforeunload', function() {
         lpIsNavigating = true; 
-        var isReallyPlaying = lpIsPlaying || (sessionstorage.getItem('lp_playing') === 'true');
+        var isReallyPlaying = lpIsPlaying || (sessionStorage.getItem('lp_playing') === 'true');
         if (isReallyPlaying) {
             var style = window.getComputedStyle(lpVinyl);
             var matrix = new WebKitCSSMatrix(style.transform);
@@ -570,13 +570,13 @@ function onLpPlayerReady(event) {
        
              if (angle < 0) angle += 360;
             var visualOffset = (angle / 360) * 3000;
-            sessionstorage.setItem('lp_spin_base', Date.now() - visualOffset);
-            sessionstorage.setItem('lp_angle', angle.toFixed(2));
-            sessionstorage.setItem('lp_playing', 'true'); 
+            sessionStorage.setItem('lp_spin_base', Date.now() - visualOffset);
+            sessionStorage.setItem('lp_angle', angle.toFixed(2));
+            sessionStorage.setItem('lp_playing', 'true'); 
         } else {
-            sessionstorage.removeItem('lp_angle');
+            sessionStorage.removeItem('lp_angle');
       
-             sessionstorage.setItem('lp_playing', 'false');
+             sessionStorage.setItem('lp_playing', 'false');
         }
         if (lpPlayer) { 
             try { lpPlayer.mute(); lpPlayer.setVolume(0); } catch(e){} 
@@ -586,9 +586,9 @@ function onLpPlayerReady(event) {
     function onLpPlayerStateChange(event) {
         if (event.data == YT.PlayerState.ENDED) {
             var nextIndex = (lpCurrentIndex + 1) % lpPlaylist.length;
-            sessionstorage.setItem('lp_index', nextIndex);
-            sessionstorage.setItem('lp_playing', 'true'); 
-            sessionstorage.removeItem('lp_time'); 
+            sessionStorage.setItem('lp_index', nextIndex);
+            sessionStorage.setItem('lp_playing', 'true'); 
+            sessionStorage.removeItem('lp_time'); 
             
             changeLpSong(nextIndex); 
             return;
@@ -597,8 +597,8 @@ function onLpPlayerReady(event) {
         if (lpIsNavigating) return;
 
         if (event.data == YT.PlayerState.PLAYING) {
-            if (sessionstorage.getItem('lp_playing') === 'false') { 
-                sessionstorage.setItem('lp_playing', 'true');
+            if (sessionStorage.getItem('lp_playing') === 'false') { 
+                sessionStorage.setItem('lp_playing', 'true');
             }
             lpIsPlaying = true; 
             setLpState(true);
@@ -621,7 +621,7 @@ function onLpPlayerReady(event) {
         lpIsRestoring = false;
         if (lpIsPlaying) {
             lpIsPlaying = false; 
-            sessionstorage.setItem('lp_playing', 'false');
+            sessionStorage.setItem('lp_playing', 'false');
             setLpState(false);
             lpPlayBtn.innerHTML = "&#9654;";
             if(lpPlayer) {
@@ -629,9 +629,9 @@ function onLpPlayerReady(event) {
             }
         } else {
             lpIsPlaying = true;
-            sessionstorage.setItem('lp_playing', 'true');
-            if (!sessionstorage.getItem('lp_spin_base')) {
-                sessionstorage.setItem('lp_spin_base', Date.now());
+            sessionStorage.setItem('lp_playing', 'true');
+            if (!sessionStorage.getItem('lp_spin_base')) {
+                sessionStorage.setItem('lp_spin_base', Date.now());
             }
             setLpState(true);
             setTimeout(function() { 
@@ -678,7 +678,7 @@ function onLpPlayerReady(event) {
     }
 
     function stopLpSmoothly() {
-        sessionstorage.removeItem('lp_spin_base');
+        sessionStorage.removeItem('lp_spin_base');
         if (!lpVinyl) return;
         const style = window.getComputedStyle(lpVinyl);
         const matrix = new WebKitCSSMatrix(style.transform);
@@ -721,8 +721,8 @@ function onLpPlayerReady(event) {
 
     document.addEventListener("DOMContentLoaded", function() {
         lpPlayBtn.onclick = handlePlayClick;
-        lpCloseBtn.onclick = function() { lpWidget.classList.add('lp-collapsed'); sessionstorage.setItem('lp_collapsed', 'true'); };
-        lpExpandBtn.onclick = function() { lpWidget.classList.remove('lp-collapsed'); sessionstorage.setItem('lp_collapsed', 'false'); };
+        lpCloseBtn.onclick = function() { lpWidget.classList.add('lp-collapsed'); sessionStorage.setItem('lp_collapsed', 'true'); };
+        lpExpandBtn.onclick = function() { lpWidget.classList.remove('lp-collapsed'); sessionStorage.setItem('lp_collapsed', 'false'); };
         
         var lpModalClose = document.getElementById('lp-modal-close');
         if(lpModalClose) { 
@@ -746,7 +746,7 @@ function onLpPlayerReady(event) {
         var target = anchor.getAttribute('target');
         
         if (href && href.indexOf('#') !== 0 && href.indexOf('javascript') === -1 && target !== '_blank') {
-             sessionstorage.setItem('lp_valid_nav', Date.now().toString());
+             sessionStorage.setItem('lp_valid_nav', Date.now().toString());
         }
 
  
@@ -763,7 +763,7 @@ function onLpPlayerReady(event) {
 
     document.addEventListener('click', function(e) {
 
-        var shouldBePlaying = sessionstorage.getItem('lp_playing') === 'true';
+        var shouldBePlaying = sessionStorage.getItem('lp_playing') === 'true';
         
         if (shouldBePlaying && lpPlayer && typeof lpPlayer.getPlayerState === 'function') {
             var state = lpPlayer.getPlayerState();
