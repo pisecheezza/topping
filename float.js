@@ -289,8 +289,8 @@ function resetTeaTimer() {
 
 async function fillTeaToast() {
   if (!teaRowsCache) teaRowsCache = await loadTeaRows();
-  const grouped = groupByKey(teaRowsCache);
   const grouped = groupByKey(filterByLocale(teaRowsCache));
+  const key = weightedPickKey(grouped, TEA_KEY_WEIGHTS);
   const content = { tag: key, text: fillTemplate(pickFrom(grouped[key])) };
   setLastTeaMessage(content);
   renderTeaMessage(content);
