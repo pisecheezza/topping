@@ -1,26 +1,12 @@
 /* ── Tokens ──────────────────────────────────────────── */
 :root {
-  --paper: #BB85AB;         /* 배경: 모브 퍼플 */
+  --paper: #967BB6;         /* 배경: 라벤더 퍼플 */
   --ink: #000000;           /* 텍스트: 검정 */
   --teal: #0399C4;          /* 강조색: 모르포 블루 #0399C4 헌터 그린#2C5F34 */
   --teal-deep: #0399C4;     /* 짙은 강조 (호버 등): 루비 레드#9B111E */
   --brass: #FFEF00;         /* 카나리 옐로우#FFEF00 */
   --card-shadow: rgba(0, 0, 0, 0.08); /* 옅은 그림자 */
-}
-
-body.time-morning{
-  --paper: #FFF4E0;   /* 아침 - 부드러운 살구빛 */
-  --ink: #3A2E1F;
-}
-body.time-day{ /* 낮 - 밝은 흰색 */
-}
-body.time-evening{
-  --paper: #2E2038;   /* 저녁 - 보랏빛 노을 */
-  --ink: #F2E9E4;
-}
-body.time-night{
-  --paper: #12141C;   /* 밤 - 짙은 남색 */
-  --ink: #E8E8E8;
+  color-scheme: light dark;
 }
 
 *{ box-sizing: border-box; }
@@ -38,6 +24,22 @@ body{
   min-height: 100vh;
   padding-bottom: 60px;
 }
+
+body.time-morning{ /* 아침 - 부드러운 살구빛 */
+}
+body.time-day{ /* 낮 - 마린 블루 */
+  --paper: #4682B4;   
+  --ink: #FFFFFF;
+}
+body.time-evening{
+  --paper: #550000;   /* 저녁 - 크림슨 레드 */
+  --ink: #FFFFFF;
+}
+body.time-night{
+  --paper: #12141C;   /* 밤 - 짙은 남색 */
+  --ink: #E8E8E8;
+}
+
 
 ::selection{ background: var(--teal); color: var(--paper);}
 /* ── Drawer label strip ─────────────────────────────────── */
