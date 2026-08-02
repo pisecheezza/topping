@@ -828,6 +828,9 @@ main{
   border-radius: 3px;
   cursor: pointer;
 }
+.guestbook::placeholder {
+  color: var(--ink);
+}
 .guestbook-form button:hover{ background: var(--teal-deep); }
 .guestbook-form button:disabled{ opacity: 0.6; cursor: default; }
 
