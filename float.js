@@ -5,15 +5,20 @@
    각 탭 형식: key(A열) | value(B열) — {date}, {name} 치환 지원
    ──────────────────────────────────────────────── */
 const SHEET_API_BASE_URL = "https://script.google.com/macros/s/AKfycbwHou9yZgkYdvwYIkeFlJeJhvZ6BjYPWLQcl5GMcl6jhi7YzpKKo9o3HTHjpjskQup9/exec";
-function detectHonorific() {
+function detectLocale() {
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    if (tz === "Asia/Seoul") return "旦那様";
-    if (tz === "Asia/Tokyo") return "坊っちゃん";
+    if (tz === "Asia/Seoul") return "KR";
+    if (tz === "Asia/Tokyo") return "JP";
   } catch (e) {}
-  return "坊っちゃん"; // 그 외 지역은 기본값
+  return "JP"; // それ以外は日本口調をデフォルトに
 }
-const USER_NAME = detectHonorific();
+const USER_LOCALE = detectLocale();
+const USER_NAME = USER_LOCALE === "KR" ? "旦那様" : "坊っちゃん";
+
+function filterByLocale(rows) {
+  return rows.filter(r => !r.locale || r.locale === "ALL" || r.locale === USER_LOCALE);
+}
 
 const WEATHER_FALLBACK_LAT = 35.1565; // 위치 허용을 안 했을 때 쓸 기본 위도
 const WEATHER_FALLBACK_LON = 126.8970; // 기본 경도
@@ -161,7 +166,7 @@ const toastTime = document.getElementById('toast-time');
 
 async function fillTimeToast() {
   if (!timeRowsCache) timeRowsCache = await loadTimeRows();
-  const grouped = groupByKey(timeRowsCache);
+  const grouped = groupByKey(filterByLocale(timeRowsCache));
   const period = getCurrentPeriod();
   const candidates = grouped[period] || [];
   if (!candidates.length) return;
@@ -285,7 +290,7 @@ function resetTeaTimer() {
 async function fillTeaToast() {
   if (!teaRowsCache) teaRowsCache = await loadTeaRows();
   const grouped = groupByKey(teaRowsCache);
-  const key = weightedPickKey(grouped, TEA_KEY_WEIGHTS);
+  const grouped = groupByKey(filterByLocale(teaRowsCache));
   const content = { tag: key, text: fillTemplate(pickFrom(grouped[key])) };
   setLastTeaMessage(content);
   renderTeaMessage(content);
