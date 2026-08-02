@@ -817,7 +817,7 @@ main{
   border-radius: 3px;
   resize: vertical;
 }
-.guestbook-form input,
+.guestbook-form input::placeholder,
 .guestbook-form textarea::placeholder {
   color: var(--ink);
 }
