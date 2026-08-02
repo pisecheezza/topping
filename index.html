@@ -491,6 +491,20 @@
     font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
   }
 
+#fab-weather { bottom: 244px; background: #5C7A8A; box-shadow: 0 8px 20px rgba(92,122,138,0.3); }
+#fab-weather:hover { box-shadow: 0 10px 24px rgba(92,122,138,0.36); }
+
+#toast-weather { bottom: 230px; }
+#toast-weather {
+  background: rgba(240,247,250,0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(92,122,138,0.15);
+  box-shadow: 0 20px 45px rgba(92,122,138,0.2);
+}
+#toast-weather .tag { color: #4A6572; }
+#toast-weather .msg { color: #33474F; }
+  
   @media (max-width: 460px) {
     .toast { width: calc(100vw - 130px); right: 88px; }
   }
@@ -521,6 +535,12 @@
   </svg>
 </button>
 
+<button class="fab" id="fab-weather" aria-label="本日のお天気">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 17h9a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9.6-1.5A4 4 0 0 0 7 17z" stroke="#EAF2F6" stroke-width="1.6" stroke-linejoin="round"/>
+  </svg>
+</button>
+
 <div class="toast" id="weather-badge">
   
 </div>
@@ -539,6 +559,11 @@
   <div class="card-name" id="toastCardTarot">Card Name</div>
   <div class="divider"></div>
   <div class="msg" id="toastMsgTarot">メッセージ</div>
+</div>
+
+<div class="toast" id="toast-weather">
+  <div class="tag"><span class="dot" id="toastDotWeather"></span><span>お天気</span></div>
+  <div class="msg" id="toastMsgWeather">読み込み中...</div>
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
