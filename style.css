@@ -79,9 +79,9 @@ body{
   z-index: 300;
 }
 
-.top-left-icon body.time-evening,
-.top-left-icon body.time-night{
-  filter: invert(100%);
+body.time-evening .top-left-icon,
+body.time-night .top-left-icon {
+  filter: invert(1);
 }
 
 .drawer-backdrop{
