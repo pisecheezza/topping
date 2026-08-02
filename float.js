@@ -68,7 +68,6 @@ async function fillTimeToast() {
 }
 function resetTimeTimer() {
   clearTimeout(timeHideTimer);
-  timeHideTimer = setTimeout(() => toastTime.classList.remove('show'), 5000);
 }
 document.getElementById('fab-time').addEventListener('click', async () => {
   if (toastTime.classList.contains('show')) {
@@ -145,7 +144,6 @@ function showTeaLimitNotice(remainingMs) {
 }
 function resetTeaTimer() {
   clearTimeout(teaHideTimer);
-  teaHideTimer = setTimeout(() => toastTea.classList.remove('show'), 5000);
 }
 
 async function fillTeaToast() {
@@ -259,12 +257,13 @@ const toastTarot = document.getElementById('toast-tarot');
 
 function resetTarotTimer() {
   clearTimeout(tarotHideTimer);
-  tarotHideTimer = setTimeout(() => toastTarot.classList.remove('show'), 6000);
 }
 
 function getTodayDateKey() {
-  const d = new Date();
-  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  const now = new Date();
+  const utcMs = now.getTime() + now.getTimezoneOffset() * 60000; // UTC로 변환
+  const kst = new Date(utcMs + 9 * 60 * 60000); // UTC+9 적용
+  return `${kst.getFullYear()}-${kst.getMonth() + 1}-${kst.getDate()}`;
 }
 
 let tarotLastDateMemory = null;
