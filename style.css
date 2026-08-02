@@ -477,7 +477,7 @@ main{
   display: flex;
   flex-direction: column;
   gap: 8px; /* 첫 번째 줄과 내용 사이의 간격 */
-  padding: 12px 4px;
+  padding: 4px 4px;
 }
 
 /* 1행: 날짜와 제목을 나란히(Row) 배치 */
