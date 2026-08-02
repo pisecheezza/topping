@@ -37,7 +37,8 @@ const WEATHER_CODE_JP = {
 let cachedWeather = null;
 
 async function fetchWeather() {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}&current_weather=true`;
+  const { lat, lon } = await getVisitorLocation();
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
   const res = await fetch(url);
   const data = await res.json();
   const temp = Math.round(data.current_weather.temperature);
@@ -73,8 +74,8 @@ function fillTemplate(raw) {
     .replace("{weekday}", weekdays[d.getDay()])
     .replace("{hour}", d.getHours())
     .replace("{period}", getCurrentPeriod())   // 아침/오후/저녁/밤
-    .replace("{season}", seasons[d.getMonth()]);
-    .replace("{weather}", cachedWeather ? `${cachedWeather.desc}、${cachedWeather.temp}℃` : "")
+    .replace("{season}", seasons[d.getMonth()])
+    .replace("{weather}", cachedWeather ? `${cachedWeather.desc}、${cachedWeather.temp}℃` : "");
 }
 function groupByKey(rows) {
   const grouped = {};
@@ -140,7 +141,7 @@ toastTime.addEventListener('click', async () => {
   resetTimeTimer();
 });
 
-/* ============ ② お茶の時間のメッセージ（1日1回の"おやつ"ルール付き） ============ */
+/* ============ ② お茶の時間のメッセージ（1日1回の"おやつ"ルール + 夜間制限） ============ */
 
 const TEA_COOLDOWN_HOURS = 4;
 const TEA_TAG_COLORS = { "本日のお茶": "#8A5C3D" };
@@ -151,6 +152,39 @@ const TEA_LIMIT_MESSAGES = [
   "誠に恐れ入りますが、おやつは一日に一度までと定めております、{name}。",
   "本日はすでにお持ちいたしました。おやつは一日一度が心得でございます。"
 ];
+
+const TEA_NIGHT_START_HOUR = 20;
+const TEA_NIGHT_END_HOUR = 8;
+const TEA_NIGHT_NOTICE_CHANCE = 0.3;
+const TEA_NIGHT_OFFER_CHANCE = 0.1;
+
+const TEA_NIGHT_MESSAGES = [
+  "夜も更けております。おやつのお時間は、また明日の朝に。",
+  "この刻限は、些か遅うございます、{name}。",
+  "……仕方ございませんね。今宵ばかりは、少しだけお持ちいたしましょうか。",
+  "本日はもう店じまいといたしましょう。"
+];
+const TEA_NIGHT_MENU = [
+  "温かいホットミルクはいかがでしょう。",
+  "カモミールティーで、心を落ち着けましょう、{name}。",
+  "生姜湯を、少しだけご用意いたしましょうか。",
+  "軽い温かいスープなど、いかがでしょう。"
+];
+
+function isTeaNightTime() {
+  const h = new Date().getHours();
+  return h >= TEA_NIGHT_START_HOUR || h < TEA_NIGHT_END_HOUR;
+}
+function showTeaNightNotice() {
+  document.getElementById('toastTagTea').textContent = "夜分でございます";
+  document.getElementById('toastDotTea').style.background = TEA_LIMIT_TAG_COLOR;
+  document.getElementById('toastMsgTea').textContent = fillTemplate(pickFrom(TEA_NIGHT_MESSAGES));
+}
+function showTeaNightOffer() {
+  document.getElementById('toastTagTea').textContent = "夜食のご提案";
+  document.getElementById('toastDotTea').style.background = "#8A5C3D";
+  document.getElementById('toastMsgTea').textContent = fillTemplate(pickFrom(TEA_NIGHT_MENU));
+}
 
 async function loadTeaRows() {
   const res = await fetch(`${SHEET_API_BASE_URL}?type=tea`);
@@ -229,45 +263,39 @@ async function openTeaToast() {
 }
 
 document.getElementById('fab-tea').addEventListener('click', () => {
- // fab-tea 클릭 핸들러 맨 앞에 추가
-  if (isTeaNightTime()) {
-  const r = Math.random();
-  if (r < TEA_NIGHT_OFFER_CHANCE) {
-    showTeaNightOffer();
-  } else if (r < TEA_NIGHT_OFFER_CHANCE + TEA_NIGHT_NOTICE_CHANCE) {
-    showTeaNightNotice();
-  } else {
-    return; // 조용히 무반응
-  }
-  toastTea.classList.add('show');
-  resetTeaTimer();
-  return;
-}
-  if (Math.random() < TEA_NIGHT_NOTICE_CHANCE) {
-    showTeaNightNotice();
-    toastTea.classList.add('show');
-    resetTeaTimer();
-  }
-  return; // 확률에 안 걸리면 조용히 아무 반응 없음 (의도된 동작)
-}
   if (toastTea.classList.contains('show')) {
     toastTea.classList.remove('show');
     clearTimeout(teaHideTimer);
     return;
   }
+
+  if (isTeaNightTime()) {
+    const r = Math.random();
+    if (r < TEA_NIGHT_OFFER_CHANCE) {
+      showTeaNightOffer();
+    } else if (r < TEA_NIGHT_OFFER_CHANCE + TEA_NIGHT_NOTICE_CHANCE) {
+      showTeaNightNotice();
+    } else {
+      return;
+    }
+    toastTea.classList.add('show');
+    resetTeaTimer();
+    return;
+  }
+
   openTeaToast();
 });
 
 toastTea.addEventListener('click', () => {
+  if (isTeaNightTime()) {
+    if (Math.random() < TEA_NIGHT_NOTICE_CHANCE) showTeaNightNotice();
+    resetTeaTimer();
+    return;
+  }
+
   const cooldownMs = TEA_COOLDOWN_HOURS * 60 * 60 * 1000;
   const last = getLastTeaTime();
   const remaining = cooldownMs - (Date.now() - last);
-  // toastTea 클릭 핸들러 맨 앞에도 동일하게 추가
-  if (isTeaNightTime()) {
-  if (Math.random() < TEA_NIGHT_NOTICE_CHANCE) showTeaNightNotice();
-  resetTeaTimer();
-  return;
-  }
   if (last && remaining > 0) {
     showTeaLimitNotice(remaining);
   } else {
@@ -276,44 +304,6 @@ toastTea.addEventListener('click', () => {
   }
   resetTeaTimer();
 });
-
-const TEA_NIGHT_START_HOUR = 20; // 오후 8시부터
-const TEA_NIGHT_END_HOUR = 8;    // 오전 8시까지
-const TEA_NIGHT_NOTICE_CHANCE = 0.3; // 밤에 눌렀을 때 문구가 뜰 확률 (30%)
-
-function isTeaNightTime() {
-  const h = new Date().getHours();
-  return h >= TEA_NIGHT_START_HOUR || h < TEA_NIGHT_END_HOUR;
-}
-
-// 밤 전용 문구: 단호한 것 + "이번만" 느낌의 부드러운 것 섞어둠
-const TEA_NIGHT_MESSAGES = [
-  "夜も更けております。おやつのお時間は、また明日の朝に。",
-  "この刻限は、些か遅うございます、{name}。",
-  "……仕方ございませんね。今宵ばかりは、少しだけお持ちいたしましょうか。",
-  "本日はもう店じまいといたしましょう。"
-];
-
-function showTeaNightNotice() {
-  document.getElementById('toastTagTea').textContent = "夜分でございます";
-  document.getElementById('toastDotTea').style.background = TEA_LIMIT_TAG_COLOR;
-  document.getElementById('toastMsgTea').textContent = fillTemplate(pickFrom(TEA_NIGHT_MESSAGES));
-}
-
-const TEA_NIGHT_OFFER_CHANCE = 0.1;  // 야식 제안이 뜰 확률
-const TEA_NIGHT_NOTICE_CHANCE = 0.3; // (기존) 거절 문구가 뜰 확률
-
-const TEA_NIGHT_MENU = [
-  "温かいホットミルクはいかがでしょう。",
-  "カモミールティーで、心を落ち着けましょう、{name}。",
-  "生姜湯を、少しだけご用意いたしましょうか。",
-  "軽い温かいスープなど、いかがでしょう。"
-];
-function showTeaNightOffer() {
-  document.getElementById('toastTagTea').textContent = "夜食のご提案";
-  document.getElementById('toastDotTea').style.background = "#8A5C3D";
-  document.getElementById('toastMsgTea').textContent = fillTemplate(pickFrom(TEA_NIGHT_MENU));
-}
 
 /* ============ ③ タロットカード（普通の案内文） ============ */
 // シート形式：key（A列）= カード名（英語のまま）、value（B列）= そのカードの案内文
@@ -330,9 +320,76 @@ const TAROT_KEY_WEIGHTS = {
   "The Hermit": 0.6
 };
 
+const TAROT_LOCAL_DATA = [
+{ "key": "The Fool", "value": "【正位置】新しい始まりの兆しです。恐れず一歩踏み出しましょう。" },
+{ "key": "The Fool", "value": "【逆位置】少し無謀になっている兆しです。慎重さを取り戻しましょう。" },
+
+{ "key": "The Magician", "value": "【正位置】必要な力はすでに揃っています。行動に移す時です。" },
+{ "key": "The Magician", "value": "【逆位置】力はあっても使い方が定まっていません。目的を見直しましょう。" },
+
+{ "key": "The High Priestess", "value": "【正位置】内なる直感を信じてよい時です。" },
+{ "key": "The High Priestess", "value": "【逆位置】直感より情報に振り回されている兆しです。" },
+
+{ "key": "The Empress", "value": "【正位置】豊かさと安らぎが満ちている時です。" },
+{ "key": "The Empress", "value": "【逆位置】頑張りすぎて余裕を失っている兆しです。" },
+
+{ "key": "The Emperor", "value": "【正位置】秩序と安定を築くのに良い時です。" },
+{ "key": "The Emperor", "value": "【逆位置】力の入れすぎ、頑固さに注意が必要です。" },
+
+{ "key": "The Hierophant", "value": "【正位置】経験や教えに学ぶとよい時です。" },
+{ "key": "The Hierophant", "value": "【逆位置】既存のやり方に縛られすぎている兆しです。" },
+
+{ "key": "The Lovers", "value": "【正位置】心が定まる、良い選択ができる時です。" },
+{ "key": "The Lovers", "value": "【逆位置】選択に迷いが生じている兆しです。" },
+
+{ "key": "The Chariot", "value": "【正位置】勢いに乗って前進できる時です。" },
+{ "key": "The Chariot", "value": "【逆位置】方向を見失いがちな兆しです。少し立ち止まっても。" },
+
+{ "key": "Strength", "value": "【正位置】力ではなく、優しさが物事を動かす時です。" },
+{ "key": "Strength", "value": "【逆位置】自信を失いがちな兆しです。無理はご無用です。" },
+
+{ "key": "The Hermit", "value": "【正位置】一人の時間が、答えを与えてくれる時です。" },
+{ "key": "The Hermit", "value": "【逆位置】一人で抱え込みすぎている兆しです。" },
+
+{ "key": "Wheel of Fortune", "value": "【正位置】流れが良い方向に変わり始めている時です。" },
+{ "key": "Wheel of Fortune", "value": "【逆位置】変化に戸惑いを感じている兆しです。" },
+
+{ "key": "Justice", "value": "【正位置】公正な判断ができる時です。" },
+{ "key": "Justice", "value": "【逆位置】判断に偏りが出ている兆しです。" },
+
+{ "key": "The Hanged Man", "value": "【正位置】あえて動かず待つことが力になる時です。" },
+{ "key": "The Hanged Man", "value": "【逆位置】停滞に焦りを感じている兆しです。" },
+
+{ "key": "Death", "value": "【正位置】一つの区切りが、新たな始まりへつながる時です。" },
+{ "key": "Death", "value": "【逆位置】変化を受け入れがたく感じている兆しです。" },
+
+{ "key": "Temperance", "value": "【正位置】バランスがとれ、穏やかに進める時です。" },
+{ "key": "Temperance", "value": "【逆位置】無理な調整で疲れが出ている兆しです。" },
+
+{ "key": "The Devil", "value": "【正位置】自分を縛っているものに気づける時です。" },
+{ "key": "The Devil", "value": "【逆位置】その縛りから、少しずつ抜け出せる兆しです。" },
+
+{ "key": "The Tower", "value": "【正位置】急な変化がありますが、必要な崩れです。" },
+{ "key": "The Tower", "value": "【逆位置】大きな崩れは免れ、小さな見直しで済む兆しです。" },
+
+{ "key": "The Star", "value": "【正位置】癒しと希望が満ちてくる時です。" },
+{ "key": "The Star", "value": "【逆位置】希望を見失いがちな兆しです。焦らず。" },
+
+{ "key": "The Moon", "value": "【正位置】不確かさがあっても、ゆっくり進めば十分な時です。" },
+{ "key": "The Moon", "value": "【逆位置】不安の正体が、少しずつ見えてくる兆しです。" },
+
+{ "key": "The Sun", "value": "【正位置】努力に見合った、明るい実りがある時です。" },
+{ "key": "The Sun", "value": "【逆位置】その明るさが、もう少し先に来る兆しです。" },
+
+{ "key": "Judgement", "value": "【正位置】これまでの積み重ねが認められる時です。" },
+{ "key": "Judgement", "value": "【逆位置】まだ評価を急ぐ時ではない兆しです。" },
+
+{ "key": "The World", "value": "【正位置】一つの物事が、良い形で完成する時です。" },
+{ "key": "The World", "value": "【逆位置】あと少しで完成という段階の兆しです。" }
+]
+
 async function loadTarotRows() {
-  const res = await fetch(`${SHEET_API_BASE_URL}?type=tarot`);
-  return res.json();
+  return TAROT_LOCAL_DATA; // fetch 없이 바로 반환
 }
 
 let tarotRowsCache = null, tarotHideTimer = null;
