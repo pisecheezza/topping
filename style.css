@@ -812,7 +812,7 @@ main{
   font-size: 0.95rem;
   padding: 10px 12px;
   border: 1px solid var(--ink);
-  background: var(--paper);
+  background: rgba(250, 250, 250, 0.3);
   color: var(--ink);
   border-radius: 3px;
   resize: vertical;
