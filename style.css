@@ -6,7 +6,6 @@
   --teal-deep: #0399C4;     /* 짙은 강조 (호버 등): 루비 레드#9B111E */
   --brass: #FFEF00;         /* 카나리 옐로우#FFEF00 */
   --card-shadow: rgba(0, 0, 0, 0.08); /* 옅은 그림자 */
-  color-scheme: light dark;
 }
 
 *{ box-sizing: border-box; }
@@ -1302,15 +1301,6 @@ All rights reserved. */
             transform: rotate(90deg); /* 세로로 눕힘 */
             white-space: nowrap;
         }
-
-
-
-
-@media (prefers-color-scheme: dark) {
-  .top-left-icon {
-    filter: invert(1);
-  }
-}
 
 /* ── Reduced motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce){
