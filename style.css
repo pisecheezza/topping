@@ -1301,6 +1301,15 @@ All rights reserved. */
             white-space: nowrap;
         }
 
+
+
+
+@media (prefers-color-scheme: dark) {
+  img.top-left-icon {
+    filter: invert(1);
+  }
+}
+
 /* ── Reduced motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce){
   *{ animation:none !important; transition:none !important; }
