@@ -352,7 +352,7 @@ main{
 
 /* ── Index card ─────────────────────────────────────────── */
 .index-card{
-  background: #cccccc;
+  background: rgba(250, 250, 250, 0.3);
   border: 4px double var(--ink);
   outline: 1px solid var(--ink);
   outline-offset: -6px;
