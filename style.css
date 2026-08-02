@@ -503,7 +503,7 @@ main{
   background: var(--ink);
   color: var(--ink);
   text-decoration: none;
-  border-radius: 10px;
+  background: rgba(250, 250, 250, 0.3);
 }
 
 .typeline-title a{
