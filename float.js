@@ -65,8 +65,46 @@ async function updateWeatherBadge() {
   }
 }
 
-updateWeatherBadge();
-setInterval(updateWeatherBadge, WEATHER_REFRESH_MIN * 60 * 1000);
+const WEATHER_TAG_COLOR = "#5C7A8A";
+let toastWeatherCache = null;
+let weatherHideTimer = null;
+const toastWeather = document.getElementById('toast-weather');
+
+function resetWeatherTimer() {
+  clearTimeout(weatherHideTimer);
+}
+
+async function fillWeatherToast() {
+  if (!cachedWeather) {
+    try { cachedWeather = await fetchWeather(); }
+    catch (e) {
+      document.getElementById('toastMsgWeather').textContent = "只今、お天気の取得ができぬようでございます。";
+      return;
+    }
+  }
+  document.getElementById('toastDotWeather').style.background = WEATHER_TAG_COLOR;
+  document.getElementById('toastMsgWeather').textContent =
+    `本日は${cachedWeather.desc}、${cachedWeather.temp}℃でございます。`;
+}
+
+document.getElementById('fab-weather').addEventListener('click', async () => {
+  if (toastWeather.classList.contains('show')) {
+    toastWeather.classList.remove('show');
+    return;
+  }
+  await fillWeatherToast();
+  toastWeather.classList.add('show');
+  resetWeatherTimer();
+});
+
+toastWeather.addEventListener('click', async () => {
+  cachedWeather = null; // 눌러서 다시 확인하고 싶을 때 새로 받아옴
+  await fillWeatherToast();
+  resetWeatherTimer();
+});
+
+// 페이지 열자마자 미리 한 번 받아두기 (다른 아이콘들처럼 즉시 뜨도록)
+fetchWeather().then(w => cachedWeather = w).catch(() => {});
 
 function formatDate() {
   const d = new Date();
