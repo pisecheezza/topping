@@ -7,6 +7,58 @@
 const SHEET_API_BASE_URL = "https://script.google.com/macros/s/AKfycbwHou9yZgkYdvwYIkeFlJeJhvZ6BjYPWLQcl5GMcl6jhi7YzpKKo9o3HTHjpjskQup9/exec";
 const USER_NAME = "坊っちゃん"; // used wherever {name} appears
 
+const WEATHER_FALLBACK_LAT = 35.1565; // 위치 허용을 안 했을 때 쓸 기본 위도
+const WEATHER_FALLBACK_LON = 126.8970; // 기본 경도
+const WEATHER_REFRESH_MIN = 30; // 몇 분마다 갱신할지
+
+function getVisitorLocation() {
+  return new Promise((resolve) => {
+    if (!navigator.geolocation) {
+      resolve({ lat: WEATHER_FALLBACK_LAT, lon: WEATHER_FALLBACK_LON });
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+      () => resolve({ lat: WEATHER_FALLBACK_LAT, lon: WEATHER_FALLBACK_LON }), // 거절/실패 시 폴백
+      { timeout: 5000 }
+    );
+  });
+}
+
+const WEATHER_CODE_JP = {
+  0: "快晴 ☀️", 1: "晴れ ☀️", 2: "薄曇り ⛅", 3: "曇り ☁️",
+  45: "霧 🌫️", 48: "霧 🌫️",
+  51: "小雨 🌦️", 53: "小雨 🌦️", 55: "小雨 🌦️",
+  61: "雨 🌧️", 63: "雨 🌧️", 65: "強い雨 🌧️",
+  71: "雪 ❄️", 73: "雪 ❄️", 75: "強い雪 ❄️",
+  95: "雷雨 ⛈️"
+};
+
+let cachedWeather = null;
+
+async function fetchWeather() {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}&current_weather=true`;
+  const res = await fetch(url);
+  const data = await res.json();
+  const temp = Math.round(data.current_weather.temperature);
+  const desc = WEATHER_CODE_JP[data.current_weather.weathercode] || "—";
+  return { temp, desc };
+}
+
+async function updateWeatherBadge() {
+  try {
+    cachedWeather = await fetchWeather();
+    const badge = document.getElementById('weather-badge');
+    badge.textContent = `${cachedWeather.desc}　${cachedWeather.temp}℃`;
+    badge.classList.add('show');
+  } catch (e) {
+    // 실패 시 그냥 조용히 숨김 상태 유지 (에러를 화면에 노출하지 않음)
+  }
+}
+
+updateWeatherBadge();
+setInterval(updateWeatherBadge, WEATHER_REFRESH_MIN * 60 * 1000);
+
 function formatDate() {
   const d = new Date();
   return `${d.getMonth() + 1}月${d.getDate()}日`;
@@ -14,11 +66,15 @@ function formatDate() {
 function fillTemplate(raw) {
   const d = new Date();
   const weekdays = ["日","月","火","水","木","金","土"];
+  const seasons = ["冬","冬","春","春","春","夏","夏","夏","秋","秋","秋","冬"]; // 월(0-11) 기준
   return raw
     .replace("{date}", formatDate())
     .replace("{name}", USER_NAME)
-    .replace("{weekday}", weekdays[d.getDay()])   // 새 플레이스홀더 예시
-    .replace("{hour}", d.getHours());              // 또 다른 예시
+    .replace("{weekday}", weekdays[d.getDay()])
+    .replace("{hour}", d.getHours())
+    .replace("{period}", getCurrentPeriod())   // 아침/오후/저녁/밤
+    .replace("{season}", seasons[d.getMonth()]);
+    .replace("{weather}", cachedWeather ? `${cachedWeather.desc}、${cachedWeather.temp}℃` : "")
 }
 function groupByKey(rows) {
   const grouped = {};
@@ -175,6 +231,18 @@ async function openTeaToast() {
 document.getElementById('fab-tea').addEventListener('click', () => {
  // fab-tea 클릭 핸들러 맨 앞에 추가
   if (isTeaNightTime()) {
+  const r = Math.random();
+  if (r < TEA_NIGHT_OFFER_CHANCE) {
+    showTeaNightOffer();
+  } else if (r < TEA_NIGHT_OFFER_CHANCE + TEA_NIGHT_NOTICE_CHANCE) {
+    showTeaNightNotice();
+  } else {
+    return; // 조용히 무반응
+  }
+  toastTea.classList.add('show');
+  resetTeaTimer();
+  return;
+}
   if (Math.random() < TEA_NIGHT_NOTICE_CHANCE) {
     showTeaNightNotice();
     toastTea.classList.add('show');
@@ -230,6 +298,21 @@ function showTeaNightNotice() {
   document.getElementById('toastTagTea').textContent = "夜分でございます";
   document.getElementById('toastDotTea').style.background = TEA_LIMIT_TAG_COLOR;
   document.getElementById('toastMsgTea').textContent = fillTemplate(pickFrom(TEA_NIGHT_MESSAGES));
+}
+
+const TEA_NIGHT_OFFER_CHANCE = 0.1;  // 야식 제안이 뜰 확률
+const TEA_NIGHT_NOTICE_CHANCE = 0.3; // (기존) 거절 문구가 뜰 확률
+
+const TEA_NIGHT_MENU = [
+  "温かいホットミルクはいかがでしょう。",
+  "カモミールティーで、心を落ち着けましょう、{name}。",
+  "生姜湯を、少しだけご用意いたしましょうか。",
+  "軽い温かいスープなど、いかがでしょう。"
+];
+function showTeaNightOffer() {
+  document.getElementById('toastTagTea').textContent = "夜食のご提案";
+  document.getElementById('toastDotTea').style.background = "#8A5C3D";
+  document.getElementById('toastMsgTea').textContent = fillTemplate(pickFrom(TEA_NIGHT_MENU));
 }
 
 /* ============ ③ タロットカード（普通の案内文） ============ */
