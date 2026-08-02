@@ -1307,7 +1307,7 @@ All rights reserved. */
 
 
 @media (prefers-color-scheme: dark) {
-  #menuTriggerIcon {
+  .top-left-icon {
     filter: invert(1);
   }
 }
