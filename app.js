@@ -15,8 +15,8 @@ function renderMain() {
   fetchTab(TABS.main).then(rows => {
     const doorEl = document.getElementById("doorImage");
     const typeline = document.getElementById("noticestypeline");
-    const doorRow = rows.find(r => (r.image || "").trim());
-    if (doorRow) {
+    const doorRow = rows.find(r => (r.image || "").trim() && (r.time || "").trim() === currentPeriod)
+  || rows.find(r => (r.image || "").trim() && !(r.time || "").trim());  // time이 없는 기본 이미지로 폴백    if (doorRow) {
       const img = document.createElement("img");
       img.src = driveImageUrl(doorRow.image);
       doorEl.appendChild(img);
