@@ -115,29 +115,7 @@
   </section> 
 </main>
 
-
-
-<style>
-#weather-badge {
-  position: fixed;
-  bottom: 28px;      /* 아이콘들과 같은 높이 (fab-time과 동일선상) */
-  right: 400px;      /* 토스트 메세지 영역(최대 폭 약 376px)보다 더 왼쪽 */
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(46,43,38,0.08);
-  box-shadow: 0 10px 25px rgba(46,43,38,0.12);
-  font-size: 13px;
-  color: #6B6759;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 20;
-}
-#weather-badge.show { opacity: 1; }
-</style>
-
+<!-- 시메지 부분 ----------------------------------------->
 <div id="shimeji" aria-hidden="true"></div>
 
 <style>
@@ -301,10 +279,10 @@
   pickState();
 })();
 </script>
+<!-- 시메지 종료 ----------------------------------------->
 
 
-
-  
+<!-- LP Widget By 닻과 파도의 항해 sradina.tistory.com R님 ----------------------------------------->  
 <div id="lp-widget" class="lp-expanded" style="opacity: 0; visibility: hidden; transition: none;">
     <div id="lp-modal">
         <div class="lp-modal-header">
@@ -372,6 +350,9 @@
         </div>
     </div>
 
+<!-- LP Widget 종료 ----------------------------------------->  
+
+<!-- 토스트 아이콘 ----------------------------------------->  
 <style>
   .backdrop-hint {
     text-align: center;
