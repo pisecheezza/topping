@@ -1305,7 +1305,7 @@ All rights reserved. */
 
 
 @media (prefers-color-scheme: dark) {
-  .top-left-icon {
+  img.top-left-icon {
     filter: invert(1);
   }
 }
