@@ -79,13 +79,9 @@ body{
   z-index: 300;
 }
 
-.invert-on-dark{
-  filter: none;
-  transition: filter 0.3s ease;
-}
-.top-left-icon body.time-evening .invert-on-dark,
-.top-left-icon body.time-night .invert-on-dark{
-  filter: invert(1);
+.top-left-icon body.time-evening,
+.top-left-icon body.time-night{
+  filter: invert(100%);
 }
 
 .drawer-backdrop{
