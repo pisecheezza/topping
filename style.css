@@ -12,9 +12,7 @@ body.time-morning{
   --paper: #FFF4E0;   /* 아침 - 부드러운 살구빛 */
   --ink: #3A2E1F;
 }
-body.time-day{
-  --paper: #FFFFFF;   /* 낮 - 밝은 흰색 */
-  --ink: #111111;
+body.time-day{ /* 낮 - 밝은 흰색 */
 }
 body.time-evening{
   --paper: #2E2038;   /* 저녁 - 보랏빛 노을 */
