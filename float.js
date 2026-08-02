@@ -5,7 +5,15 @@
    각 탭 형식: key(A열) | value(B열) — {date}, {name} 치환 지원
    ──────────────────────────────────────────────── */
 const SHEET_API_BASE_URL = "https://script.google.com/macros/s/AKfycbwHou9yZgkYdvwYIkeFlJeJhvZ6BjYPWLQcl5GMcl6jhi7YzpKKo9o3HTHjpjskQup9/exec";
-const USER_NAME = "坊っちゃん"; // used wherever {name} appears
+function detectHonorific() {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz === "Asia/Seoul") return "旦那様";
+    if (tz === "Asia/Tokyo") return "坊っちゃん";
+  } catch (e) {}
+  return "坊っちゃん"; // 그 외 지역은 기본값
+}
+const USER_NAME = detectHonorific();
 
 const WEATHER_FALLBACK_LAT = 35.1565; // 위치 허용을 안 했을 때 쓸 기본 위도
 const WEATHER_FALLBACK_LON = 126.8970; // 기본 경도
