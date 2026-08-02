@@ -20,6 +20,8 @@
 </script>
 </head>
 <body>
+<!-- 날씨 정보 -->
+<div id="weather-badge"></div>
 <!-- 나비 스크롤 바 -->
 <img src="morpho.png" alt="" class="scroll-morpho" id="scrollMorpho">
 <img src="hand.png" alt="" id="touchCursor" class="touch-cursor">
@@ -117,7 +119,26 @@
 
 
 
-
+<style>
+  #weather-badge {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(46,43,38,0.08);
+  box-shadow: 0 10px 25px rgba(46,43,38,0.12);
+  font-size: 13px;
+  color: #6B6759;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 20;
+}
+#weather-badge.show { opacity: 1; }
+</style>
 
 <div id="shimeji" aria-hidden="true"></div>
 
@@ -151,7 +172,7 @@
   const el = document.getElementById('shimeji');
   if (!el) return;
 
-  const SPRITES = { walk: '🧚‍♂️', idle: '✨', drag: '🕷️', climb: '🕷️' };
+  const SPRITES = { walk: '✨', idle: '🧚‍♂️', drag: '✨', climb: '🕷️' };
   el.textContent = SPRITES.idle;
 
   let x = 40;
