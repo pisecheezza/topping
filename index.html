@@ -513,30 +513,44 @@
 #fab-schedule:hover { box-shadow: 0 10px 24px rgba(107,74,58,0.32); }
 #fab-schedule svg path, #fab-schedule svg rect { stroke: #4A3F35; }
 
-#toast-schedule { bottom: 302px; }
 #toast-schedule {
-  background: #FBF6E9;
-  border: 1px solid rgba(107,74,58,0.15);
-  box-shadow: 0 20px 45px rgba(107,74,58,0.18);
-  transform: translateX(10px) rotate(-1deg) scale(0.98);
-  position: relative;
+    position: fixed;
+    left: 50%; /* 💡 화면 가로 기준 정중앙에 위치시킵니다 */
+    bottom: 302px;
+    width: 320px; /* 💡 크기가 찌그러지지 않도록 고정 너비(또는 적절한 max-width)를 부여합니다 */
+    
+    background: #FBF6E9;
+    border: 1px solid rgba(107,74,58,0.15);
+    box-shadow: 0 20px 45px rgba(107,74,58,0.18);
+    
+    /* 💡 중앙 정렬(-50%)을 유지하면서 기존의 회전/스케일 애니메이션 효과를 결합합니다 */
+    transform: translateX(-50%) translateX(10px) rotate(-1deg) scale(0.98);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
 }
-#toast-schedule.show { transform: translateX(0) rotate(-1deg) scale(1); }
+
+#toast-schedule.show { 
+    transform: translateX(-50%) translateX(0) rotate(-1deg) scale(1); 
+}
+
 #toast-schedule::before {
-  content: '';
-  position: absolute;
-  top: -8px; left: 24px;
-  width: 40px; height: 16px;
-  background: rgba(196, 164, 132, 0.55);
-  transform: rotate(-3deg);
+    content: '';
+    position: absolute;
+    top: -8px; left: 24px;
+    width: 40px; height: 16px;
+    background: rgba(196, 164, 132, 0.55);
+    transform: rotate(-3deg);
 }
+
 #toast-schedule .tag { color: #8A5C3D; }
+
 .note-msg {
-  font-family: 'Cormorant Garamond', 'Hiragino Mincho ProN', serif;
-  color: #4A3327;
-  white-space: pre-line;
-  line-height: 1.9;
+    font-family: 'Cormorant Garamond', 'Hiragino Mincho ProN', serif;
+    color: #4A3327;
+    white-space: pre-line;
+    line-height: 1.9;
 }
+  
   @media (max-width: 460px) {
     .toast { width: calc(100vw - 130px); right: 88px; }
   }
