@@ -241,10 +241,11 @@ const TEA_NIGHT_MENU = [
   "軽い温かいスープなど、いかがでしょう。"
 ];
 
-function isTeaNightTime() {
+function isTeaDeepNight() {
   const h = new Date().getHours();
   return h >= TEA_NIGHT_START_HOUR || h < TEA_NIGHT_END_HOUR;
 }
+
 function showTeaNightNotice() {
   document.getElementById('toastTagTea').textContent = "夜分でございます";
   document.getElementById('toastDotTea').style.background = TEA_LIMIT_TAG_COLOR;
