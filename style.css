@@ -57,6 +57,19 @@ body.time-night{
 .drawer-tag{ font-weight:500; }
 .drawer-range{ opacity:0.6; }
 
+.profile-submenu{
+  display: none;
+  flex-direction: column;
+  padding-left: 20px;
+}
+.profile-submenu.open{
+  display: flex;
+}
+.profile-sub-link{
+  font-size: 13px !important;
+  opacity: 0.85;
+}
+
 .reader-submenu{
   display: none;
   flex-direction: column;
@@ -153,9 +166,10 @@ body.time-night .top-left-icon {
             
 .dropdown-menu.open .tab-link:nth-child(1){ transition-delay: .03s; }
 .dropdown-menu.open .tab-link:nth-child(2){ transition-delay: .08s; }
+.dropdown-menu.open .profile-sub-link .tab-link:nth-child(7) { transition-delay: .10s; }
 .dropdown-menu.open .tab-link:nth-child(3){ transition-delay: .13s; }
 .dropdown-menu.open .tab-link:nth-child(4){ transition-delay: .18s; }
-.dropdown-menu.open .reader-sub-link .tab-link:nth-child(7) { transition-delay: .20s; }
+.dropdown-menu.open .reader-sub-link .tab-link:nth-child(8) { transition-delay: .20s; }
 .dropdown-menu.open .tab-link:nth-child(5){ transition-delay: .23s; }
 .dropdown-menu.open .tab-link:nth-child(6){ transition-delay: .28s; }
 
