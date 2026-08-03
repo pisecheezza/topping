@@ -307,6 +307,17 @@ function resetTeaTimer() {
   clearTimeout(teaHideTimer);
 }
 
+async function fillTeaToast() {
+  if (!teaRowsCache) teaRowsCache = await loadTeaRows();
+  const period = getTeaContentPeriod();
+  const pool = filterByTeaPeriod(filterByLocale(teaRowsCache), period);
+  const grouped = groupByKey(pool);
+  const key = weightedPickKey(grouped, TEA_KEY_WEIGHTS);
+  const content = { tag: key, text: fillTemplate(pickFrom(grouped[key])) };
+  setLastTeaMessage(content);
+  renderTeaMessage(content);
+}
+
 async function openTeaToast() {
   if (USER_LOCALE === "KR") { // 한국은 쿨다운 없이 항상 새 메세지
     await fillTeaToast();
