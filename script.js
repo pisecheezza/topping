@@ -280,11 +280,11 @@ function newColour() {
 // ── 탭 전환 ────────────────────────────────────────────────
 function activateView(viewName) {
   const btn = document.querySelector(`.tab-link[data-view="${viewName}"]`);
-  if (!btn) return;
   document.querySelectorAll(".tab-link").forEach(b => b.classList.remove("active"));
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  btn.classList.add("active");
-  document.getElementById(`view-${viewName}`).classList.add("active");
+    if (btn) btn.classList.add("active");
+  const viewEl = document.getElementById(`view-${viewName}`);
+  if (viewEl) viewEl.classList.add("active");
 }
 
 const dropdownMenu = document.getElementById("dropdownMenu");
@@ -306,6 +306,7 @@ menuIcon.addEventListener("click", () => {
 backdrop.addEventListener("click", closeMenu);
 
 document.querySelectorAll(".tab-link").forEach(btn => {
+  if (btn.classList.contains("reader-toggle")) return;
   btn.addEventListener("click", () => {
     activateView(btn.dataset.view);
     location.hash = btn.dataset.view;
