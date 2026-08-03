@@ -33,6 +33,10 @@
 <nav class="dropdown-menu" id="dropdownMenu">
   <button class="tab-link" data-view="pages">寝室</button>
   <button class="tab-link" data-view="profile">執務室</button>
+    <div class="profile-submenu" id="profileSubmenu">
+      <button class="tab-link profile-sub-link" type="button" data-profile-type="mark">当主</button>
+      <button class="tab-link profile-sub-link" type="button" data-profile-type="history">年表</button>
+    </div>
   <button class="tab-link" data-view="guestbook">応接間</button>
   <button class="tab-link reader-toggle" type="button">書斎</button>
     <div class="reader-submenu" id="readerSubmenu">
@@ -52,18 +56,18 @@
     <div class="door-image" id="doorImage"></div>
       <h3 class="typeline-heading">Updates</h3>
     <div class="typeline" id="noticestypeline"></div>
-    <!-- 타임 라인 ---------------------------------------------------------------->
+    
+<!-- 타임 라인 --------------------------------------------------------------
 
   <div class="timeline-container">
     
-    <!-- 첫 번째 항목 -->
     <div class="timeline-row">
         <div class="timeline-content left">
-            <h3>旦那様のお誕生日</h3>
-            <p>おめでとう。</p>
+            <h3></h3>
+            <p></p>
         </div>
         <div class="timeline-marker">
-            <div class="timeline-title">1884.11.05.</div>
+            <div class="timeline-title">タイトル</div>
             <div class="timeline-dot"></div>
         </div>
         <div class="timeline-content right">
@@ -71,24 +75,8 @@
             <p></p>
         </div>
     </div>
-
-    <!-- 두 번째 항목 (필요한 만큼 복사해서 사용) -->
-    <div class="timeline-row">
-        <div class="timeline-content left">
-            <h3></h3>
-            <p></p>
-        </div>
-        <div class="timeline-marker">
-            <div class="timeline-title">1885.12.14.</div>
-            <div class="timeline-dot"></div>
-        </div>
-        <div class="timeline-content right">
-            <h3>坊ちゃんのお誕生日</h3>
-            <p>おめでとう。</p>
-        </div>
-    </div>
-
-</div>
+    
+</div> -->
 
 <style>
   /* 전체 타임라인 컨테이너 */
@@ -221,7 +209,13 @@
   </section>
   
   <section id="view-profile" class="view">
-    <div id="profileSections"></div>
+    <div id="profileMarkBox">
+      <div id="profileSections"></div>
+    </div>
+  
+    <div id="profileHistoryBox" style="display:none">
+      <div class="timeline-container" id="timelineContainer"></div>
+    </div>
   </section>
 
   <section id="view-gallery" class="view">
