@@ -509,52 +509,45 @@
 #toast-weather .tag { color: #4A6572; }
 #toast-weather .msg { color: #33474F; }
 
-#fab-schedule { 
-    bottom: 316px; 
-    background: #E8DFC8; 
-    box-shadow: 0 8px 20px rgba(107,74,58,0.25); 
+#fab-schedule {  
+    bottom: 316px;  
+    background: #E8DFC8;  
+    box-shadow: 0 8px 20px rgba(107,74,58,0.25);  
 }
-#fab-schedule:hover { 
-    box-shadow: 0 10px 24px rgba(107,74,58,0.32); 
+#fab-schedule:hover {  
+    box-shadow: 0 10px 24px rgba(107,74,58,0.32);  
 }
-#fab-schedule svg path, #fab-schedule svg rect { 
-    stroke: #4A3F35; 
+#fab-schedule svg path, #fab-schedule svg rect {  
+    stroke: #4A3F35;  
 }
 
+/* 💡 다른 토스트들과 동일한 레이아웃 규칙 적용 (오른쪽 96px 간격, 아이콘을 가리지 않음) */
 #toast-schedule {
-    position: fixed;
-    right: 24px;       /* 💡 화면 오른쪽에서 24px 안쪽으로 정렬 */
     bottom: 302px;
-    width: 320px;      /* 💡 적절한 너비를 주어 편지봉투 같은 비율 유지 */
     
     /* 19세기 앤틱 종이 및 빈티지 편지지 질감 */
     background: #F4EEDB;
     background-image: linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.03) 100%);
     border: 1px solid #C8B99D;
-    border-radius: 4px; /* 현대적인 둥근 모서리를 줄여 클래식한 느낌 강조 */
+    border-radius: 4px; /* 클래식한 느낌을 위한 각진 모서리 */
     box-shadow: 0 15px 35px rgba(74,63,53,0.25), inset 0 0 15px rgba(199,183,154,0.3);
     
-    padding: 20px;
-    transform: translateY(10px) rotate(-1deg) scale(0.98);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1000;
+    /* 기존 19세기풍 회전 애니메이션과 공통 토스트 인터랙션 결합 */
+    transform: translateX(10px) rotate(-1deg) scale(0.98);
 }
 
-#toast-schedule.show { 
-    transform: translateY(0) rotate(-1deg) scale(1); 
-    opacity: 1;
-    visibility: visible;
+/* 토스트가 활성화되었을 때 */
+#toast-schedule.show {  
+    transform: translateX(0) rotate(-1deg) scale(1);  
 }
 
-/* 19세기 편지봉투를 고정하는 앤틱 씰링 왁스 또는 빈티지 테이프 느낌의 포인트 */
+/* 19세기 편지봉투 상단 빈티지 테이프 장식 */
 #toast-schedule::before {
     content: '';
     position: absolute;
-    top: -9px; 
+    top: -9px;  
     left: 28px;
-    width: 48px; 
+    width: 48px;  
     height: 16px;
     background: #C49A6C;
     background-image: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
@@ -563,11 +556,11 @@
     transform: rotate(-2deg);
 }
 
-#toast-schedule .tag { 
+#toast-schedule .tag {  
     font-family: 'Cormorant Garamond', serif;
     font-weight: bold;
     letter-spacing: 0.5px;
-    color: #73533B; 
+    color: #73533B;  
 }
 
 .note-msg {
