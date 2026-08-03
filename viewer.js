@@ -41,8 +41,8 @@ function loadReaderList(readerType) {
         .filter(r => (r.title || "").trim())
         .forEach(r => {
           const row = document.createElement("div");
-          row.className = "ledger-row";
-          row.innerHTML = `<div><button class="ledger-title-link" type="button">${escapeHtml(r.title)}</button></div>`;
+          row.className = "typeline-row";
+          row.innerHTML = `<div><button class="typeline-title-link" type="button">${escapeHtml(r.title)}</button></div>`;
           row.querySelector("button").addEventListener("click", () => {
             document.getElementById("readerList").style.display = "none";
             document.getElementById("readerViewerBox").style.display = "block";
