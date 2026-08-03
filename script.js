@@ -307,6 +307,7 @@ backdrop.addEventListener("click", closeMenu);
 
 document.querySelectorAll(".tab-link").forEach(btn => {
   if (btn.classList.contains("reader-toggle")) return;
+  if (btn.classList.contains("profile-toggle")) return;
   btn.addEventListener("click", () => {
     activateView(btn.dataset.view);
     location.hash = btn.dataset.view;
@@ -414,6 +415,73 @@ fetchTab(TABS.profile).then(rows => {
     container.appendChild(card);
   });
 });
+
+// ── Profile: 当主/年表 소분류 ──────────────────────────────
+document.querySelector(".profile-toggle").addEventListener("click", () => {
+  document.getElementById("profileSubmenu").classList.toggle("open");
+});
+
+let timelineLoaded = false;
+
+document.querySelectorAll(".profile-sub-link").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const profileType = btn.dataset.profileType;
+    activateView("profile");
+    location.hash = "profile";
+    closeMenu();
+
+    if (profileType === "mark") {
+      document.getElementById("profileMarkBox").style.display = "block";
+      document.getElementById("profileHistoryBox").style.display = "none";
+    } else if (profileType === "history") {
+      document.getElementById("profileMarkBox").style.display = "none";
+      document.getElementById("profileHistoryBox").style.display = "block";
+      if (!timelineLoaded) {
+        timelineLoaded = true;
+        loadTimeline();
+      }
+    }
+  });
+});
+
+function loadTimeline() {
+  fetchTab("Timeline").then(rows => {
+    const container = document.getElementById("timelineContainer");
+    container.innerHTML = "";
+
+    rows
+      .filter(r => (r.date || r.title || r.content || "").trim())
+      .forEach(r => {
+        const side = (r.side || "left").trim().toLowerCase() === "right" ? "right" : "left";
+        const row = document.createElement("div");
+        row.className = "timeline-row";
+
+        const leftHtml = side === "left"
+          ? `<h3>${escapeHtml(r.title || "")}</h3><p>${escapeHtml(r.content || "")}</p>`
+          : `<h3></h3><p></p>`;
+        const rightHtml = side === "right"
+          ? `<h3>${escapeHtml(r.title || "")}</h3><p>${escapeHtml(r.content || "")}</p>`
+          : `<h3></h3><p></p>`;
+
+        row.innerHTML = `
+          <div class="timeline-content left">${leftHtml}</div>
+          <div class="timeline-marker">
+            <div class="timeline-title">${escapeHtml(r.date || "")}</div>
+            <div class="timeline-dot"></div>
+          </div>
+          <div class="timeline-content right">${rightHtml}</div>`;
+        container.appendChild(row);
+      });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll(".timeline-row").forEach(row => observer.observe(row));
+  });
+}
 
 // ── gallery: 그림 + 코멘트 ──────────────────────────────────
 fetchTab(TABS.gallery).then(rows => {
