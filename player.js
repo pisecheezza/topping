@@ -516,33 +516,51 @@ function changeLpSong(index) {
         };
         strongEvents.forEach(function(evt) { document.addEventListener(evt, wakeUp, { once: true }); });
     }
-// [수정/보완] 사용자가 처음 화면을 터치하거나 클릭했을 때 무조건 부드럽게 소리를 켜는 전역 안전장치
-    (function setupGlobalTouchWake() {
-        var hasWokenUp = false;
+// [최종 보완] 사용자 첫 터치/클릭 시 강제 페이드인 및 재생 보장
+    (function() {
+        var isWakeUpDone = false;
 
-        function handleFirstInteraction(e) {
-            if (hasWokenUp) return;
+        function forceWakeUpAudio(e) {
+            if (isWakeUpDone) return;
             
-            // 만약 플레이어가 존재하고 음소거 상태이거나 소리가 꺼져 있다면
             if (lpPlayer && typeof lpPlayer.playVideo === 'function') {
-                var state = lpPlayer.getPlayerState ? lpPlayer.getPlayerState() : -1;
+                isWakeUpDone = true;
                 
-                // 재생 중이 아니었다면 재생 시도
+                // 1. 영상 재생 상태 확실히 보장
+                var state = lpPlayer.getPlayerState ? lpPlayer.getPlayerState() : -1;
                 if (state !== YT.PlayerState.PLAYING) {
                     lpPlayer.playVideo();
                 }
                 
-                // 부드러운 볼륨 상향 실행 (Fade-in)
-                smoothAudioReveal(lpPlayer);
-                hasWokenUp = true;
+                // 2. 음소거 해제 및 부드러운 볼륨 상향(Fade-in) 강제 실행
+                lpPlayer.unMute();
                 
-                console.log("사용자 상호작용 감지: 오디오 부드러운 시작 실행");
+                // 기존 페이드 함수가 있다면 활용하고, 안전하게 직접 볼륨을 서서히 올립니다.
+                if (typeof smoothAudioReveal === 'function') {
+                    smoothAudioReveal(lpPlayer);
+                } else {
+                    // 직접 페이드인 처리
+                    var targetVol = typeof lpVolume !== 'undefined' ? lpVolume : 70;
+                    var currentV = 0;
+                    lpPlayer.setVolume(0);
+                    
+                    var fTimer = setInterval(function() {
+                        currentV += 15;
+                        if (currentV >= targetVol) {
+                            currentV = targetVol;
+                            clearInterval(fTimer);
+                        }
+                        lpPlayer.setVolume(currentV);
+                    }, 30);
+                }
+                
+                console.log("터치/클릭 감지: 오디오 부드러운 시작 강제 실행 완료");
             }
         }
 
-        // 주요 인터랙션 이벤트 등록 (한 번 실행 후 자동 제거)
-        ['click', 'touchstart', 'keydown'].forEach(function(eventType) {
-            document.addEventListener(eventType, handleFirstInteraction, { once: true, passive: true });
+        // 문서 전체의 클릭 및 터치 이벤트 감지 (단 한 번만 실행 후 자동 해제)
+        ['click', 'touchstart', 'pointerdown'].forEach(function(eventType) {
+            document.addEventListener(eventType, forceWakeUpAudio, { once: true, passive: true });
         });
     })();
 
