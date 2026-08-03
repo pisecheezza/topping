@@ -10,6 +10,12 @@ const TABS = {
   guestbook: "Guestbook"
 };
 
+const READER_SHEETS = {
+  novel: "Reader",
+  newspaper: "Newspaper",
+  magazine: "Magazine"
+};
+
 const SITE_TITLE = "Web Retreat";
 
 // drive file ID direct link
