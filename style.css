@@ -9,7 +9,7 @@
 }
 
 *{ box-sizing: border-box; }
-*{ cursor: url('hand.png'), auto; }
+*{ cursor: url('img/hand.png'), auto; }
 
 html{ scroll-behavior: smooth; }
 
