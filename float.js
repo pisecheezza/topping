@@ -20,6 +20,20 @@ function filterByLocale(rows) {
   return rows.filter(r => !r.locale || r.locale === "ALL" || r.locale === USER_LOCALE);
 }
 
+function getTeaContentPeriod() {
+  const h = new Date().getHours();
+  if (h >= 8 && h < 15) return "morning";
+  if (h >= 15 && h < 17) return "snack";
+  return "night"; // 17:00–08:00
+}
+function filterByTeaPeriod(rows, period) {
+  return rows.filter(r => !r.period || r.period === "ALL" || r.period === period);
+}
+function isTeaDeepNight() {
+  const h = new Date().getHours();
+  return h >= TEA_NIGHT_START_HOUR || h < TEA_NIGHT_END_HOUR; // 20:00–08:00
+}
+
 const WEATHER_FALLBACK_LAT = 35.1565; // 위치 허용을 안 했을 때 쓸 기본 위도
 const WEATHER_FALLBACK_LON = 126.8970; // 기본 경도
 const WEATHER_REFRESH_MIN = 30; // 몇 분마다 갱신할지
@@ -195,7 +209,12 @@ toastTime.addEventListener('click', async () => {
 /* ============ ② お茶の時間のメッセージ（1日1回の"おやつ"ルール + 夜間制限） ============ */
 
 const TEA_COOLDOWN_HOURS = 4;
-const TEA_TAG_COLORS = { "本日のお茶": "#8A5C3D" };
+const TEA_TAG_COLORS = {
+  "朝の一杯": "#8FA383",
+  "おやつのご相伴": "#8A5C3D",
+  "夜のやすらぎ": "#525C7A",
+  "本日のお茶": "#8A5C3D" 
+};
 const TEA_KEY_WEIGHTS = {};
 
 const TEA_LIMIT_TAG_COLOR = "#B4703F";
@@ -289,7 +308,9 @@ function resetTeaTimer() {
 
 async function fillTeaToast() {
   if (!teaRowsCache) teaRowsCache = await loadTeaRows();
-  const grouped = groupByKey(filterByLocale(teaRowsCache));
+  const period = getTeaContentPeriod();
+  const pool = filterByTeaPeriod(filterByLocale(teaRowsCache), period);
+  const grouped = groupByKey(pool);
   const key = weightedPickKey(grouped, TEA_KEY_WEIGHTS);
   const content = { tag: key, text: fillTemplate(pickFrom(grouped[key])) };
   setLastTeaMessage(content);
@@ -320,7 +341,7 @@ document.getElementById('fab-tea').addEventListener('click', () => {
     return;
   }
 
-  if (isTeaNightTime()) {
+  if (isTeaDeepNight() && USER_LOCALE !== "KR") {
     const r = Math.random();
     if (r < TEA_NIGHT_OFFER_CHANCE) {
       showTeaNightOffer();
@@ -338,7 +359,7 @@ document.getElementById('fab-tea').addEventListener('click', () => {
 });
 
 toastTea.addEventListener('click', () => {
-  if (isTeaNightTime()) {
+  if (isTeaDeepNight() && USER_LOCALE !== "KR") {
     if (Math.random() < TEA_NIGHT_NOTICE_CHANCE) showTeaNightNotice();
     resetTeaTimer();
     return;
