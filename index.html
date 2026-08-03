@@ -508,7 +508,35 @@
 }
 #toast-weather .tag { color: #4A6572; }
 #toast-weather .msg { color: #33474F; }
-  
+
+#fab-schedule { bottom: 316px; background: #E8DFC8; box-shadow: 0 8px 20px rgba(107,74,58,0.25); }
+#fab-schedule:hover { box-shadow: 0 10px 24px rgba(107,74,58,0.32); }
+#fab-schedule svg path, #fab-schedule svg rect { stroke: #4A3F35; }
+
+#toast-schedule { bottom: 302px; }
+#toast-schedule {
+  background: #FBF6E9;
+  border: 1px solid rgba(107,74,58,0.15);
+  box-shadow: 0 20px 45px rgba(107,74,58,0.18);
+  transform: translateX(10px) rotate(-1deg) scale(0.98);
+  position: relative;
+}
+#toast-schedule.show { transform: translateX(0) rotate(-1deg) scale(1); }
+#toast-schedule::before {
+  content: '';
+  position: absolute;
+  top: -8px; left: 24px;
+  width: 40px; height: 16px;
+  background: rgba(196, 164, 132, 0.55);
+  transform: rotate(-3deg);
+}
+#toast-schedule .tag { color: #8A5C3D; }
+.note-msg {
+  font-family: 'Cormorant Garamond', 'Hiragino Mincho ProN', serif;
+  color: #4A3327;
+  white-space: pre-line;
+  line-height: 1.9;
+}
   @media (max-width: 460px) {
     .toast { width: calc(100vw - 130px); right: 88px; }
   }
