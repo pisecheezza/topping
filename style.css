@@ -57,6 +57,19 @@ body.time-night{
 .drawer-tag{ font-weight:500; }
 .drawer-range{ opacity:0.6; }
 
+.reader-submenu{
+  display: none;
+  flex-direction: column;
+  padding-left: 20px;
+}
+.reader-submenu.open{
+  display: flex;
+}
+.reader-sub-link{
+  font-size: 13px !important;
+  opacity: 0.85;
+}
+
 /* ── Masthead ───────────────────────────────────────────── */
 .masthead{
   position: relative;
