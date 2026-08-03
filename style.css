@@ -42,39 +42,37 @@ body.time-night{
 ::selection{ background: var(--teal); color: var(--paper);}
 
 /* ===========================================
-   시간대별 테마 색상(--paper, --ink)에 반응하는 스크롤바
+   시간대별 테마 변수(--paper, --ink)와 연동되는 스크롤바
    =========================================== */
 
-/* 1. 스크롤바 전체 너비/높이 설정 */
+/* 1. 스크롤바 전체 너비 및 높이 */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
-/* 2. 스크롤바 배경 (트랙): --paper 색상을 약간 어둡거나 투명하게 활용 */
+/* 2. 스크롤바 트랙(배경 영역): --paper 색상 적용 */
 ::-webkit-scrollbar-track {
     background: var(--paper);
-    filter: brightness(80%); /* 배경보다 살짝 어둡게 처리하여 구분감 부여 */
     border-radius: 4px;
 }
 
-/* 3. 스크롤바 움직이는 바 (핸들): --ink 색상을 활용 */
+/* 3. 스크롤바 핸들(움직이는 바): --ink 색상 적용 */
 ::-webkit-scrollbar-thumb {
     background: var(--ink);
-    opacity: 0.7;
+    opacity: 0.6; /* 살짝 투명도를 주어 부드럽게 표현 */
     border-radius: 4px;
     border: 2px solid transparent;
     background-clip: content-box;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, opacity 0.3s ease;
 }
 
-/* 4. 마우스 호버 시: --ink 색상의 투명도를 없애어 선명하게 강조 */
+/* 4. 마우스를 올렸을 때 (호버 시): 진하게 표시 */
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--ink);
     opacity: 1;
 }
 
-/* 파이어폭스(Firefox) 지원용 */
+/* 파이어폭스(Firefox) 브라우저 대응 */
 * {
     scrollbar-width: thin;
     scrollbar-color: var(--ink) var(--paper);
