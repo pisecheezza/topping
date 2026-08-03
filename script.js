@@ -118,7 +118,7 @@ notices
 
 
 });
-/* --- 프로필
+
 // ── Profile: 인적사항 ───────────────────────
 fetchTab(TABS.profile).then(rows => {
   const container = document.getElementById("profileSections");
@@ -163,7 +163,7 @@ fetchTab(TABS.profile).then(rows => {
     card.appendChild(dl);
     container.appendChild(card);
   });
-}); */
+}); 
 
 // ── Profile: 当主/年表 소분류 ──────────────────────────────
 document.querySelector(".profile-toggle").addEventListener("click", () => {
