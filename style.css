@@ -148,6 +148,17 @@ body.time-night .top-left-icon {
   filter: invert(1);
 }
 
+img.top-left-icon {
+    filter: invert(1);
+    -webkit-filter: invert(1);
+}
+@media (prefers-color-scheme: dark) {
+    img.top-left-icon {
+        color-scheme: light dark;
+        /* 브라우저가 다크 모드라고 해서 이 이미지를 자동 반전시키거나 필터를 입히지 않음 */
+        forced-color-adjust: none; 
+    }
+}
 .drawer-backdrop{
   position: fixed;
   inset: 0;
