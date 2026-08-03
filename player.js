@@ -516,6 +516,35 @@ function changeLpSong(index) {
         };
         strongEvents.forEach(function(evt) { document.addEventListener(evt, wakeUp, { once: true }); });
     }
+// [수정/보완] 사용자가 처음 화면을 터치하거나 클릭했을 때 무조건 부드럽게 소리를 켜는 전역 안전장치
+    (function setupGlobalTouchWake() {
+        var hasWokenUp = false;
+
+        function handleFirstInteraction(e) {
+            if (hasWokenUp) return;
+            
+            // 만약 플레이어가 존재하고 음소거 상태이거나 소리가 꺼져 있다면
+            if (lpPlayer && typeof lpPlayer.playVideo === 'function') {
+                var state = lpPlayer.getPlayerState ? lpPlayer.getPlayerState() : -1;
+                
+                // 재생 중이 아니었다면 재생 시도
+                if (state !== YT.PlayerState.PLAYING) {
+                    lpPlayer.playVideo();
+                }
+                
+                // 부드러운 볼륨 상향 실행 (Fade-in)
+                smoothAudioReveal(lpPlayer);
+                hasWokenUp = true;
+                
+                console.log("사용자 상호작용 감지: 오디오 부드러운 시작 실행");
+            }
+        }
+
+        // 주요 인터랙션 이벤트 등록 (한 번 실행 후 자동 제거)
+        ['click', 'touchstart', 'keydown'].forEach(function(eventType) {
+            document.addEventListener(eventType, handleFirstInteraction, { once: true, passive: true });
+        });
+    })();
 
 function onLpPlayerReady(event) {
         event.target.mute();
@@ -585,7 +614,7 @@ function onLpPlayerReady(event) {
     
     function onLpPlayerStateChange(event) {
         if (event.data == YT.PlayerState.ENDED) {
-            var nextIndex = (lpCurrentIndex + 1) % lpPlaylist.length;
+            var nextIndex = Math.floor(Math.random() * lpPlaylist.length);
             sessionStorage.setItem('lp_index', nextIndex);
             sessionStorage.setItem('lp_playing', 'true'); 
             sessionStorage.removeItem('lp_time'); 
