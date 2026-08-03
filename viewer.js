@@ -6,23 +6,52 @@ let readerCurrentPage = 0;
 let readerTotalPages = 1;
 let readerViewerWidth = 0;
 
-fetchTab(TABS.reader).then(rows => {
-  const list = document.getElementById("readerList");
-  list.innerHTML = "";
-  rows
-    .filter(r => (r.title || "").trim())
-    .forEach(r => {
-      const row = document.createElement("div");
-      row.className = "typeline-row";
-      row.innerHTML = `<div><button class="typeline-title-link" type="button">${escapeHtml(r.title)}</button></div>`;
-      row.querySelector("button").addEventListener("click", () => {
-        document.getElementById("readerList").style.display = "none";
-        document.getElementById("readerViewerBox").style.display = "block";
-        loadReaderDoc((r.docId || "").trim());
-      });
-      list.appendChild(row);
-    });
+// ── Reader: Novel/Newspaper/Magazine 소분류 ───────────────
+document.getElementById("readerSubmenu")
+  ? null
+  : console.warn("readerSubmenu 없음");
+
+document.querySelector(".reader-toggle").addEventListener("click", () => {
+  document.getElementById("readerSubmenu").classList.toggle("open");
 });
+
+let currentReaderType = "novel";
+
+document.querySelectorAll(".reader-sub-link").forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentReaderType = btn.dataset.readerType;
+    loadReaderList(currentReaderType);
+    activateView("reader");
+    location.hash = "reader";
+    closeMenu();   // 기존에 쓰시던 드롭다운 닫는 함수 이름에 맞춰주세요
+  });
+});
+
+function loadReaderList(readerType) {
+  const sheetName = READER_SHEETS[readerType];
+  fetch(sheetUrl(sheetName), { cache: "no-store" })
+    .then(res => res.arrayBuffer())
+    .then(buffer => {
+      const csv = new TextDecoder("utf-8").decode(buffer);
+      const rows = Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
+
+      const list = document.getElementById("readerList");
+      list.innerHTML = "";
+      rows
+        .filter(r => (r.title || "").trim())
+        .forEach(r => {
+          const row = document.createElement("div");
+          row.className = "ledger-row";
+          row.innerHTML = `<div><button class="ledger-title-link" type="button">${escapeHtml(r.title)}</button></div>`;
+          row.querySelector("button").addEventListener("click", () => {
+            document.getElementById("readerList").style.display = "none";
+            document.getElementById("readerViewerBox").style.display = "block";
+            loadReaderDoc((r.docId || "").trim());
+          });
+          list.appendChild(row);
+        });
+    });
+}
 
 document.getElementById("readerBack").addEventListener("click", () => {
   document.getElementById("readerViewerBox").style.display = "none";
