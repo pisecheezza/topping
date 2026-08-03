@@ -42,35 +42,38 @@ body.time-night{
 ::selection{ background: var(--teal); color: var(--paper);}
 
 /* ===========================================
-   2. 시간대별 변수(--paper, --ink)와 연동되는 스크롤바
+   모던 반투명 스크롤바 디자인
    =========================================== */
+
+/* 1. 스크롤바 전체 너비/높이 설정 */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
+/* 2. 스크롤바 배경 (트랙): 완전히 투명하게 처리 */
 ::-webkit-scrollbar-track {
-    background: var(--paper); /* 시간대별로 바뀌는 배경 색상 연동 */
-    border-radius: 4px;
+    background: transparent;
 }
 
+/* 3. 스크롤바 움직이는 바 (핸들): 은은한 반투명 흰색/검정 느낌 */
 ::-webkit-scrollbar-thumb {
-    background: var(--ink); /* 시간대별로 바뀌는 잉크(글자/포인트) 색상 연동 */
-    opacity: 0.6;
+    background: rgba(255, 255, 255, 0.25); /* 기본 상태는 투명한 반투명 흰색 */
     border-radius: 4px;
     border: 2px solid transparent;
     background-clip: content-box;
-    transition: background 0.3s ease, opacity 0.3s ease;
+    transition: background 0.3s ease;
 }
 
+/* 4. 마우스를 올렸을 때: 조금 더 진하게 표시 */
 ::-webkit-scrollbar-thumb:hover {
-    opacity: 1;
+    background: rgba(255, 255, 255, 0.5);
 }
 
-/* 파이어폭스(Firefox) 대응 */
+/* 파이어폭스(Firefox) 지원용 */
 * {
     scrollbar-width: thin;
-    scrollbar-color: var(--ink) var(--paper);
+    scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 }
 
 /* ── Drawer label strip ─────────────────────────────────── */
