@@ -142,6 +142,10 @@ function fillTemplate(raw) {
     .replace("{season}", seasons[d.getMonth()])
     .replace("{weather}", cachedWeather ? `${cachedWeather.desc}、${cachedWeather.temp}℃` : "");
 }
+function getCurrentWeekdayKey() {
+  const weekdays = ["日","月","火","水","木","金","土"];
+  return weekdays[new Date().getDay()];
+}
 function groupByKey(rows) {
   const grouped = {};
   rows.forEach(({ key, value }) => (grouped[key] ||= []).push(value));
@@ -553,9 +557,53 @@ document.getElementById('fab-tarot').addEventListener('click', () => {
 toastTarot.addEventListener('click', () => {
   resetTarotTimer();
 });
- 
- Promise.all([
+
+/* ============ ④ 本日のご予定 ============ */
+async function loadScheduleRows() {
+  const res = await fetch(`${SHEET_API_BASE_URL}?type=schedule`);
+  return res.json();
+}
+
+let scheduleRowsCache = null, scheduleHideTimer = null;
+const toastSchedule = document.getElementById('toast-schedule');
+
+function resetScheduleTimer() {
+  clearTimeout(scheduleHideTimer);
+}
+
+async function fillScheduleToast() {
+  if (!scheduleRowsCache) scheduleRowsCache = await loadScheduleRows();
+  const grouped = groupByKey(filterByLocale(scheduleRowsCache));
+  const today = getCurrentWeekdayKey();
+  const tasks = grouped[today] || [];
+
+  if (!tasks.length) {
+    document.getElementById('toastMsgSchedule').textContent = "本日のご予定は、特にございません。";
+    return;
+  }
+  const list = tasks.map(t => `・${fillTemplate(t)}`).join("\n");
+  document.getElementById('toastMsgSchedule').textContent = list;
+}
+
+document.getElementById('fab-schedule').addEventListener('click', async () => {
+  if (toastSchedule.classList.contains('show')) {
+    toastSchedule.classList.remove('show');
+    clearTimeout(scheduleHideTimer);
+    return;
+  }
+  await fillScheduleToast();
+  toastSchedule.classList.add('show');
+  resetScheduleTimer();
+});
+
+toastSchedule.addEventListener('click', async () => {
+  await fillScheduleToast();
+  resetScheduleTimer();
+});
+
+Promise.all([
   loadTimeRows().then(rows => timeRowsCache = rows).catch(() => {}),
   loadTeaRows().then(rows => teaRowsCache = rows).catch(() => {}),
-  loadTarotRows().then(rows => tarotRowsCache = rows).catch(() => {})
+  loadTarotRows().then(rows => tarotRowsCache = rows).catch(() => {}),
+  loadScheduleRows().then(rows => scheduleRowsCache = rows).catch(() => {})  // 추가
 ]);
