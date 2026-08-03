@@ -32,7 +32,7 @@
 
 <nav class="dropdown-menu" id="dropdownMenu">
   <button class="tab-link" data-view="pages">寝室</button>
-  <button class="tab-link" data-view="profile">執務室</button>  
+  <button class="tab-link" data-view="profile">執務室</button>
   <button class="tab-link" data-view="guestbook">応接間</button>
   <button class="tab-link" data-view="reader">書斎</button>
   <button class="tab-link" data-view="gallery">畵廊</button>
@@ -47,6 +47,171 @@
     <div class="door-image" id="doorImage"></div>
       <h3 class="typeline-heading">Updates</h3>
     <div class="typeline" id="noticestypeline"></div>
+    <!-- 타임 라인 ---------------------------------------------------------------->
+
+  <div class="timeline-container">
+    
+    <!-- 첫 번째 항목 -->
+    <div class="timeline-row">
+        <div class="timeline-content left">
+            <h3>좌측 제목 1</h3>
+            <p>여기에 좌측에 들어갈 상세 내용을 작성합니다.</p>
+        </div>
+        <div class="timeline-marker">
+            <div class="timeline-title">메인 타이틀 1</div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-content right">
+            <h3>우측 제목 1</h3>
+            <p>여기에 우측에 들어갈 상세 내용을 작성합니다.</p>
+        </div>
+    </div>
+
+    <!-- 두 번째 항목 (필요한 만큼 복사해서 사용) -->
+    <div class="timeline-row">
+        <div class="timeline-content left">
+            <h3>좌측 제목 2</h3>
+            <p>상세 내용 설명이 들어갑니다.</p>
+        </div>
+        <div class="timeline-marker">
+            <div class="timeline-title">메인 타이틀 2</div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-content right">
+            <h3>우측 제목 2</h3>
+            <p>상세 내용 설명이 들어갑니다.</p>
+        </div>
+    </div>
+
+</div>
+
+<style>
+  /* 전체 타임라인 컨테이너 */
+.timeline-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 40px 0;
+}
+
+/* 1. 웹 페이지 가운데에 검정 실선 배치 */
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 3px;
+    background-color: #000000;
+    transform: translateX(-50%);
+}
+
+/* 각 행 구조 (좌측 내용 | 중앙 마커 | 우측 내용) */
+.timeline-row {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    align-items: start;
+    margin-bottom: 80px;
+    position: relative;
+    
+    /* 애니메이션 초기 설정: 투명하고 아래로 40px 내려와 있음 */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* 스크롤되어 화면에 들어왔을 때 적용될 클래스 */
+.timeline-row.visible {
+    opacity: 1;
+    transform: trans
+/* 좌우 콘텐츠 디자인 (가독성을 위한 박스 스타일) */
+.timeline-content {
+    padding: 15px 20px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.timeline-content.left {
+    text-align: right;
+    margin-right: 15px;
+}
+
+.timeline-content.right {
+    text-align: left;
+    margin-left: 15px;
+}
+
+/* 중앙 마커 영역 */
+.timeline-marker {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* 2. 원형 포인트 (Glow, Colored, Blurry Shadow 효과 적용) */
+.timeline-dot {
+    width: 20px;
+    height: 20px;
+    background-color: #3b82f6; /* 원하는 컬러 포인트로 변경 가능 */
+    border-radius: 50%;
+    /* 블러 처리된 그림자와 빛나는(glow) 효과 */
+    box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 35px rgba(59, 130, 246, 0.7);
+    z-index: 2;
+}
+
+/* 3. 원형 포인트 바로 위에 위치하는 제목 */
+.timeline-title {
+    position: absolute;
+    bottom: calc(100% + 10px); /* 원형 포인트 위로 간격을 두고 배치 */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 1.05rem;
+    color: #1f2937;
+    background-color: #ffffff;
+    padding: 3px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    z-index: 3;
+}
+
+</style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // Intersection Observer 설정
+    const observerOptions = {
+        root: null,          // 브라우저 뷰포트 기준
+        rootMargin: '0px',
+        threshold: 0.15      // 요소가 15% 정도 보일 때 애니메이션 실행
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // 화면에 들어오면 visible 클래스 추가
+                entry.target.classList.add('visible');
+                
+                // 애니메이션을 한 번만 실행하고 관찰을 멈추려면 아래 주석을 해제하세요.
+                // observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // 모든 .timeline-row 요소를 찾아 관찰 시작
+    const rows = document.querySelectorAll('.timeline-row');
+    rows.forEach(row => {
+        observer.observe(row);
+    });
+});
+
+  </script>
+
   </section>
   
   <section id="view-profile" class="view">
