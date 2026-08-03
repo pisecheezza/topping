@@ -31,9 +31,10 @@ function activateView(viewName) {
   const btn = document.querySelector(`.tab-link[data-view="${viewName}"]`);
   document.querySelectorAll(".tab-link").forEach(b => b.classList.remove("active"));
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-    if (btn) btn.classList.add("active");
+  if (btn) btn.classList.add("active");
   const viewEl = document.getElementById(`view-${viewName}`);
   if (viewEl) viewEl.classList.add("active");
+  window.scrollTo(0, 0);   // scroll to top
 }
 
 const dropdownMenu = document.getElementById("dropdownMenu");
@@ -61,6 +62,7 @@ document.querySelectorAll(".tab-link").forEach(btn => {
     activateView(btn.dataset.view);
     location.hash = btn.dataset.view;
     closeMenu();
+    window.scrollTo(0, 0);   // scroll to top
   });
 });
 
