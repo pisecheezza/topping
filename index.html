@@ -509,46 +509,72 @@
 #toast-weather .tag { color: #4A6572; }
 #toast-weather .msg { color: #33474F; }
 
-#fab-schedule { bottom: 316px; background: #E8DFC8; box-shadow: 0 8px 20px rgba(107,74,58,0.25); }
-#fab-schedule:hover { box-shadow: 0 10px 24px rgba(107,74,58,0.32); }
-#fab-schedule svg path, #fab-schedule svg rect { stroke: #4A3F35; }
+#fab-schedule { 
+    bottom: 316px; 
+    background: #E8DFC8; 
+    box-shadow: 0 8px 20px rgba(107,74,58,0.25); 
+}
+#fab-schedule:hover { 
+    box-shadow: 0 10px 24px rgba(107,74,58,0.32); 
+}
+#fab-schedule svg path, #fab-schedule svg rect { 
+    stroke: #4A3F35; 
+}
 
 #toast-schedule {
     position: fixed;
-    left: 50%; /* 💡 화면 가로 기준 정중앙에 위치시킵니다 */
+    right: 24px;       /* 💡 화면 오른쪽에서 24px 안쪽으로 정렬 */
     bottom: 302px;
-    width: 320px; /* 💡 크기가 찌그러지지 않도록 고정 너비(또는 적절한 max-width)를 부여합니다 */
+    width: 320px;      /* 💡 적절한 너비를 주어 편지봉투 같은 비율 유지 */
     
-    background: #FBF6E9;
-    border: 1px solid rgba(107,74,58,0.15);
-    box-shadow: 0 20px 45px rgba(107,74,58,0.18);
+    /* 19세기 앤틱 종이 및 빈티지 편지지 질감 */
+    background: #F4EEDB;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.03) 100%);
+    border: 1px solid #C8B99D;
+    border-radius: 4px; /* 현대적인 둥근 모서리를 줄여 클래식한 느낌 강조 */
+    box-shadow: 0 15px 35px rgba(74,63,53,0.25), inset 0 0 15px rgba(199,183,154,0.3);
     
-    /* 💡 중앙 정렬(-50%)을 유지하면서 기존의 회전/스케일 애니메이션 효과를 결합합니다 */
-    transform: translateX(-50%) translateX(10px) rotate(-1deg) scale(0.98);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 20px;
+    transform: translateY(10px) rotate(-1deg) scale(0.98);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 1000;
 }
 
 #toast-schedule.show { 
-    transform: translateX(-50%) translateX(0) rotate(-1deg) scale(1); 
+    transform: translateY(0) rotate(-1deg) scale(1); 
+    opacity: 1;
+    visibility: visible;
 }
 
+/* 19세기 편지봉투를 고정하는 앤틱 씰링 왁스 또는 빈티지 테이프 느낌의 포인트 */
 #toast-schedule::before {
     content: '';
     position: absolute;
-    top: -8px; left: 24px;
-    width: 40px; height: 16px;
-    background: rgba(196, 164, 132, 0.55);
-    transform: rotate(-3deg);
+    top: -9px; 
+    left: 28px;
+    width: 48px; 
+    height: 16px;
+    background: #C49A6C;
+    background-image: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
+    border: 1px dashed rgba(92,71,51,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transform: rotate(-2deg);
 }
 
-#toast-schedule .tag { color: #8A5C3D; }
+#toast-schedule .tag { 
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    color: #73533B; 
+}
 
 .note-msg {
     font-family: 'Cormorant Garamond', 'Hiragino Mincho ProN', serif;
-    color: #4A3327;
+    color: #3D3127;
     white-space: pre-line;
-    line-height: 1.9;
+    line-height: 1.8;
 }
   
   @media (max-width: 460px) {
