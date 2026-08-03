@@ -42,37 +42,32 @@ body.time-night{
 ::selection{ background: var(--teal); color: var(--paper);}
 
 /* ===========================================
-   시간대별 테마 변수(--paper, --ink)와 연동되는 스크롤바
+   2. 시간대별 변수(--paper, --ink)와 연동되는 스크롤바
    =========================================== */
-
-/* 1. 스크롤바 전체 너비 및 높이 */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
-/* 2. 스크롤바 트랙(배경 영역): --paper 색상 적용 */
 ::-webkit-scrollbar-track {
-    background: var(--paper);
+    background: var(--paper); /* 시간대별로 바뀌는 배경 색상 연동 */
     border-radius: 4px;
 }
 
-/* 3. 스크롤바 핸들(움직이는 바): --ink 색상 적용 */
 ::-webkit-scrollbar-thumb {
-    background: var(--ink);
-    opacity: 0.6; /* 살짝 투명도를 주어 부드럽게 표현 */
+    background: var(--ink); /* 시간대별로 바뀌는 잉크(글자/포인트) 색상 연동 */
+    opacity: 0.6;
     border-radius: 4px;
     border: 2px solid transparent;
     background-clip: content-box;
     transition: background 0.3s ease, opacity 0.3s ease;
 }
 
-/* 4. 마우스를 올렸을 때 (호버 시): 진하게 표시 */
 ::-webkit-scrollbar-thumb:hover {
     opacity: 1;
 }
 
-/* 파이어폭스(Firefox) 브라우저 대응 */
+/* 파이어폭스(Firefox) 대응 */
 * {
     scrollbar-width: thin;
     scrollbar-color: var(--ink) var(--paper);
