@@ -306,18 +306,14 @@ function resetTeaTimer() {
   clearTimeout(teaHideTimer);
 }
 
-async function fillTeaToast() {
-  if (!teaRowsCache) teaRowsCache = await loadTeaRows();
-  const period = getTeaContentPeriod();
-  const pool = filterByTeaPeriod(filterByLocale(teaRowsCache), period);
-  const grouped = groupByKey(pool);
-  const key = weightedPickKey(grouped, TEA_KEY_WEIGHTS);
-  const content = { tag: key, text: fillTemplate(pickFrom(grouped[key])) };
-  setLastTeaMessage(content);
-  renderTeaMessage(content);
-}
-
 async function openTeaToast() {
+  if (USER_LOCALE === "KR") { // 한국은 쿨다운 없이 항상 새 메세지
+    await fillTeaToast();
+    toastTea.classList.add('show');
+    resetTeaTimer();
+    return;
+  }
+
   const cooldownMs = TEA_COOLDOWN_HOURS * 60 * 60 * 1000;
   const last = getLastTeaTime();
   const remaining = cooldownMs - (Date.now() - last);
@@ -359,7 +355,13 @@ document.getElementById('fab-tea').addEventListener('click', () => {
 });
 
 toastTea.addEventListener('click', () => {
-  if (isTeaDeepNight() && USER_LOCALE !== "KR") {
+  if (USER_LOCALE === "KR") {
+    fillTeaToast();
+    resetTeaTimer();
+    return;
+  }
+
+  if (isTeaDeepNight()) {
     if (Math.random() < TEA_NIGHT_NOTICE_CHANCE) showTeaNightNotice();
     resetTeaTimer();
     return;
@@ -376,7 +378,6 @@ toastTea.addEventListener('click', () => {
   }
   resetTeaTimer();
 });
-
 /* ============ ③ タロットカード（普通の案内文） ============ */
 // シート形式：key（A列）= カード名（英語のまま）、value（B列）= そのカードの案内文
 // 同じカード名を複数行に分けて書くと、その中からランダムに選ばれます。
