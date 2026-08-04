@@ -7,6 +7,9 @@
   --brass: #FFEF00;         /* 카나리 옐로우#FFEF00 */
   --card-shadow: rgba(0, 0, 0, 0.08); /* 옅은 그림자 */
 }
+img {
+  -webkit-touch-callout: none;
+}
 
 *{ box-sizing: border-box; }
 *{ cursor: url('img/hand.png'), auto; }
