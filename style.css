@@ -42,42 +42,6 @@ body.time-night{
 ::selection{ background: var(--teal); color: var(--paper);}
 
 /* ===========================================
-   스크롤바
-   =========================================== */
-
-/* 1. 스크롤바 전체 너비/높이 설정 */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-/* 2. 스크롤바 배경 (트랙): 완전히 투명하게 처리 */
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* 3. 스크롤바 움직이는 바 (핸들): 은은한 반투명 흰색/검정 느낌 */
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.25); /* 기본 상태는 투명한 반투명 흰색 */
-    border-radius: 4px;
-    border: 2px solid transparent;
-    background-clip: content-box;
-    transition: background 0.3s ease;
-}
-
-/* 4. 마우스를 올렸을 때: 조금 더 진하게 표시 */
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
-}
-
-/* 파이어폭스(Firefox) 지원용 */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
-}
-
-
-/* ===========================================
    메인 + 드롭다운 메뉴
    =========================================== */
 .masthead{
@@ -322,35 +286,6 @@ img.top-left-icon {
 
 .tab:hover{ color: var(--ink); }
 .tab.active{ color: var(--teal-deep); border-bottom-color: var(--teal); }
-/* ===========================================
-   장식
-   =========================================== */
-.scroll-morpho{
-  position: fixed;
-  right: 14px;
-  top: 0;
-  width: 50px;
-  height: 50px;
-  pointer-events: none;
-  z-index: 400;
-  filter: drop-shadow(2px 3px 4px rgba(0,0,0,0.35));
-  transition: top 0.05s linear;
-}
-
-.touch-cursor{
-  position: fixed;
-  width: 32px;
-  height: 41px;
-  pointer-events: none;   /* 커서 자체가 클릭/터치를 가로채지 않게 */
-  z-index: 9999;
-  opacity: 0;
-  transform: translate(-4px, -4px);   /* 손가락 끝이 이미지 좌상단에 오도록 미세 조정 */
-  transition: opacity 0.1s ease;
-}
-.touch-cursor.active{
-  opacity: 1;
-}
-
 
 /* ===========================================
    프로필
