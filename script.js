@@ -62,8 +62,8 @@ document.querySelectorAll(".tab-link").forEach(btn => {
     activateView(btn.dataset.view);
     location.hash = btn.dataset.view;
     closeMenu();
-    window.scrollTo(0, 0);   // scroll to top
-      if (btn.dataset.view === "gallery") {
+
+    if (btn.dataset.view === "gallery") {
       loadFloorEntrance("gallery", "galleryEntrance", "galleryGrid");   // 이 줄 추가
     }
   });
