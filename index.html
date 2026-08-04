@@ -225,6 +225,36 @@
     </div>
     
 </div> -->
+
+<!-- 보물찾기 --------------------------------------------------------------->
+<div id="treasure-hunt-component">
+    <div id="corner-interaction-wrapper">
+        <div class="paper-flap"></div>
+        <div class="hidden-emoji-wrapper">
+            <span id="hiddenEmoji">❓</span>
+        </div>
+        <div class="corner-hole"></div>
+    </div>
+
+    <div id="itemModal" class="ht-modal-overlay">
+        <div class="ht-modal-frame">
+            <div class="ht-modal-header">
+                <span id="htModalTitle">探し物</span>
+                <div class="ht-close-btn" onclick="TreasureHunt.closeModal()">&times;</div>
+            </div>
+            <div class="ht-modal-inner">
+                <div class="ht-icon-box">
+                    <span id="htModalIcon" class="ht-modal-icon"></span>
+                </div>
+                <div id="htModalDesc" class="ht-modal-desc"></div>
+                <div id="htItemCounter" class="ht-counter-box">0 / 0 番目の獲物</div>
+            </div>
+        </div>
+    </div>
+</div>
+     
+
+
 <!-- 토스트 아이콘 ----------------------------------------->  
 <style>
   .backdrop-hint {
