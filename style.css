@@ -42,7 +42,7 @@ body.time-night{
 ::selection{ background: var(--teal); color: var(--paper);}
 
 /* ===========================================
-   모던 반투명 스크롤바 디자인
+   스크롤바
    =========================================== */
 
 /* 1. 스크롤바 전체 너비/높이 설정 */
@@ -76,49 +76,10 @@ body.time-night{
     scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 }
 
-/* ── Drawer label strip ─────────────────────────────────── */
-.drawer-label{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding: 10px 20px;
-  background: var(--ink);
-  color: var(--paper);
-  font-family:"JetBrains Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-}
-            
-.drawer-tag{ font-weight:500; }
-.drawer-range{ opacity:0.6; }
 
-.profile-submenu{
-  display: none;
-  flex-direction: column;
-  padding-left: 20px;
-}
-.profile-submenu.open{
-  display: flex;
-}
-.profile-sub-link{
-  font-size: 13px !important;
-  opacity: 0.85;
-}
-
-.reader-submenu{
-  display: none;
-  flex-direction: column;
-  padding-left: 20px;
-}
-.reader-submenu.open{
-  display: flex;
-}
-.reader-sub-link{
-  font-size: 13px !important;
-  opacity: 0.85;
-}
-
-/* ── Masthead ───────────────────────────────────────────── */
+/* ===========================================
+   메인 + 드롭다운 메뉴
+   =========================================== */
 .masthead{
   position: relative;
   text-align: center;
@@ -151,10 +112,25 @@ img.top-left-icon {
 @media (prefers-color-scheme: dark) {
     img.top-left-icon {
         color-scheme: light dark;
-        /* 브라우저가 다크 모드라고 해서 이 이미지를 자동 반전시키거나 필터를 입히지 않음 */
         forced-color-adjust: none; 
     }
 }
+
+.drawer-label{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 10px 20px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family:"JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+            
+.drawer-tag{ font-weight:500; }
+.drawer-range{ opacity:0.6; }
+
 .drawer-backdrop{
   position: fixed;
   inset: 0;
@@ -173,6 +149,32 @@ img.top-left-icon {
 .drawer-backdrop.show{
   opacity: 1;
   pointer-events: auto;
+}
+
+.profile-submenu{
+  display: none;
+  flex-direction: column;
+  padding-left: 20px;
+}
+.profile-submenu.open{
+  display: flex;
+}
+.profile-sub-link{
+  font-size: 13px !important;
+  opacity: 0.85;
+}
+
+.reader-submenu{
+  display: none;
+  flex-direction: column;
+  padding-left: 20px;
+}
+.reader-submenu.open{
+  display: flex;
+}
+.reader-sub-link{
+  font-size: 13px !important;
+  opacity: 0.85;
 }
 
 .dropdown-menu{
@@ -252,33 +254,6 @@ img.top-left-icon {
   transform: translateX(4px);
 }
 
-/* -- 장식 ---- */
-.scroll-morpho{
-  position: fixed;
-  right: 14px;
-  top: 0;
-  width: 50px;
-  height: 50px;
-  pointer-events: none;
-  z-index: 400;
-  filter: drop-shadow(2px 3px 4px rgba(0,0,0,0.35));
-  transition: top 0.05s linear;
-}
-
-.touch-cursor{
-  position: fixed;
-  width: 32px;
-  height: 41px;
-  pointer-events: none;   /* 커서 자체가 클릭/터치를 가로채지 않게 */
-  z-index: 9999;
-  opacity: 0;
-  transform: translate(-4px, -4px);   /* 손가락 끝이 이미지 좌상단에 오도록 미세 조정 */
-  transition: opacity 0.1s ease;
-}
-.touch-cursor.active{
-  opacity: 1;
-}
-/* ── door image (Main tab) ──────────────────────────────── */
 .door-notice{
   display: flex;
   align-items: center;   /* 날짜와 제목의 수직 정렬 (baseline으로 변경 가능) */
@@ -320,7 +295,66 @@ img.top-left-icon {
 .door-image img{ width:100%; height:100%; object-fit:cover; display:block; }
 .door-image:empty{ display:none; }
 
-/* ── Uniform key-value list (Profile tab) ───────────────── */
+/* ===========================================
+   메뉴 전환
+   =========================================== */
+.tabs{
+  display:flex;
+  justify-content:center;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding: 18px 12px 8px;
+  border-bottom: 1px solid var(--ink);
+  margin: 0 16px;
+}
+
+.tab{
+  font-family: "Tahoma", sans-serif;
+  letter-spacing: 0.04em;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color .15s ease, border-color .15s ease;
+}
+
+.tab:hover{ color: var(--ink); }
+.tab.active{ color: var(--teal-deep); border-bottom-color: var(--teal); }
+/* ===========================================
+   장식
+   =========================================== */
+.scroll-morpho{
+  position: fixed;
+  right: 14px;
+  top: 0;
+  width: 50px;
+  height: 50px;
+  pointer-events: none;
+  z-index: 400;
+  filter: drop-shadow(2px 3px 4px rgba(0,0,0,0.35));
+  transition: top 0.05s linear;
+}
+
+.touch-cursor{
+  position: fixed;
+  width: 32px;
+  height: 41px;
+  pointer-events: none;   /* 커서 자체가 클릭/터치를 가로채지 않게 */
+  z-index: 9999;
+  opacity: 0;
+  transform: translate(-4px, -4px);   /* 손가락 끝이 이미지 좌상단에 오도록 미세 조정 */
+  transition: opacity 0.1s ease;
+}
+.touch-cursor.active{
+  opacity: 1;
+}
+
+
+/* ===========================================
+   프로필
+   =========================================== */
 .about-kv-list{
   margin: 0;
 }
@@ -340,7 +374,104 @@ img.top-left-icon {
   margin: 0 0 14px;
 }
 
-/* ── gallery cards (image + comment) ─────────────────────── */
+
+/* ===========================================
+   연표
+   =========================================== */
+.timeline-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 40px 0;
+}
+
+/* 1. 웹 페이지 가운데에 검정 실선 배치 */
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    border-left: 2px dotted var(--ink);
+    transform: translateX(-50%);
+}
+
+/* 각 행 구조 (좌측 내용 | 중앙 마커 | 우측 내용) */
+.timeline-row {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    align-items: start;
+    margin-bottom: 80px;
+    position: relative;
+    
+    /* 애니메이션 초기 설정: 투명하고 아래로 40px 내려와 있음 */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* 스크롤되어 화면에 들어왔을 때 적용될 클래스 */
+.timeline-row.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* 좌우 콘텐츠 디자인 (가독성을 위한 박스 스타일) 
+.timeline-content {
+    padding: 15px 20px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}*/
+
+.timeline-content.left {
+    text-align: right;
+    margin-right: 15px;
+}
+
+.timeline-content.right {
+    text-align: left;
+    margin-left: 15px;
+}
+
+/* 중앙 마커 영역 */
+.timeline-marker {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* 2. 원형 포인트 (Glow, Colored, Blurry Shadow 효과 적용) */
+.timeline-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #3b82f6; /* 원하는 컬러 포인트로 변경 가능 */
+    border-radius: 50%;
+    /* 블러 처리된 그림자와 빛나는(glow) 효과 */
+    box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 35px rgba(59, 130, 246, 0.7);
+    z-index: 2;
+}
+
+/* 3. 원형 포인트 바로 위에 위치하는 제목 */
+.timeline-title {
+    position: absolute;
+    bottom: calc(100% + 10px); /* 원형 포인트 위로 간격을 두고 배치 */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 1.05rem;
+    color: var(--ink);
+    padding: 3px 10px;
+    z-index: 3;
+    text-shadow: 1px 1px 2px var(--paper), 0 0 1em var(--ink);
+}
+
+/* ===========================================
+   화랑
+   =========================================== */
 .gallery-card {
   background: var(--paper);
   border: 1px solid var(--ink);
@@ -388,34 +519,9 @@ img.top-left-icon {
   transform: translateY(-2px); 
 }
 
-  
-/* ── Tabs ───────────────────────────────────────────────── */
-.tabs{
-  display:flex;
-  justify-content:center;
-  gap: 4px;
-  flex-wrap: wrap;
-  padding: 18px 12px 8px;
-  border-bottom: 1px solid var(--ink);
-  margin: 0 16px;
-}
-
-.tab{
-  font-family: "Tahoma", sans-serif;
-  letter-spacing: 0.04em;
-  background: transparent;
-  border: none;
-  color: var(--ink);
-  padding: 10px 14px;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color .15s ease, border-color .15s ease;
-}
-
-.tab:hover{ color: var(--ink); }
-.tab.active{ color: var(--teal-deep); border-bottom-color: var(--teal); }
-
-/* ── Main / views ───────────────────────────────────────── */
+/* ===========================================
+   메인 + 뷰
+   =========================================== */
 main{
   max-width: 640px;
   margin: 0 auto;
@@ -428,7 +534,9 @@ main{
 
 .loading{ font-family:"JetBrains Mono", monospace; font-size:13px; color:var(--ink); }
 
-/* ── Index card ─────────────────────────────────────────── */
+/* ===========================================
+   프로필
+   =========================================== */
 .index-card{
   background: rgba(250, 250, 250, 0.3);
   border: 4px double var(--ink);
@@ -488,7 +596,9 @@ main{
   margin: 0;
 }
 
-/* ── Works grid (catalog cards) ────────────────────────── */
+/* ===========================================
+   Work?
+   =========================================== */
 .card-grid{
   display: flex;
   flex-direction: column;
@@ -544,7 +654,9 @@ main{
 
 .work-link:hover{ color: var(--teal); }
 
-/* ── Pages typeline ─────────────────────────────────────── */
+/* ===========================================
+   타이프라인
+   =========================================== */
 /* 전체 행: 세로 방향(Column)으로 배치하여 1행(날짜+제목)과 2행(내용)을 분리 */
 .typeline-row{
   display: flex;
@@ -615,7 +727,9 @@ main{
   margin: 0;
 }
 
-/* ── Reader (구글독스 뷰어) ────────────────────────────── */
+/* ===========================================
+   독스 뷰어
+   =========================================== */
 #reader-wrapper{
   position: relative;
   margin-top: 10px;
@@ -796,7 +910,9 @@ main{
   #reader-touch-right{ right: 0; justify-content: flex-end; }
 }
 
-/* ── Links index ────────────────────────────────────────── */
+/* ===========================================
+   링크
+   =========================================== */
 .link-banner-label{ font-family:"Fraunces", serif; font-weight:600; font-size:1.02rem; }
 
 .link-index{
@@ -878,7 +994,9 @@ main{
 .link-category:first-child{
   margin-top: 0;
 }
-/* ── Guest Book ────────────────────────────────────────── */
+/* ===========================================
+   방명록
+   =========================================== */
 .guestbook-form{
   display: flex;
   flex-direction: column;
@@ -947,434 +1065,6 @@ main{
   margin: 0;
   padding-left: 4px;
 }
-
-/* 장식 */
-
-
-/* 사이버-턴테이블
-https://sardina.tistory.com
-© 2026. 닻과 파도의 항해일지
-All rights reserved. */
-
-    /* ==============================
-       [사용자 설정1] 색상 코드 변경
-       ============================== */
-    :root {
-        /* 1. 턴테이블 본체 색상 */
-        --lp-body-color: #7F462C;
-        /* 2. 본체 그림자/테두리 (본체보다 조금 어두운 색 추천) */
-        --lp-shadow-color: #42261F;
-        /* 3. 재생 중 LED 불빛 색상 */
-        --lp-led-on-color: #FFEF00;
-        /* 4. 플리 포인트 색상 (제목, 닫기 버튼 등) */
-        --lp-accent-color: #000000;
-        /* 5. 플리 선택된 곡 배경색 */
-        --lp-playlist-active-bg: #FFEF00;
-        /* 6. 플리 선택된 곡 글자색 */
-        --lp-playlist-active-text: #000000;
-        /* 7. 플리 마우스 올렸을 때 하이라이트 배경색 */
-        --lp-playlist-hover-bg: #000000;
-        /* 8. LP판 이미지 */
-        --lp-vinyl-img: url("https://i.imgur.com/JOPdp2L.jpeg");
-    }
-
-    /* --------------------------------------------------------------------------
-       [시스템 스타일] 아래 코드는 수정하지 마세요.
-       (기능 작동에 필수적입니다)
-       -------------------------------------------------------------------------- */
-
-    #lp-widget {
-    position: fixed;
-    bottom: 30px; left: 40px; z-index: 9999;
-    font-family: sans-serif;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-    transform-origin: center center; 
-    user-select: none;
-    opacity: 1 !important;
-    visibility: visible !important; 
-    pointer-events: auto;
-    }
-    #lp-widget.lp-collapsed { 
-        opacity: 0 !important; 
-        visibility: hidden !important;
-        pointer-events: none; 
-        transform: none; 
-    }
-    #lp-widget button, #lp-expand-btn {
-        outline: none !important;
-        border: none !important;
-        -webkit-tap-highlight-color: transparent !important;
-        user-select: none; cursor: pointer; transition: transform 0.1s ease;
-    }
-    #lp-deck { 
-        width: 178px; height: 124px; 
-        background-color: var(--lp-body-color);
-        /* 사용자 설정 색상 적용 */
-        border-radius: 8px;
-        box-shadow: 0 3px 0 var(--lp-shadow-color), 0 15px 35px rgba(0,0,0,0.25), inset 0 1px 2px rgba(255,255,255,0.4);
-        position: relative; display: flex;
-    }
-    #lp-expand-btn {
-        position: fixed; bottom: 30px; left: 40px;
-        width: 36px; height: 36px; 
-        background: var(--lp-body-color); /* 사용자 설정 색상 적용 */
-        color: #fff;
-        border-radius: 50%; display: flex; 
-        opacity: 0; visibility: hidden; pointer-events: none;
-        transition: opacity 0.2s ease, visibility 0.2s ease;
-        align-items: center;
-        justify-content: center; z-index: 10000;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-size: 20px; transform: none;
-    }
-    #lp-expand-btn:active { transform: scale(0.9); } 
-    #lp-widget.lp-collapsed + #lp-expand-btn { 
-        opacity: 1;
-        visibility: visible; pointer-events: auto; transform: none; 
-    }
-    @media (max-width: 768px) { 
-        #lp-widget, #lp-expand-btn { bottom: 15px;
-        left: 15px; } 
-    }
-    #lp-modal {
-        position: absolute;
-        bottom: 135px; left: 0; width: 180px; height: auto; max-height: none; 
-        background: rgba(255, 255, 255, 0.98); border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.12); display: none; flex-direction: column;
-        overflow: hidden; z-index: 100;
-    }
-    #lp-modal.is-open { display: flex; animation: lpSlideUp 0.3s ease-out forwards;
-    }
-    #lp-modal.is-closing { display: flex; animation: lpSlideDown 0.25s ease-out forwards;
-    }
-
-    @keyframes lpSlideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0);
-    } }
-    @keyframes lpSlideDown { from { opacity: 1; transform: translateY(0); } to { opacity: 0;
-    transform: translateY(10px); } }
-
-    .lp-modal-header { 
-        position: relative;
-        padding: 10px; font-size: 9px; font-weight: bold; 
-        color: var(--lp-accent-color); /* 사용자 설정 색상 적용 */
-        text-align: center;
-        border-bottom: 1px solid #ffffff; letter-spacing: 1px; 
-    }
-    #lp-modal-close {
-        position: absolute;
-        right: 10px; top: 50%; transform: translateY(-50%);
-        width: 18px; height: 18px; background: #ffffff; 
-        color: var(--lp-accent-color);
-        /* 사용자 설정 색상 적용 */
-        border-radius: 4px; font-size: 12px; display: flex;
-        align-items: center; justify-content: center;
-    }
-    #lp-modal-close:active { background: #e0f0ff; transform: translateY(-50%) scale(0.9);
-    }
-    #lp-modal-items { list-style: none; margin: 0; padding: 4px 0; overflow: hidden;
-    }
-    .lp-modal-item { 
-        padding: 8px 14px; font-size: 11px;
-        color: #666; transition: background 0.1s; 
-        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2;
-    }
-    .lp-modal-item:active { background: #ffffff; }
-    
-    /* 선택된 곡 스타일 - 사용자 설정 변수 적용 */
-    .lp-modal-item.active { 
-        background: var(--lp-playlist-active-bg);
-        font-weight: bold;
-        color: var(--lp-playlist-active-text);
-    }
-
-    .lp-record-area { position: absolute;
-        top: 2px; left: -10px; width: 120px; height: 120px; z-index: 10; cursor: pointer; -webkit-tap-highlight-color: transparent;
-    }
-.lp-vinyl {
-        width: 100%; height: 100%;
-        border-radius: 50%;
-        position: relative;
-        background-color: #111; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-        background-image: var(--lp-vinyl-img);
-        background-size: cover; 
-        background-position: center;
-        transform: rotate(0deg); transition: box-shadow 0.3s ease; overflow: hidden;
-        will-change: transform;
-        backface-visibility: hidden;
-    }
-    .lp-vinyl::before { 
-        content: ''; position: absolute; top: 0;
-        left: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none;
-        background: conic-gradient(from 200deg, transparent 0deg, rgba(255, 255, 255, 0.05) 15deg, rgba(255, 255, 255, 0.3) 30deg, rgba(255, 255, 255, 0.05) 45deg, transparent 60deg, transparent 180deg, rgba(255, 255, 255, 0.05) 195deg, rgba(255, 255, 255, 0.3) 210deg, rgba(255, 255, 255, 0.05) 225deg, transparent 240deg);
-        filter: blur(0.5px); opacity: 0.8; 
-    }
-/* 수정 후 */
-.lp-vinyl::after {
-    content: '';
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; border-radius: 50%;
-    background: repeating-radial-gradient(circle, transparent 0, transparent 3px, rgba(0, 0, 0, 0.15) 3.5px, transparent 4px);
-    filter: blur(0.8px);
-}
-    .lp-vinyl[style*="background-image"]::after { opacity: 0.15; }
-
-    .lp-label { 
-        position: absolute;
-        top: 50%; left: 50%; transform: translate(-50%, -50%); 
-        width: 34px; height: 34px; background: radial-gradient(circle, #e74c3c 30%, #c0392b 100%);
-        border-radius: 50%;
-        z-index: 5; 
-        box-shadow: 0 0 0 1px rgba(0,0,0,0.2), inset 0 0 4px rgba(0,0,0,0.3);
-        display: none;
-    }
-    .lp-vinyl[style*="background-image"] { background-size: cover; background-position: center; }
-    .lp-vinyl[style*="background-image"] .lp-label { display: none;
-    }
-    .lp-vinyl.spinning { animation: lpSpin 3s linear infinite;
-    }
-    .lp-spindle { 
-        position: absolute; top: 50%; left: 50%;
-        transform: translate(-50%, -50%); width: 6px; height: 6px; 
-        background: #ccc; border-radius: 50%; border: 1px solid #999; z-index: 11;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.3); 
-    }
-    .lp-tooltip { 
-        position: absolute;
-        top: -40px; left: 0; right: 0; margin: 0 auto; width: max-content;
-        background: rgba(255, 255, 255, 0.95); color: #555;
-        padding: 6px 12px; 
-        font-size: 11px; font-weight: bold; border-radius: 12px; pointer-events: none; 
-        opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
-        white-space: nowrap; z-index: 50; box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
-    }
-    .lp-tooltip::after { 
-        content: '';
-        position: absolute; top: 100%; left: 50%; margin-left: -5px; 
-        border-width: 5px; border-style: solid; border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
-    }
-    @media (min-width: 769px) {
-        .lp-record-area:hover .lp-vinyl { box-shadow: 0 0 15px 4px rgba(255, 255, 255, 0.9) !important;
-        }
-        .lp-record-area:hover .lp-tooltip { opacity: 1; transform: translateY(-5px);
-        }
-        
-        /* 마우스 호버(하이라이트) 스타일 - 사용자 설정 변수 적용 */
-        .lp-modal-item:not(.active):hover { 
-            background-color: var(--lp-playlist-hover-bg); 
-            color: #F5BD02; /* 기본 연한 파랑 텍스트 유지 (필요시 변경 가능) */
-            cursor: pointer;
-        }
-    }
-    @media (max-width: 768px) { .lp-tooltip { display: none !important;
-    } }
-    #lp-modal.is-open ~ #lp-deck .lp-vinyl, #lp-modal.is-closing ~ #lp-deck .lp-vinyl { box-shadow: 0 0 15px 4px rgba(255, 255, 255, 0.9) !important;
-    }
-
-    .lp-tonearm { 
-        position: absolute; top: 15px; right: 0;
-        width: 100%; height: 100%; pointer-events: none; 
-        transform-origin: 125px 20px; transform: rotate(-85deg); 
-        transition: none; 
-        z-index: 20;
-    }
-    .lp-part-pivot { 
-        position: absolute; right: 43px; top: 11px;
-        width: 20px; height: 20px;
-        background: radial-gradient(circle at 30% 30%, #777, #444); border-radius: 50%; box-shadow: 0 3px 6px rgba(0,0,0,0.25);
-    }
-    .lp-part-rod { 
-        position: absolute; top: 20px; right: 55px;
-        width: 50px; height: 5px;
-        background: linear-gradient(to bottom, #e0e0e0, #b0b0b0 40%, #999 60%, #cfcfcf); 
-        border-radius: 2px; transform-origin: right center;
-        box-shadow: 2px 3px 5px rgba(0,0,0,0.2);
-    }
-    .lp-part-neck { 
-        position: absolute;
-        top: 20px; right: 102px; width: 18px; height: 5px;
-        background: linear-gradient(to bottom, #e0e0e0, #b0b0b0 40%, #999 60%, #cfcfcf); 
-        border-radius: 2px;
-        transform-origin: right center; transform: rotate(25deg); box-shadow: 2px 3px 5px rgba(0,0,0,0.2);
-    }
-    .lp-part-head { 
-        position: absolute; top: 10px; right: 115px;
-        width: 14px; height: 8px; 
-        background: linear-gradient(135deg, #444, #222); border-radius: 2px; transform: rotate(25deg); box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    .lp-part-head::after { 
-        content: ''; position: absolute; top: 60%;
-        right: 0px; transform-origin: left center; transform: rotate(90deg);
-        width: 7px; height: 1.5px; background: #444; border-radius: 1px; box-shadow: 1px 1px 2px rgba(0,0,0,0.15);
-    }
-    .lp-part-weight { 
-        position: absolute; top: 15px; right: 45px;
-        width: 16px; height: 12px;
-        background: linear-gradient(to right, #444, #222, #444); border-radius: 2px; transform: rotate(0deg); 
-        box-shadow: 2px 3px 6px rgba(0,0,0,0.3);
-        border-left: 1px solid #666;
-    }
-
-    #lp-deck.is-playing .lp-tonearm { transform: rotate(-60deg);
-    }
-
-    .lp-btn-group { position: absolute; bottom: 15px; right: 15px; display: flex; flex-direction: column; align-items: center; gap: 5px;
-    z-index: 30; }
-    
-    #lp-led { 
-        width: 15px;
-        height: 15px; fill: #999; transition: all 0.4s ease; margin-bottom: 2px; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.25));
-    }
-    #lp-led.is-on { 
-        fill: var(--lp-led-on-color);
-        /* 사용자 설정 색상 적용 */
-        filter: drop-shadow(0 0 1px var(--lp-led-on-color)) drop-shadow(0 0 12px rgba(255, 204, 0, 0.4));
-    }
-    #lp-widget button:not(#lp-modal-close) {
-        width: 24px; height: 24px; border-radius: 50%;
-        background: #fff; color: #888; font-size: 10px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.08);
-        flex-shrink: 0; padding: 0;
-        display: flex; align-items: center; justify-content: center;
-        transition: transform 0.1s ease, box-shadow 0.1s ease;
-    }
-    #lp-widget button:not(#lp-modal-close):active { transform: scale(0.9) !important; background: #f7f7f7; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    }
-    
-    .lp-volume-wrap {
-        position: absolute;
-        top: 10px; right: 15px; width: 58px; height: 15px; 
-        display: flex; align-items: center; justify-content: flex-start; z-index: 40; cursor: pointer; touch-action: none;
-    }
-    .lp-vol-rail {
-        width: 100%; height: 4px;
-        background: rgba(0, 0, 0, 0.25); border-radius: 2px; position: relative;
-        box-shadow: inset 0 1px 2px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.3);
-    }
-    .lp-vol-fill {
-        position: absolute; top: 0; left: 0;
-        height: 100%; width: 50%; background: #999; 
-        border-radius: 2px; pointer-events: none; box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);
-    }
-    .lp-vol-handle {
-        position: absolute; top: 50%; left: 50%;
-        width: 6px; height: 10px; background: #888; border: none;
-        transform: translate(-50%, -50%); box-shadow: 0 2px 4px rgba(0,0,0,0.35); border-radius: 1px; pointer-events: none;
-    }
-    .lp-vol-hitbox { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2;
-    }
-    
-    .lp-pause-icon { display: inline-block; width: 8px; height: 9px; border-left: 2px solid #555;
-    border-right: 2px solid #555; box-sizing: border-box; }
-    @keyframes lpSpin { 0% { transform: rotate(0deg);
-    } 100% { transform: rotate(360deg); } }
-    #lp-yt-container { 
-        position: fixed; 
-        top: 0; left: 0; 
-        width: 1px; height: 1px; 
-        opacity: 0.01; 
-        pointer-events: none; 
-        z-index: -100;
-    }
-    #lp-modal.is-open ~ #lp-deck .lp-tooltip, #lp-modal.is-closing ~ #lp-deck .lp-tooltip {
-        opacity: 0 !important;
-        visibility: hidden !important; transform: none !important; display: none !important;
-    }
-
-    #lp-deck.is-loaded .lp-tonearm {
-        transition: transform 1.0s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-
-
-
-.floating-ticket {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            width: 180px; /* 구역이 늘어나 가로폭을 조금 넓혔습니다 */
-            height: 70px;
-            background-color: #E2D1B3; /* 빛바랜 베이지 */
-            box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.2);
-            z-index: 9999;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            
-            /* 모서리 파임 효과 */
-            -webkit-mask-image: radial-gradient(circle at top left, transparent 5px, black 5.5px),
-                                radial-gradient(circle at top right, transparent 5px, black 5.5px),
-                                radial-gradient(circle at bottom left, transparent 5px, black 5.5px),
-                                radial-gradient(circle at bottom right, transparent 5px, black 5.5px);
-            -webkit-mask-size: 51% 51%;
-            -webkit-mask-repeat: no-repeat;
-            -webkit-mask-position: top left, top right, bottom left, bottom right;
-            
-            padding: 4px;
-            display: flex;
-            font-family: 'Courier New', 'Apple SD Gothic Neo', sans-serif;
-        }
-
-.floating-ticket:hover {
-            transform: scale(1.05);
-        }
-
-        /* 내부 빨간 테두리 */
-.ticket-inner {
-            display: flex;
-            width: 100%;
-            border: 2px solid #C45F54;
-            border-radius: 6px;
-        }
-
-        /* 1. 왼쪽 메인 영역 (D-DAY) */
-.ticket-main {
-            flex: 1; /* 남는 공간을 모두 차지 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-.dday-title {
-            font-size: 12px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            color: #1A1A1A;
-            text-align: center;
-        }
-
-        /* 2. 중앙 라벨 영역 (DAYS) - 새로 추가됨! */
-.ticket-days {
-            width: 26px; /* 좁은 세로 칸 */
-            border-left: 2px solid #C45F54; /* 메인 영역과의 경계선 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-.dday-label {
-            font-size: 11px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: #C45F54; /* 도장 잉크처럼 붉은색으로 포인트 */
-            writing-mode: vertical-rl;
-            text-orientation: upright;
-        }
-
-        /* 3. 오른쪽 절취선 영역 (숫자) */
-.ticket-stub {
-            width: 30px;
-            border-left: 2px solid #C45F54; /* DAYS 영역과의 경계선 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-.dday-number {
-            font-size: 15px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: #1A1A1A;
-            transform: rotate(90deg); /* 세로로 눕힘 */
-            white-space: nowrap;
-        }
 
 /* ── Reduced motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce){
