@@ -22,16 +22,16 @@ function filterByLocale(rows) {
 
 function getTeaContentPeriod() {
   const h = new Date().getHours();
-  if (h >= 8 && h < 15) return "morning";
-  if (h >= 15 && h < 17) return "snack";
-  return "night"; // 17:00–08:00
+  if (h >= 7 && h < 15) return "morning";
+  if (h >= 15 && h < 18) return "snack";
+  return "night"; // 18:00–07:00
 }
 function filterByTeaPeriod(rows, period) {
   return rows.filter(r => !r.period || r.period === "ALL" || r.period === period);
 }
 function isTeaDeepNight() {
   const h = new Date().getHours();
-  return h >= TEA_NIGHT_START_HOUR || h < TEA_NIGHT_END_HOUR; // 20:00–08:00
+  return h >= TEA_NIGHT_START_HOUR || h < TEA_NIGHT_END_HOUR; // 20:00–06:00
 }
 
 const WEATHER_FALLBACK_LAT = 35.1565; // 위치 허용을 안 했을 때 쓸 기본 위도
@@ -232,7 +232,7 @@ const TEA_LIMIT_MESSAGES = [
 ];
 
 const TEA_NIGHT_START_HOUR = 20;
-const TEA_NIGHT_END_HOUR = 8;
+const TEA_NIGHT_END_HOUR = 6;
 const TEA_NIGHT_NOTICE_CHANCE = 0.3;
 const TEA_NIGHT_OFFER_CHANCE = 0.1;
 
