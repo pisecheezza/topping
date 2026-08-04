@@ -371,8 +371,13 @@ function loadManorEntrance(section, entranceElId, gridElId) {
             (row.label || "").trim() === label
           );
           entrance.style.display = "none";
-          grid.style.display = "flex";
-          renderCardGrid(grid, items);
+          grid.style.display = section === "gallery" ? "flex" : "flex";
+
+          if (section === "gallery") {
+            renderGalleryFrames(grid, items);
+          } else {
+            renderCardGrid(grid, items);
+          }
         });
         entrance.appendChild(btn);
       });
