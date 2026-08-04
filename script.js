@@ -485,9 +485,8 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
 
 // ── 도구 ───────────────────────────────────────────────────
 
-      const startDate = new Date('1884-11-05');
-
-        function calculateDays() {
+      const startDate = new Date('1884-11-05T00:00:00'); // 시:분:초까지 명시 → 로컬 시간으로 해석됨
+      function calculateDays() {
             const today = new Date();
             const diffTime = today.getTime() - startDate.getTime();
             const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
