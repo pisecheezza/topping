@@ -179,16 +179,18 @@ document.querySelectorAll(".profile-sub-link").forEach(btn => {
     location.hash = "profile";
     closeMenu();
 
+    // 공통 박스 초기화 (상황에 맞게 display 처리)
+    const markBox = document.getElementById("profileMarkBox");
+    const historyBox = document.getElementById("profileHistoryBox");
+
     if (profileType === "mark") {
-      document.querySelectorAll(".profile-sub-link").forEach(btn => {
-      const original = btn.onclick;
-      btn.addEventListener("click", () => {
-        const profileType = btn.dataset.profileType;
-        if (profileType === "mark") {
-          loadManorEntrance("profile", "profileEntrance", "profileGrid");
-        }
-      });
-    });
+      // 1. 필요한 경우 박스 표시 상태 전환
+      if (markBox) markBox.style.display = "block";
+      if (historyBox) historyBox.style.display = "none";
+
+      // 2. 당주(mark) 관련 로직 호출
+      loadManorEntrance("profile", "profileEntrance", "profileGrid");
+      
     } else if (profileType === "history") {
       document.getElementById("profileMarkBox").style.display = "none";
       document.getElementById("profileHistoryBox").style.display = "block";
