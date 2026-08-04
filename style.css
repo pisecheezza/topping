@@ -1043,11 +1043,11 @@ main{
   padding-left: 4px;
 }
 
-/* ── Reduced motion ─────────────────────────────────────── */
+/* ── Reduced motion ───────────────────────────────────────
 @media (prefers-reduced-motion: reduce){
   *{ animation:none !important; transition:none !important; }
 }
-
+ */
 /* ── Mobile ─────────────────────────────────────────────── */
 @media (max-width: 480px){
   .tabs{ gap:0; }
