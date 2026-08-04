@@ -7,7 +7,9 @@ function playClickSound() {
   clickAudio.play().catch(() => {});
 } */
 
-// ── 장식 ───────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+// 스크롤 바 나비
+// ══════════════════════════════════════════════════════
 (function () {
   const morpho = document.getElementById("scrollMorpho");
   if (!morpho) return;
@@ -28,7 +30,9 @@ function playClickSound() {
   updateMorphoPosition();
 })();
 
-// ── 모바일 터치 커서 (hand.png) ────────────────────────────
+// ══════════════════════════════════════════════════════
+// 모바일 터치 커서
+// ══════════════════════════════════════════════════════
 (function () {
   const cursor = document.getElementById("touchCursor");
   if (!cursor) return;
@@ -52,6 +56,10 @@ function playClickSound() {
   // touchend에서 숨기는 코드 삭제 — 이제 손을 떼도 그 자리에 남아있음
 })();
 
+
+// ══════════════════════════════════════════════════════
+// 커서 효과
+// ══════════════════════════════════════════════════════
 // <![CDATA[
 var colour="random"; // in addition to "random" can be set to any valid colour eg "#f0f" or "red"
 var sparkles=50;
@@ -250,7 +258,9 @@ function newColour() {
 // ]]>
 
 
-// ------- 시메지 --------------/
+// ══════════════════════════════════════════════════════
+// 시메지
+// ══════════════════════════════════════════════════════
 
 (function () {
   const el = document.getElementById('shimeji');
