@@ -1,0 +1,22 @@
+#shimeji {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    font-size: 40px;
+    line-height: 1;
+    z-index: 9999;
+    user-select: none;
+    transition: transform 0.15s ease;
+    will-change: left, bottom;
+    cursor: grab;
+    pointer-events: auto;
+    touch-action: none; /* 모바일에서 드래그가 스크롤/줌 제스처로 가로채이지 않도록 */
+  }
+
+  #shimeji.flip { transform: scaleX(-1); }
+  #shimeji.flip.climbing { transform: scaleX(-1) rotate(90deg); }
+  #shimeji.climbing { transform: rotate(-90deg); }
+
+  #shimeji.dragging {
+    cursor: grabbing;
+  }
