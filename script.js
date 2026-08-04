@@ -1,3 +1,4 @@
+document.addEventListener("contextmenu",function(e){"IMG"===e.target.nodeName&&e.preventDefault()},!1);
 marked.setOptions({ breaks: true });
 
 // ── 시트 → CSV → JSON ────────────────────────────────────
