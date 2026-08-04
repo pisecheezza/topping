@@ -315,10 +315,10 @@ function renderCardGrid(gridEl, rows) {
       const comment = (r.comment || "").trim();
       const imagesHtml = imageIds.map(id => `<img src="${driveImageUrl(id)}" alt="">`).join("");
       const card = document.createElement("article");
-      card.className = "storage-card";
+      card.className = "gallery-card";
       card.innerHTML = `
-        ${imageIds.length ? `<div class="storage-thumb">${imagesHtml}</div>` : ""}
-        ${comment ? `<div class="storage-body"><p class="storage-comment">${escapeHtml(comment)}</p></div>` : ""}`;
+        ${imageIds.length ? `<div class="gallery-thumb">${imagesHtml}</div>` : ""}
+        ${comment ? `<div class="gallery-body"><p class="gallery-comment">${escapeHtml(comment)}</p></div>` : ""}`;
       gridEl.appendChild(card);
     });
 }
