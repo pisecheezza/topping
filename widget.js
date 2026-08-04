@@ -1,3 +1,16 @@
+//안드로이드 우측 버튼 비활성
+    $(document).bind("contextmenu", function(e) {
+        return false;
+     });
+    
+    //pc F12 개발자도구 비활성
+    $(document).bind('keydown',function(e){
+        if ( e.keyCode == 123) {
+            e.preventDefault();
+            e.returnValue = false;
+        }
+    });
+
 /* ────────────────────────────────────────────────
    SHEET_API_BASE_URL 에 Apps Script 웹앱 배포 URL을 넣으세요.
    세 아이콘 모두 이 URL 하나를 공유하고, ?type=time / ?type=tea / ?type=tarot 만 다르게 붙습니다.
