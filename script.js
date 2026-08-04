@@ -119,6 +119,39 @@ notices
   });
 });
 
+// ── Pages: 문서 목록 (날짜 + 제목) ────────
+fetchTab(TABS.pages).then(rows => {
+  const list = document.getElementById("pagesList");
+  list.innerHTML = "";
+  rows
+    .filter(r => String(r.date || r.title || r.content || "").trim())
+    .slice()
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
+    .forEach(r => {
+      const row = document.createElement("div");
+      row.className = "typeline-row";
+      row.innerHTML = `
+        <div class="typeline-header">
+          <div class="typeline-date">${escapeHtml(formatDate(r.date))}</div>
+          <h3 class="typeline-title">${escapeHtml(String(r.title || ""))}</h3>
+        </div>
+        <div class="typeline-content">${marked.parse(String(r.content || ""))}</div>`;
+      list.appendChild(row);
+    });
+});
+
+function formatDate(str) {
+  const s = String(str || "").trim().replace(/[-.\/]/g, ""); // 구분자 다 제거
+  if (s.length === 8) {
+    return `${s.slice(0, 4)}.${s.slice(4, 6)}.${s.slice(6, 8)}`;
+  }
+  return s; // 8자리가 아니면 원본 그대로
+}
+
+
+
+
+
 // ── Profile: 인적사항 ───────────────────────
 fetchTab(TABS.profile).then(rows => {
   const container = document.getElementById("profileSections");
