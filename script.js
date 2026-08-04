@@ -1,17 +1,3 @@
-//안드로이드 우측 버튼 비활성
-    $(document).bind("contextmenu", function(e) {
-        return false;
-     });
-    
-    //pc F12 개발자도구 비활성
-    $(document).bind('keydown',function(e){
-        if ( e.keyCode == 123) {
-            e.preventDefault();
-            e.returnValue = false;
-        }
-    });
-
-
 marked.setOptions({ breaks: true });
 
 // ── 시트 → CSV → JSON ────────────────────────────────────
