@@ -607,3 +607,294 @@ Promise.all([
   loadTarotRows().then(rows => tarotRowsCache = rows).catch(() => {}),
   loadScheduleRows().then(rows => scheduleRowsCache = rows).catch(() => {})  // 추가
 ]);
+
+
+/* ============ 宝物探し ============ */
+const TreasureHunt = (function() {
+    const APPEAR_PROBABILITY = 0.3;
+    const STORAGE_KEY = 'treasure_collected_items';
+    const STORAGE_KEY_PENDING = 'treasure_pending_item';
+    
+    const STORAGE_KEY_FIRST_SEARCH = 'treasure_first_search_count'; 
+
+    const itemsData = [
+        { title: '青い薔薇', icon: '🌹', desc: 'ファントムハイヴ家の庭園に咲く、ありえない色の薔薇。気高い気品を纏っている。' },
+        { title: '謎の小瓶', icon: '🫙', desc: '不気味な液体が入った小瓶。開けると甘い香りと共に冷たい悪寒が走る。' },
+        { title: '契約書', icon: '📜', desc: '悪魔と結ばれた血の契約。左目の刻印と同じ文様が不敵に輝いている。' },
+        { title: '貝殻のペンダント', icon: '🐚', desc: 'アロイスの過去の記憶が封じ込められたかのような、どこか切なさを誘う貝殻。' },
+        { title: '銀食器のセット', icon: '🧺', desc: 'ファントムハイヴ家執事が磨き上げた、完璧な手入れの行き届いたシルバーウェア。' },
+        { title: 'ファントム社の指輪', icon: '💝', desc: '代々当主だけに受け継がれる当主の証。圧倒的な重みと冷たさを感じる。' },
+        { title: 'ブルーベルの宝玉', icon: '💠', desc: '美しくも底知れない狂気を湛えた、アロイスの瞳を思わせる鮮やかな青の石。' },
+        { title: 'トレイシー伯爵のタグ', icon: '🏷️', desc: '忌まわしき過去と呪縛を思い起こさせる、血にまみれた古いタグ。' },
+        { title: '革製の旅行鞄', icon: '👝', desc: '女王の番犬としてイギリス中を駆け巡る際、常に携帯している重厚な鞄。' },
+        { title: '黒猫のぬいぐるみ', icon: '🐈', desc: 'クローディアスが愛していた猫を模した、少し古びた手触りの人形。' },
+        { title: '琥珀色のブランデー', icon: '🍸', desc: '大人の嗜みとして、夜な夜なグラスに注がれる芳醇で強いお酒。' },
+        { title: 'アールグレイティー', icon: '☕', desc: 'ファントムハイヴ邸で常に最高の淹れ方で提供される、香り高い紅茶。' },
+        { title: 'ウィスキーグラス', icon: '🥃', desc: '氷がカランと音を立てる、冷たく澄んだクリスタルのグラス。' },
+        { title: '領収書', icon: '🧾', desc: 'ファントム社のおもちゃや菓子の大口取引の記録。莫大な金額が並ぶ。' },
+        { title: '調査報告書', icon: '📋', desc: '裏社会の事件やサーカス団の失踪事件に関する、極秘の調査データ。' },
+        { title: '万年筆のメモ', icon: '📝', desc: 'シエルが鋭い筆跡で次なる命ずるべき事項を書き留めた紙片。' },
+        { title: '特製オレンジジャム', icon: '🍊', desc: 'ルカと作ったとされる、甘酸っぱくも隠し味のありそうなジャム。' },
+        { title: '英国貴族院の書類', icon: '📑', desc: '政治的謀略や裏の取引が記された、表に出せない極秘の公文書。' },
+        { title: '特製アイシングクッキー', icon: '🍪', desc: '上品な甘さの中に、どこか毒っ気を感じさせる可愛らしいお菓子。' },
+        { title: '輝くクラゲの標本', icon: '🪼', desc: 'トランシー邸の怪しげな部屋に飾られている、幻想的な海の生物。' },
+        { title: '窓辺の鉢植え', icon: '🪴', desc: '手入れが行き届きながらも、静寂に包まれた部屋でひっそりと育つ植物。' },
+        { title: 'スケジュール帳', icon: '🗒️', desc: '多忙な当主の分刻みのスケジュールと、死の予感が混ざり合う手帳。' },
+        { title: 'ガラスペン', icon: '🖋', desc: 'インクを吸い込み、冷たい文字を美しく紡ぎ出すための美しい筆記具。' },
+        { title: 'ロンドンの地図', icon: '🗺️', desc: '霧深き裏社会の事件現場や、怪しげな館の位置が赤く記された地図。' },
+        { title: 'ローストビーフのサンド', icon: '🥪', desc: '執事が手際よく用意した、英国の伝統的で上品な軽食。' },
+        { title: '古びた羊皮紙', icon: '📃', desc: '悪魔との契約や呪術に関する古い言い伝えが記された難解な古文書。' },
+        { title: '女王からの手紙', icon: '📄', desc: '「女王の番犬」へ下される、絶対不可避の極秘ミッションが記された書簡。' },
+        { title: '満開の桜の枝', icon: '🌸', desc: 'どこか儚く、美しく散りゆく運命を暗示するかのような一枝。' },
+        { title: 'アザラシのクッション', icon: '🦭', desc: 'アロイスの部屋に転がる、子どもらしい無邪気さと孤独を隠す抱き枕。' },
+        { title: '朝刊新聞', icon: '📰', desc: 'ロンドン市内の怪奇事件や、ジャック・ザ・リッパーの噂を伝える紙面。' },
+        { title: '光り輝く宝石の指輪', icon: '💍', desc: '華やかな社交界で目を引く、気品あふれる高価なジュエリー。' },
+        { title: '古びた鍵', icon: '🗝️', desc: 'トランシー邸の開かずの扉、またはファントムハイヴの秘密の地下室を開ける鍵。' },
+        { title: 'くまのぬいぐるみ', icon: '🧸', desc: 'アロイスが大切に抱きしめていた、愛情の飢えを感じさせる古い玩具。' },
+        { title: '象牙の櫛', icon: '🪮', desc: '美しい銀髪を艶やかに整えるために使われる、職人技の光る高級な櫛。' },
+        { title: '高級アロマオイル', icon: '🧴', desc: '甘い香りで心を惑わせる、トランシー邸の退廃的な雰囲気を象徴する小瓶。' },
+        { title: '天蓋付きのベッド', icon: '🛏️', desc: '悪夢と孤独に苛まれながら、主が眠りにつくための重厚な寝具。' },
+        { title: '深紅のマフラー', icon: '🧣', desc: '寒さを凌ぐためだけでなく、首元に纏う血の色を想起させる鮮烈な布。' },
+        { title: 'ビジネス用アタッシュケース', icon: '💼', desc: 'ファントム社の一大事業の契約書や, 裏の資金が詰まった硬質な鞄。' },
+        { title: 'ミントキャンディ', icon: '🍬', desc: '口に入れた瞬間、ピリッとした刺激と強い清涼感が広がる甘いお菓子。' },
+        { title: '封蝋された手紙', icon: '✉️', desc: '漆黒のワックスでしっかりと封がされた、差出人不明の危険な予告状。' },
+        { title: '甘い香りのラブレター', icon: '💌', desc: '純粋な恋心と、どこか歪んだ執着心が入り混じった秘密の恋文。' }
+    ];
+
+    let currentHiddenItem = null;
+    const cornerWrapper = document.getElementById('corner-interaction-wrapper');
+    const hiddenEmojiSpan = document.getElementById('hiddenEmoji');
+
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
+    let hasTriggeredOpen = false; 
+
+    function getSeenItems() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        return stored ? JSON.parse(stored) : [];
+    }
+
+    function markItemAsSeen(title) {
+        const seen = getSeenItems();
+        if (!seen.includes(title)) {
+            seen.push(title);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(seen));
+        }
+    }
+
+function initHiddenItem() {
+        const STORAGE_KEY_SKIP_NEXT = 'treasure_skip_next';
+
+        window.addEventListener('beforeunload', function() {
+            if (localStorage.getItem(STORAGE_KEY_PENDING)) {
+                localStorage.setItem(STORAGE_KEY_SKIP_NEXT, 'true');
+            }
+            localStorage.removeItem(STORAGE_KEY_PENDING);
+        });
+
+        document.addEventListener('click', function(e) {
+            const targetLink = e.target.closest('a');
+            
+            if (!targetLink || !targetLink.href || targetLink.target === '_blank' || targetLink.href.startsWith('javascript:')) return;
+
+            if (cornerWrapper.classList.contains('show') && 
+                !cornerWrapper.classList.contains('is-open') && 
+                !cornerWrapper.classList.contains('is-flat')) {
+                
+                e.preventDefault(); 
+
+                const emojiEl = document.getElementById('hiddenEmoji');
+                if (emojiEl) emojiEl.classList.add('emoji-exit');
+                flattenPaper();
+                
+                localStorage.setItem(STORAGE_KEY_SKIP_NEXT, 'true');
+                localStorage.removeItem(STORAGE_KEY_PENDING);
+
+                setTimeout(() => {
+                    window.location.href = targetLink.href;
+                }, 700);
+            }
+        });
+
+        if (localStorage.getItem(STORAGE_KEY_SKIP_NEXT)) {
+            localStorage.removeItem(STORAGE_KEY_SKIP_NEXT); 
+            cornerWrapper.style.display = 'none';
+            return; 
+        }
+        const pendingTitle = localStorage.getItem(STORAGE_KEY_PENDING);
+        if (pendingTitle) {
+            const found = itemsData.find(item => item.title === pendingTitle);
+            if (found) {
+                currentHiddenItem = found;
+                displayItem(found);
+                return;
+            }
+        }
+
+let shouldAppear = true; // 항상 등장하도록 수정
+        let currentSeenList = getSeenItems();
+
+        // 만약 모든 아이템을 다 모았을 때 다시 처음부터 순환하게 만드는 기존 로직 유지
+        if (currentSeenList.length >= itemsData.length) {
+            currentSeenList = [];
+            localStorage.removeItem(STORAGE_KEY);
+        }
+
+        if (currentSeenList.length >= itemsData.length) {
+            currentSeenList = [];
+            localStorage.removeItem(STORAGE_KEY);
+        }
+
+        const weightedPool = [];
+        itemsData.forEach(item => {
+            const isSeen = currentSeenList.includes(item.title);
+            const weight = isSeen ? 1 : 100; 
+            for(let i=0; i < weight; i++) weightedPool.push(item);
+        });
+
+        const randomIndex = Math.floor(Math.random() * weightedPool.length);
+        currentHiddenItem = weightedPool[randomIndex];
+
+        localStorage.setItem(STORAGE_KEY_PENDING, currentHiddenItem.title);
+        displayItem(currentHiddenItem);
+    }
+
+    function displayItem(item) {
+        hiddenEmojiSpan.innerText = item.icon;
+        cornerWrapper.style.display = 'block';
+        
+        addInteractionEvents();
+
+        setTimeout(() => {
+            cornerWrapper.classList.add('show');
+        }, 100);
+    }
+
+function addInteractionEvents() {
+        cornerWrapper.addEventListener('touchstart', handleStart, {passive: false});
+        cornerWrapper.addEventListener('touchmove', handleMove, {passive: false});
+        cornerWrapper.addEventListener('touchend', handleEnd);
+
+        cornerWrapper.addEventListener('mousedown', handleStart);
+        window.addEventListener('mousemove', handleMove); 
+        window.addEventListener('mouseup', handleEnd);
+        
+        cornerWrapper.addEventListener('click', function(e) {
+            if (!hasTriggeredOpen && isInsideCorner(e)) {
+                togglePaper();
+            }
+        });
+    }
+
+        function isInsideCorner(e) {
+        if (cornerWrapper.classList.contains('is-open') || cornerWrapper.classList.contains('is-flat')) return true;
+
+        const rect = cornerWrapper.getBoundingClientRect();
+        const clientX = e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.clientY;
+        
+     　 const localX = rect.right - clientX;
+        const localY = clientY - rect.top;
+     
+        return (localX + localY) <= 100;
+    }
+
+    function handleStart(e) {
+        if (cornerWrapper.classList.contains('is-open')) return;
+
+        if (!isInsideCorner(e)) return;
+
+        isDragging = true;
+        hasTriggeredOpen = false;
+
+        if (e.type === 'touchstart') {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        } else {
+            startX = e.clientX;
+            startY = e.clientY;
+        }
+    }
+
+    function handleMove(e) {
+        if (!isDragging || hasTriggeredOpen) return;
+
+        let currentX, currentY;
+
+        if (e.type === 'touchmove') {
+            if(e.cancelable) e.preventDefault(); 
+            currentX = e.touches[0].clientX;
+            currentY = e.touches[0].clientY;
+        } else {
+            currentX = e.clientX;
+            currentY = e.clientY;
+        }
+
+        const moveX = currentX - startX;
+        const moveY = currentY - startY;
+        
+        if ((-moveX + moveY) > 50) { 
+             togglePaper();
+             hasTriggeredOpen = true; 
+             isDragging = false; 
+        }
+    }
+
+    function handleEnd(e) {
+        isDragging = false;
+    }
+
+    function togglePaper() {
+        if (cornerWrapper.classList.contains('is-open') || cornerWrapper.classList.contains('is-flat')) return;
+        
+        cornerWrapper.classList.add('is-open');
+
+        if (currentHiddenItem) {
+            markItemAsSeen(currentHiddenItem.title);
+            localStorage.removeItem(STORAGE_KEY_PENDING);
+        }
+
+        setTimeout(() => {
+            const emojiEl = document.getElementById('hiddenEmoji');
+            if(emojiEl) emojiEl.classList.add('emoji-exit');
+        }, 600);
+
+        setTimeout(() => {
+            if (currentHiddenItem) {
+                const index = itemsData.indexOf(currentHiddenItem) + 1;
+                const total = itemsData.length;
+                openModal(currentHiddenItem.title, currentHiddenItem.icon, currentHiddenItem.desc, index, total);
+            }
+        }, 700);
+    }
+
+    function openModal(title, icon, desc, index, total) {
+        const modal = document.getElementById('itemModal');
+        document.getElementById('htModalTitle').innerText = title;
+        document.getElementById('htModalIcon').innerText = icon;
+        document.getElementById('htModalDesc').innerHTML = desc;
+
+        document.getElementById('htItemCounter').innerText = `${index} / ${total} 番目の獲物`;
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('itemModal').style.display = 'none';
+        flattenPaper(); 
+    }
+
+    function flattenPaper() {
+        cornerWrapper.classList.remove('is-open'); 
+        cornerWrapper.classList.add('is-flat');      
+    }
+
+    return {
+        init: initHiddenItem,
+        closeModal: closeModal
+    };
+})();
+
+window.addEventListener('load', function() {
+    TreasureHunt.init();
+});
