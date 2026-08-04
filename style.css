@@ -421,11 +421,20 @@ img.top-left-icon {
   border: none;
   padding: 0;
 }
-.manor-entrance-item img{
+.manor-master-item img{
   width: 100%;
   aspect-ratio: 3/4;
   object-fit: cover;
   border: 1px solid var(--ink);
+  display: block;
+  transition: transform .15s ease;
+}
+.manor-master-item:hover img{
+  transform: translateY(-3px);
+}
+.manor-entrance-item img{
+  width: 100%;
+  object-fit: cover;
   display: block;
   transition: transform .15s ease;
 }
