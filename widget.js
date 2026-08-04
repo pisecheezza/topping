@@ -399,20 +399,8 @@ toastTea.addEventListener('click', () => {
   }
   resetTeaTimer();
 });
-/* ============ ③ タロットカード（普通の案内文） ============ */
-// シート形式：key（A列）= カード名（英語のまま）、value（B列）= そのカードの案内文
-// 同じカード名を複数行に分けて書くと、その中からランダムに選ばれます。
-// key(カード名)ごとの出現しやすさ。大きいほど出やすく、未指定は既定値1として扱われます。
 /* ============ ③ タロットカード（1日1回・注意文なし） ============ */
 // key(カード名)ごとの出現しやすさ。大きいほど出やすく、未指定は既定値1として扱われます。
-const TAROT_KEY_WEIGHTS = {
-  "The Fool": 1.5,
-  "The Star": 1,
-  "The Moon": 1,
-  "Strength": 1,
-  "The Sun": 1,
-  "The Hermit": 0.6
-};
 
 const TAROT_LOCAL_DATA = [
 { "key": "The Fool", "value": "【正位置】新しい始まりの兆しです。恐れず一歩踏み出しましょう。" },
@@ -522,7 +510,7 @@ function setTarotLastCard(card) {
 async function drawNewTarotCard() {
   if (!tarotRowsCache) tarotRowsCache = await loadTarotRows();
   const grouped = groupByKey(tarotRowsCache);
-  const card = weightedPickKey(grouped, TAROT_KEY_WEIGHTS);
+  const card = pickFrom(Object.keys(grouped));
   const text = fillTemplate(pickFrom(grouped[card]));
   setTarotLastCard({ card, text });
   document.getElementById('toastCardTarot').textContent = card;
