@@ -173,7 +173,7 @@
             transform: scaleX(0.97); transform-origin: left center; letter-spacing: -0.5px; white-space: nowrap;
         }
         .ht-close-btn {
-            position: absolute; right: 22px; top: 6px;
+            position: absolute; right: 10px; top: 6px;
             font-family: Arial, sans-serif; font-size: 2.0rem; font-weight: 900; line-height: 1; cursor: pointer;
             color: #fff; -webkit-text-stroke: 2.5px #ff6b6b; paint-order: stroke fill;
         }
