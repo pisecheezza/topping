@@ -1,0 +1,203 @@
+        :root {
+            --ht-flap-start: #ffffff;
+            --ht-flap-end: #e8e8e8;
+            --ht-hole-bg: #dcdcdc;
+            --ht-modal-bg-grad-start: #dce4eb;
+            --ht-modal-bg-grad-end: #f5f5f5;
+            --ht-modal-inner-bg: #ffffff;
+            --ht-modal-text: #333333;
+            --ht-modal-subtext: #555555;
+            --ht-icon-bg: #dce4eb;
+            --ht-border-color: #d0d0d0;
+        }
+
+        .theme-dark, body[data-theme="dark"] {
+            --ht-flap-start: #555555;
+            --ht-flap-end: #333333;
+            --ht-hole-bg: #2d2d2d;
+            --ht-modal-bg-grad-start: #333333; 
+            --ht-modal-bg-grad-end: #1a1a1a;
+            --ht-modal-inner-bg: #222222;
+            --ht-modal-text: #e2e8f0;
+            --ht-modal-subtext: #a0aec0;
+            --ht-icon-bg: #333333;
+            --ht-border-color: #555;
+        }
+
+        #corner-interaction-wrapper {
+            position: absolute;
+            top: 0; right: 0;
+            width: 150px; height: 150px;
+            z-index: 9000;
+            cursor: pointer;
+            display: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: none; 
+            user-select: none;
+        }
+
+        #corner-interaction-wrapper.is-flat { pointer-events: none; cursor: default; }
+
+        .corner-hole {
+            position: absolute; top: 0; right: 0; z-index: 1;
+            width: 0; height: 0; border-style: solid;
+            border-width: 0; 
+            border-color: var(--ht-hole-bg) transparent transparent transparent; 
+            transition: border-width 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        #corner-interaction-wrapper.show .corner-hole {
+            border-width: 60px 0 0 60px;
+        }
+
+        #corner-interaction-wrapper.show:not(.is-open):not(.is-flat) .corner-hole {
+            animation: beckon 3s ease-in-out infinite;
+            animation-delay: 1.5s;
+        }
+        
+        #corner-interaction-wrapper.is-open .corner-hole {
+            border-width: 110px 0 0 110px !important;
+            border-color: var(--ht-border-color) transparent transparent transparent;
+            transform: translate(0, 0);
+            transition: border-width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        #corner-interaction-wrapper.is-flat .corner-hole { 
+            border-width: 0 !important; 
+            border-color: var(--ht-hole-bg) transparent transparent transparent; 
+        }
+
+        .hidden-emoji-wrapper {
+            position: absolute; 
+            top: -20px; right: -10px;
+            z-index: 5; 
+            pointer-events: none;
+            
+            transform: translate(0px, 0px) scale(0.5) rotate(-15deg);
+            opacity: 0;
+
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease;
+        }
+        
+        #corner-interaction-wrapper.show .hidden-emoji-wrapper {
+            opacity: 0.8;
+            transform: translate(15px, -15px) scale(0.5) rotate(15deg);
+            transition-delay: 0.6s;
+        }
+
+        #corner-interaction-wrapper.is-open .hidden-emoji-wrapper {
+            z-index: 20; opacity: 1;
+            transform: translate(-15px, 15px) scale(0.7) rotate(0deg);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition-delay: 0s;
+        }
+
+
+        #hiddenEmoji {
+            font-size: 5.2rem; 
+            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+            display: block; transition: all 0.2s ease; 
+            font-family: 'Noto Color Emoji', sans-serif;
+        }
+        .emoji-exit { opacity: 0 !important; transform: scale(0.1) !important; }
+
+        .paper-flap {
+            position: absolute; 
+            top: -1px; right: -1px; 
+            z-index: 9999;
+            width: 0; height: 0;
+            clip-path: polygon(0 0, 0 100%, 100% 100%); /* 반대 방향 폴리곤 */
+            background: linear-gradient(135deg, var(--ht-flap-start) 30%, var(--ht-flap-end) 100%);
+            
+            filter: drop-shadow(5px -5px 8px rgba(0,0,0,0.25)); /* 그림자 방향 반전 (- -> +) */
+            
+            transition: width 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none; border-bottom-left-radius: 3px;
+        }
+
+        #corner-interaction-wrapper.show .paper-flap {
+            width: 60px; height: 60px;
+        }
+
+        #corner-interaction-wrapper.show:not(.is-open):not(.is-flat) .paper-flap {
+            animation: beckon 3s ease-in-out infinite;
+            animation-delay: 1.5s;
+        }
+
+        #corner-interaction-wrapper.is-open .paper-flap {
+            width: 110px; height: 110px !important; 
+            
+            filter: drop-shadow(8px -8px 16px rgba(0,0,0,0.35));
+            
+            transform: translate(0, 0);
+            transition: width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        #corner-interaction-wrapper.is-flat .paper-flap { width: 0 !important; height: 0 !important; filter: none; }
+
+        @keyframes beckon {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(2px, -2px); /* x축 방향 반전 */ }
+        }
+
+        .ht-modal-overlay {
+
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+        .ht-modal-frame {
+            background: linear-gradient(to bottom, var(--ht-modal-bg-grad-start) 0%, var(--ht-modal-bg-grad-end) 100%);
+            border-radius: 0; width: 210px; min-height: 315px; 
+            position: relative; display: flex; flex-direction: column; padding: 42px 10px 10px 10px; 
+            animation: htSnapIn 0.2s cubic-bezier(0, 1, 0.5, 1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .ht-modal-header {
+            position: absolute; top: 0; left: 0; width: 100%; height: 42px;
+            display: flex; align-items: center; justify-content: flex-start; padding-left: 12px; 
+        }
+        #htModalTitle {
+            color: var(--ht-modal-text); font-size: 1.15rem; font-weight: 700; 
+            transform: scaleX(0.97); transform-origin: left center; letter-spacing: -0.5px; white-space: nowrap;
+        }
+        .ht-close-btn {
+            position: absolute; right: 22px; top: 6px;
+            font-family: Arial, sans-serif; font-size: 2.0rem; font-weight: 900; line-height: 1; cursor: pointer;
+            color: #fff; -webkit-text-stroke: 2.5px #ff6b6b; paint-order: stroke fill;
+        }
+        .ht-close-btn:hover { color: #ff9999; }
+        .ht-modal-inner {
+            background-color: var(--ht-modal-inner-bg); border-radius: 0; flex: 1;
+            display: flex; flex-direction: column; align-items: center; padding: 20px 10px 10px 15px; 
+        }
+        .ht-icon-box {
+            width: 70px; height: 70px; 
+            background-color: var(--ht-icon-bg); border: none; 
+            display: flex; justify-content: center; align-items: center; margin-bottom: 20px;
+            border-radius: 0; 
+        }
+
+        .ht-modal-icon { 
+            font-size: 3.5rem; 
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2)); 
+            font-family: 'Noto Color Emoji', sans-serif;
+        }
+        .ht-modal-desc {
+            color: var(--ht-modal-text); line-height: 1.6; font-weight: 500; 
+            transform: scaleX(0.97); transform-origin: top center; text-align: center; margin-bottom: 15px; 
+        }
+        .ht-counter-box {
+            margin-top: auto; background-color: var(--ht-icon-bg); color: var(--ht-modal-subtext); 
+            padding: 4px 12px; font-size: 1.0rem; font-weight: 700; transform: scaleX(0.97); 
+        }
+        @keyframes htSnapIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
