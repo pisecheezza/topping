@@ -574,7 +574,7 @@ main{
 }
 
 /* ===========================================
-   Work?
+   갤러리
    =========================================== */
 .card-grid{
   display: flex;
@@ -630,6 +630,50 @@ main{
 }
 
 .work-link:hover{ color: var(--teal); }
+
+.gallery-frames-wrap{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 120px;
+  padding: 75px 20px;
+  background-color: #000;
+  border-radius: 4px;
+}
+
+.frame-container{
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.frame-container.show{
+  opacity: 1;
+  transform: translateY(0);
+}
+.frame-container::after{
+  content: "";
+  position: absolute;
+  top: -75px; left: -75px; right: -75px; bottom: -75px;
+  border-image-source: url('border.png');
+  border-image-slice: 26%;
+  border-width: 150px;
+  border-style: solid;
+  border-image-repeat: round;
+  z-index: 10;
+  pointer-events: none;
+}
+.frame-container img{
+  display: block;
+  width: 400px;
+  max-width: 70vw;
+  height: auto;
+  position: relative;
+  z-index: 1;
+}
 
 /* ===========================================
    타이프라인
