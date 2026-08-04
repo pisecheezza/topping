@@ -57,58 +57,6 @@
     <div class="door-image" id="doorImage"></div>
       <h3 class="typeline-heading">Updates</h3>
     <div class="typeline" id="noticestypeline"></div>
-    
-<!-- 타임 라인 --------------------------------------------------------------
-
-  <div class="timeline-container">
-    
-    <div class="timeline-row">
-        <div class="timeline-content left">
-            <h3></h3>
-            <p></p>
-        </div>
-        <div class="timeline-marker">
-            <div class="timeline-title">タイトル</div>
-            <div class="timeline-dot"></div>
-        </div>
-        <div class="timeline-content right">
-            <h3></h3>
-            <p></p>
-        </div>
-    </div>
-    
-</div> -->
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    // Intersection Observer 설정
-    const observerOptions = {
-        root: null,          // 브라우저 뷰포트 기준
-        rootMargin: '0px',
-        threshold: 0.15      // 요소가 15% 정도 보일 때 애니메이션 실행
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // 화면에 들어오면 visible 클래스 추가
-                entry.target.classList.add('visible');
-                
-                // 애니메이션을 한 번만 실행하고 관찰을 멈추려면 아래 주석을 해제하세요.
-                // observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // 모든 .timeline-row 요소를 찾아 관찰 시작
-    const rows = document.querySelectorAll('.timeline-row');
-    rows.forEach(row => {
-        observer.observe(row);
-    });
-});
-
-  </script>
-
   </section>
   
   <section id="view-profile" class="view">
@@ -182,6 +130,7 @@
   </form>
   <div class="typeline" id="guestbookList"></div>
   </section> 
+  
 </main>
 
 <!-- 시메지 부분 ----------------------------------------->
@@ -256,7 +205,26 @@
     </div>
 
 <!-- LP Widget 종료 ----------------------------------------->  
+<!-- 타임 라인 --------------------------------------------------------------
 
+  <div class="timeline-container">
+    
+    <div class="timeline-row">
+        <div class="timeline-content left">
+            <h3></h3>
+            <p></p>
+        </div>
+        <div class="timeline-marker">
+            <div class="timeline-title">タイトル</div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-content right">
+            <h3></h3>
+            <p></p>
+        </div>
+    </div>
+    
+</div> -->
 <!-- 토스트 아이콘 ----------------------------------------->  
 <style>
   .backdrop-hint {
