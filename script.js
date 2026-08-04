@@ -305,6 +305,31 @@ function loadTimeline() {
 });
 
 
+// ── Gallery: 액자 프레임 렌더링 ──────────────────────────────
+function renderGalleryFrames(gridEl, rows) {
+  gridEl.innerHTML = "";
+
+  rows
+    .filter(r => (r.image || "").trim())
+    .forEach(r => {
+      const imageIds = r.image.split(",").map(s => s.trim()).filter(Boolean);
+      imageIds.forEach(id => {
+        const container = document.createElement("div");
+        container.className = "frame-container";
+        container.innerHTML = `<img src="${driveImageUrl(id)}" alt="">`;
+        gridEl.appendChild(container);
+      });
+    });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add("show");
+    });
+  }, { root: null, rootMargin: "0px", threshold: 0.1 });
+
+  gridEl.querySelectorAll(".frame-container").forEach(container => observer.observe(container));
+}
+
 // ── Gallery 시트 기반 입구/콘텐츠 공용 함수 ─────────────────
 function renderCardGrid(gridEl, rows) {
   gridEl.innerHTML = "";
