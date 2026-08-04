@@ -182,8 +182,15 @@ document.querySelectorAll(".profile-sub-link").forEach(btn => {
     closeMenu();
 
     if (profileType === "mark") {
-      document.getElementById("profileMarkBox").style.display = "block";
-      document.getElementById("profileHistoryBox").style.display = "none";
+      document.querySelectorAll(".profile-sub-link").forEach(btn => {
+      const original = btn.onclick;
+      btn.addEventListener("click", () => {
+        const profileType = btn.dataset.profileType;
+        if (profileType === "mark") {
+          loadManorEntrance("profile", "profileEntrance", "profileGrid");
+        }
+      });
+    });
     } else if (profileType === "history") {
       document.getElementById("profileMarkBox").style.display = "none";
       document.getElementById("profileHistoryBox").style.display = "block";
@@ -262,63 +269,58 @@ function loadTimeline() {
 });
 
 
-// ── gallery: 그림 + 코멘트 ──────────────────────────────────
-fetchTab(TABS.gallery).then(rows => {
-  const grid = document.getElementById("galleryGrid");
-  grid.innerHTML = "";
+// ── Gallery 시트 기반 입구/콘텐츠 공용 함수 ─────────────────
+function renderCardGrid(gridEl, rows) {
+  gridEl.innerHTML = "";
   rows
     .filter(r => (r.image || r.comment || "").trim())
-    .forEach((r, i) => {
+    .forEach(r => {
       const imageIds = (r.image || "").split(",").map(s => s.trim()).filter(Boolean);
       const comment = (r.comment || "").trim();
-      const imagesHtml = imageIds
-        .map(id => `<img src="${driveImageUrl(id)}" alt="" loading="lazy">`)
-        .join("");
-
+      const imagesHtml = imageIds.map(id => `<img src="${driveImageUrl(id)}" alt="">`).join("");
       const card = document.createElement("article");
-      card.className = "gallery-card";
+      card.className = "storage-card";
       card.innerHTML = `
-        ${imageIds.length ? `<div class="gallery-thumb">${imagesHtml}</div>` : ""}
-        ${comment ? `<div class="gallery-body"><p class="gallery-comment">${marked.parseInline(comment)}</p></div>` : ""}
-      `;
-      grid.appendChild(card);
+        ${imageIds.length ? `<div class="storage-thumb">${imagesHtml}</div>` : ""}
+        ${comment ? `<div class="storage-body"><p class="storage-comment">${escapeHtml(comment)}</p></div>` : ""}`;
+      gridEl.appendChild(card);
     });
-});
-
-// ── Pages: 문서 목록 (날짜 + 제목) ────────
-fetchTab(TABS.pages).then(rows => {
-  const list = document.getElementById("pagesList");
-  list.innerHTML = "";
-  rows
-    .filter(r => String(r.date || r.title || r.content || "").trim())
-    .slice()
-    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
-    .forEach(r => {
-      const row = document.createElement("div");
-      row.className = "typeline-row";
-      row.innerHTML = `
-        <div class="typeline-header">
-          <div class="typeline-date">${escapeHtml(formatDate(r.date))}</div>
-          <h3 class="typeline-title">${escapeHtml(String(r.title || ""))}</h3>
-        </div>
-        <div class="typeline-content">${marked.parse(String(r.content || ""))}</div>`;
-      list.appendChild(row);
-    });
-});
-
-function formatDate(str) {
-  const s = String(str || "").trim().replace(/[-.\/]/g, ""); // 구분자 다 제거
-  if (s.length === 8) {
-    return `${s.slice(0, 4)}.${s.slice(4, 6)}.${s.slice(6, 8)}`;
-  }
-  return s; // 8자리가 아니면 원본 그대로
 }
 
-// -- 리더 ----------------------------------------------------
-/* const CONFIG = {
-  GAS_URL: "https://script.google.com/macros/s/AKfycbwCQg6Gt5OMlErhETk-e2RkpLKkxyLDzlsSU7wv9_Y7S2HdjxleSeI26Z1VsC0guSTGmA/exec",
-  GOOGLE_DOCS_URL: "https://docs.google.com/document/d/문서ID/edit?usp=sharing"
-}; */
+function loadManorEntrance(section, entranceElId, gridElId) {
+  fetchTab("Gallery").then(allRows => {
+    const entrance = document.getElementById(entranceElId);
+    const grid = document.getElementById(gridElId);
+    entrance.innerHTML = "";
+    entrance.style.display = "flex";
+    grid.style.display = "none";
+
+    allRows
+      .filter(r => (r.section || "").trim() === section && (r.type || "").trim() === "select")
+      .forEach(r => {
+        const btn = document.createElement("button");
+        btn.className = "manor-entrance-item";
+        btn.type = "button";
+        btn.innerHTML = `<img src="${driveImageUrl(r.image)}" alt="">`;
+        btn.addEventListener("click", () => {
+          const label = (r.label || "").trim();
+          const items = allRows.filter(row =>
+            (row.section || "").trim() === section &&
+            (row.type || "").trim() === "item" &&
+            (row.label || "").trim() === label
+          );
+          entrance.style.display = "none";
+          grid.style.display = "flex";
+          renderCardGrid(grid, items);
+        });
+        entrance.appendChild(btn);
+      });
+  });
+}
+
+// ── Gallery 탭: 진입 즉시 입구 화면 ──────────────────────────
+loadFloorEntrance("gallery", "galleryEntrance", "galleryGrid");
+
 
 // ── Links: 링크 모음 (배너 이미지 지원) ─────────────────────
 fetchTab(TABS.links).then(rows => {
