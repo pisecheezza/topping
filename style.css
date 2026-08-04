@@ -581,6 +581,8 @@ main{
   flex-direction: column;
   align-items: center;   /* 이 줄 추가 */
   gap: 18px;
+  width: 400px;          
+  max-width: 480px;
 }
 
 .work-card{
