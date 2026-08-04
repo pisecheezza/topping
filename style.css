@@ -637,7 +637,6 @@ main{
   align-items: center;
   gap: 120px;
   padding: 75px 20px;
-  background-color: #000;
   border-radius: 4px;
 }
 
@@ -657,10 +656,10 @@ main{
 .frame-container::after{
   content: "";
   position: absolute;
-  top: -75px; left: -75px; right: -75px; bottom: -75px;
+  top: -45px; left: -45px; right: -45px; bottom: -45px;
   border-image-source: url('border.png');
-  border-image-slice: 26%;
-  border-width: 150px;
+  border-image-slice: 20%;
+  border-width: 60px;
   border-style: solid;
   border-image-repeat: round;
   z-index: 10;
@@ -668,8 +667,7 @@ main{
 }
 .frame-container img{
   display: block;
-  width: 400px;
-  max-width: 70vw;
+  max-width: 60vw;
   height: auto;
   position: relative;
   z-index: 1;
