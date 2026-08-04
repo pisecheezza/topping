@@ -64,7 +64,7 @@ document.querySelectorAll(".tab-link").forEach(btn => {
     closeMenu();
 
   if (btn.dataset.view === "gallery") {
-      loadFloorEntrance("gallery", "galleryEntrance", "galleryGrid");   // 이 줄 추가
+      loadManorEntrance("gallery", "galleryEntrance", "galleryGrid");   // 이 줄 추가
   }
   });
 });
