@@ -315,7 +315,6 @@ function resetTeaTimer() {
   clearTimeout(teaHideTimer);
   teaHideTimer = setTimeout(() => toastTea.classList.remove('show'), 6000);
 }
-}
 
 async function fillTeaToast() {
   if (!teaRowsCache) teaRowsCache = await loadTeaRows();
