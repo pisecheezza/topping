@@ -91,7 +91,9 @@ const toastWeather = document.getElementById('toast-weather');
 
 function resetWeatherTimer() {
   clearTimeout(weatherHideTimer);
+  weatherHideTimer = setTimeout(() => toastWeather.classList.remove('show'), 6000);
 }
+
 
 async function fillWeatherToast() {
   if (!cachedWeather) {
@@ -194,7 +196,9 @@ async function fillTimeToast() {
 }
 function resetTimeTimer() {
   clearTimeout(timeHideTimer);
+  timeHideTimer = setTimeout(() => toastTime.classList.remove('show'), 6000);
 }
+
 document.getElementById('fab-time').addEventListener('click', async () => {
   if (toastTime.classList.contains('show')) {
     toastTime.classList.remove('show');
@@ -309,6 +313,8 @@ function showTeaLimitNotice(remainingMs) {
 }
 function resetTeaTimer() {
   clearTimeout(teaHideTimer);
+  teaHideTimer = setTimeout(() => toastTea.classList.remove('show'), 6000);
+}
 }
 
 async function fillTeaToast() {
@@ -486,6 +492,7 @@ const toastTarot = document.getElementById('toast-tarot');
 
 function resetTarotTimer() {
   clearTimeout(tarotHideTimer);
+  tarotHideTimer = setTimeout(() => toastTarot.classList.remove('show'), 6000);
 }
 
 function getTodayDateKey() {
@@ -567,6 +574,7 @@ const toastSchedule = document.getElementById('toast-schedule');
 
 function resetScheduleTimer() {
   clearTimeout(scheduleHideTimer);
+  scheduleHideTimer = setTimeout(() => toastSchedule.classList.remove('show'), 6000);
 }
 
 async function fillScheduleToast() {
