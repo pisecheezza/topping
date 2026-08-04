@@ -489,10 +489,8 @@ function resetTarotTimer() {
 }
 
 function getTodayDateKey() {
-  const now = new Date();
-  const utcMs = now.getTime() + now.getTimezoneOffset() * 60000; // UTC로 변환
-  const kst = new Date(utcMs + 9 * 60 * 60000); // UTC+9 적용
-  return `${kst.getFullYear()}-${kst.getMonth() + 1}-${kst.getDate()}`;
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 }
 
 let tarotLastDateMemory = null;
