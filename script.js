@@ -234,6 +234,34 @@ function loadTimeline() {
   });
 }
 
+    document.addEventListener("DOMContentLoaded", function () {
+    // Intersection Observer 설정
+    const observerOptions = {
+        root: null,          // 브라우저 뷰포트 기준
+        rootMargin: '0px',
+        threshold: 0.15      // 요소가 15% 정도 보일 때 애니메이션 실행
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // 화면에 들어오면 visible 클래스 추가
+                entry.target.classList.add('visible');
+                
+                // 애니메이션을 한 번만 실행하고 관찰을 멈추려면 아래 주석을 해제하세요.
+                // observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // 모든 .timeline-row 요소를 찾아 관찰 시작
+    const rows = document.querySelectorAll('.timeline-row');
+    rows.forEach(row => {
+        observer.observe(row);
+    });
+});
+
+
 // ── gallery: 그림 + 코멘트 ──────────────────────────────────
 fetchTab(TABS.gallery).then(rows => {
   const grid = document.getElementById("galleryGrid");
