@@ -408,7 +408,6 @@ img.top-left-icon {
    =========================================== */
 .manor-entrance{
   display: flex;
-  gap: 16px;
   justify-content: center;
   padding: 30px 0;
 }
