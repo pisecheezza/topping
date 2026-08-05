@@ -155,7 +155,7 @@ All rights reserved. */
     }
     #lp-expand-btn {
         position: fixed; bottom: 390px; left: 24px;
-        width: 36px; height: 36px; 
+        width: 56px; height: 56px; 
         background: var(--lp-body-color); /* 사용자 설정 색상 적용 */
         color: #fff;
         border-radius: 50%; display: flex; 
