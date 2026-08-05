@@ -172,7 +172,7 @@ All rights reserved. */
     }
     @media (max-width: 768px) { 
         #lp-widget, #lp-expand-btn { bottom: 390px;
-        left: 15px; } 
+        left: 24px; } 
     }
     #lp-modal {
         position: absolute;
