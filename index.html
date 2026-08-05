@@ -266,10 +266,9 @@
   }
   .backdrop-hint b { color: #2E2B26; font-weight: 600; }
 
-  /* ── アイコンは右下に縦一列 ── */
   .fab {
     position: fixed;
-    right: 24px;
+    left: 24px;
     width: 56px;
     height: 56px;
     border-radius: 50%;
@@ -294,10 +293,9 @@
   #fab-tarot { bottom: 172px; background: #211B2E; box-shadow: 0 8px 20px rgba(33,27,46,0.4); }
   #fab-tarot:hover { box-shadow: 0 10px 24px rgba(33,27,46,0.48); }
 
-  /* ── メッセージはアイコンの左側に表示（他のアイコンを隠さないように） ── */
   .toast {
     position: fixed;
-    right: 96px; /* icon 56px + gap 16px + edge 24px */
+    left: 96px; /* icon 56px + gap 16px + edge 24px */
     width: min(280px, calc(100vw - 160px));
     padding: 20px 20px 18px;
     border-radius: 20px;
