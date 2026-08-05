@@ -27,7 +27,7 @@
         }
 
         #corner-interaction-wrapper {
-            position: absolute;
+            position: fixed;
             bottom: 0; right: 0;
             width: 150px; height: 150px;
             z-index: 9000;
@@ -66,7 +66,7 @@
 /* 기본 숨김 상태 (오른쪽 아래 기준) */
         .hidden-emoji-wrapper {
             position: absolute;
-            bottom: 0; right: 0;
+            bottom: 15px; right: 15px;
             z-index: 5;
             pointer-events: none;
             transform: translate(0px, 0px) scale(0.4) rotate(0deg);
@@ -77,8 +77,7 @@
         /* 나타나는 상태 (show) */
         #corner-interaction-wrapper.show .hidden-emoji-wrapper {
             opacity: 0.8;
-            /* 오른쪽 아래 구석 안에서 살짝 바깥쪽으로 비어져 나오는 위치 */
-            transform: translate(-10px, -10px) scale(0.5) rotate(-15deg);
+            transform: translate(0px, 0px) scale(0.6) rotate(-10deg);
             transition-delay: 0.6s;
         }
 
@@ -86,8 +85,7 @@
         #corner-interaction-wrapper.is-open .hidden-emoji-wrapper {
             z-index: 9999; 
             opacity: 1;
-            /* 오른쪽 아래 모서리에서 안쪽 중앙 방향으로 튀어나오며 크게 확대 (scale 2.0) */
-            transform: translate(-40px, -40px) scale(2.0) rotate(0deg);
+            transform: translate(-30px, -30px) scale(2.0) rotate(0deg);
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             transition-delay: 0s;
         }
@@ -108,7 +106,7 @@
         .paper-flap {
             position: absolute; 
             bottom: -1px; right: -1px; 
-            z-index: 9999;
+            z-index: 10;
             width: 0; height: 0;
             clip-path: polygon(0 0, 0 100%, 100% 0);
             background: linear-gradient(135deg, var(--ht-flap-start) 30%, var(--ht-flap-end) 100%);
@@ -135,7 +133,7 @@
             transition: width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
-        #corner-interaction-wrapper.is-flat .paper-flap { width: 0 !important; height: 0 !important; filter: none; }
+        #corner-interaction-wrapper.is-flat .paper-flap { width: 0 !important; height: 0 !important; filter: none; opacity: 0;}
 
         @keyframes beckon-br {
             0%, 100% { transform: translate(0, 0); }
