@@ -118,7 +118,6 @@ function weightedPickKey(grouped, weights = {}) {
 }
 
 /* ============ ① 時間帯別メッセージ ============ */
-const TIME_TAG_COLORS = { "朝": "#8FA383", "昼": "#C9A24B", "夕": "#B4703F", "夜": "#525C7A" };
 function getCurrentPeriod() {
   const h = new Date().getHours();
   if (h >= 5 && h < 11) return "朝";
@@ -130,38 +129,16 @@ async function loadTimeRows() {
   const res = await fetch(`${SHEET_API_BASE_URL}?type=time`);
   return res.json();
 }
-let timeRowsCache = null, timeHideTimer = null;
-const toastTime = document.getElementById('toast-time');
+let timeRowsCache = null;
 
-async function fillTimeToast() {
+async function getTimePeriodLine() {
   if (!timeRowsCache) timeRowsCache = await loadTimeRows();
   const grouped = groupByKey(filterByLocale(timeRowsCache));
   const period = getCurrentPeriod();
   const candidates = grouped[period] || [];
-  if (!candidates.length) return;
-  document.getElementById('toastTagTime').textContent = period;
-  document.getElementById('toastMsgTime').textContent = fillTemplate(pickFrom(candidates));
-  document.getElementById('toastDotTime').style.background = TIME_TAG_COLORS[period] || "#8A8578";
+  if (!candidates.length) return null;
+  return fillTemplate(pickFrom(candidates));
 }
-function resetTimeTimer() {
-  clearTimeout(timeHideTimer);
-  timeHideTimer = setTimeout(() => toastTime.classList.remove('show'), 6000);
-}
-
-document.getElementById('fab-time').addEventListener('click', async () => {
-  if (toastTime.classList.contains('show')) {
-    toastTime.classList.remove('show');
-    clearTimeout(timeHideTimer);
-    return;
-  }
-  await fillTimeToast();
-  toastTime.classList.add('show');
-  resetTimeTimer();
-});
-toastTime.addEventListener('click', async () => {
-  await fillTimeToast();
-  resetTimeTimer();
-});
 
 /* ============ ② お茶の時間のメッセージ（1日1回の"おやつ"ルール + 夜間制限） ============ */
 
@@ -520,6 +497,7 @@ function getWeatherLine() {
   const mm = String(d.getMinutes()).padStart(2, '0');
   return `${hh}:${mm}現在　${cachedWeather.desc}　${cachedWeather.temp}℃`;
 }
+
 async function fillScheduleToast() {
   if (!scheduleRowsCache) scheduleRowsCache = await loadScheduleRows();
   const grouped = groupByKey(filterByLocale(scheduleRowsCache));
@@ -530,9 +508,12 @@ async function fillScheduleToast() {
   const taskText = tasks.length
     ? tasks.map(t => `・${fillTemplate(t)}`).join("\n")
     : "本日のご予定は、特にございません。";
+  const timeLine = await getTimePeriodLine();
 
-  document.getElementById('toastMsgSchedule').textContent =
-    weatherLine ? `${weatherLine}\n──────────\n${taskText}` : taskText;
+  let fullText = weatherLine ? `${weatherLine}\n──────────\n${taskText}` : taskText;
+  if (timeLine) fullText += `\n──────────\n${timeLine}`;
+
+  document.getElementById('toastMsgSchedule').textContent = fullText;
 }
 
 document.getElementById('fab-schedule').addEventListener('click', async () => {
