@@ -564,18 +564,26 @@ function resetScheduleTimer() {
   scheduleHideTimer = setTimeout(() => toastSchedule.classList.remove('show'), 6000);
 }
 
+function getWeatherLine() {
+  if (!cachedWeather) return null;
+  const d = new Date();
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  return `${hh}:${mm}現在　${cachedWeather.desc}　${cachedWeather.temp}℃`;
+}
 async function fillScheduleToast() {
   if (!scheduleRowsCache) scheduleRowsCache = await loadScheduleRows();
   const grouped = groupByKey(filterByLocale(scheduleRowsCache));
   const today = getCurrentWeekdayKey();
   const tasks = grouped[today] || [];
 
-  if (!tasks.length) {
-    document.getElementById('toastMsgSchedule').textContent = "本日のご予定は、特にございません。";
-    return;
-  }
-  const list = tasks.map(t => `・${fillTemplate(t)}`).join("\n");
-  document.getElementById('toastMsgSchedule').textContent = list;
+  const weatherLine = getWeatherLine();
+  const taskText = tasks.length
+    ? tasks.map(t => `・${fillTemplate(t)}`).join("\n")
+    : "本日のご予定は、特にございません。";
+
+  document.getElementById('toastMsgSchedule').textContent =
+    weatherLine ? `${weatherLine}\n──────────\n${taskText}` : taskText;
 }
 
 document.getElementById('fab-schedule').addEventListener('click', async () => {
