@@ -38,6 +38,8 @@ const WEATHER_FALLBACK_LAT = 35.1565; // 위치 허용을 안 했을 때 쓸 기
 const WEATHER_FALLBACK_LON = 126.8970; // 기본 경도
 const WEATHER_REFRESH_MIN = 30; // 몇 분마다 갱신할지
 
+let cachedWeather = null;
+
 function getVisitorLocation() {
   return new Promise((resolve) => {
     if (!navigator.geolocation) {
