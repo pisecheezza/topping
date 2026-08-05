@@ -108,10 +108,10 @@
             bottom: -1px; right: -1px; 
             z-index: 9999;
             width: 0; height: 0;
-            clip-path: polygon(0 0, 0 100%, 100% 100%); /* 반대 방향 폴리곤 */
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
             background: linear-gradient(135deg, var(--ht-flap-start) 30%, var(--ht-flap-end) 100%);
             
-            filter: drop-shadow(5px -5px 8px rgba(0,0,0,0.25)); /* 그림자 방향 반전 (- -> +) */
+            filter: drop-shadow(-5px -5px 8px rgba(0,0,0,0.25));
             
             transition: width 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
             pointer-events: none; border-bottom-left-radius: 3px;
@@ -138,10 +138,9 @@
         #corner-interaction-wrapper.is-flat .paper-flap { width: 0 !important; height: 0 !important; filter: none; }
 
         @keyframes beckon {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(2px, 2px); /* x축 방향 반전 */ }
-        }
-
+                0%, 100% { transform: translate(0, 0); }
+                50% { transform: translate(-2px, -2px); }
+            }
         .ht-modal-overlay {
 
     display: none;
