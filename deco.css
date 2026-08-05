@@ -124,7 +124,7 @@ All rights reserved. */
 
     #lp-widget {
     position: fixed;
-    bottom: 388px; left: 24px; z-index: 1;
+    bottom: 316px; left: 24px; z-index: 1;
     font-family: sans-serif;
     transition: opacity 0.2s ease, visibility 0.2s ease;
     transform-origin: center center; 
@@ -154,7 +154,7 @@ All rights reserved. */
         position: relative; display: flex;
     }
     #lp-expand-btn {
-        position: fixed; bottom: 390px; left: 24px;
+        position: fixed; bottom: 316px; left: 24px;
         width: 56px; height: 56px; 
         background: var(--lp-body-color); /* 사용자 설정 색상 적용 */
         color: #fff;
@@ -171,7 +171,7 @@ All rights reserved. */
         visibility: visible; pointer-events: auto; transform: none; 
     }
     @media (max-width: 768px) { 
-        #lp-widget, #lp-expand-btn { bottom: 390px;
+        #lp-widget, #lp-expand-btn { bottom: 316px;
         left: 24px; } 
     }
     #lp-modal {
