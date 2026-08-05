@@ -198,7 +198,7 @@
         }
         .ht-modal-desc {
             font-size: 1.1rem; color: var(--ht-modal-text); line-height: 1.6; font-weight: 500; 
-            word-break: keep-all; transform: scaleX(0.97); transform-origin: top center; text-align: center; margin-bottom: 15px; 
+            word-break: break-all;; transform: scaleX(0.97); transform-origin: top center; text-align: left; margin-bottom: 15px; 
         }
         .ht-counter-box {
             margin-top: auto; background-color: var(--ht-icon-bg); color: var(--ht-modal-subtext); 
