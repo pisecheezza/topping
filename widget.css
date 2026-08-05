@@ -85,15 +85,15 @@
         
         #corner-interaction-wrapper.show .hidden-emoji-wrapper {
             opacity: 0.8;
-            ttransform: translate(-15px, -15px) scale(0.5) rotate(15deg);
+            transform: translate(-15px, -15px) scale(0.5) rotate(15deg);
             transition-delay: 0.6s;
         }
 
         #corner-interaction-wrapper.is-open .hidden-emoji-wrapper {
             z-index: 20; opacity: 1;
-            transform: translate(15px, 15px) scale(0.7) rotate(0deg);
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transition-delay: 0s;
+    transform: translate(15px, 15px) scale(0.7) rotate(0deg); /* 눌렀을 때 커지고 정면(0deg)으로 돌아옴 */
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: 0s;
         }
 
         #hiddenEmoji {
