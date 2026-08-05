@@ -428,8 +428,8 @@ All rights reserved. */
 .floating-ticket {
             position: fixed;
             top: 10px;
-            left: 150px;
-            width: 180px; /* 구역이 늘어나 가로폭을 조금 넓혔습니다 */
+            left: 24px;
+            width: 180px;
             height: 70px;
             background-color: #E2D1B3; /* 빛바랜 베이지 */
             box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.2);
