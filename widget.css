@@ -27,8 +27,8 @@
         }
 
         #corner-interaction-wrapper {
-            position: fixed;
-            bottom: 0; right: 0;
+            position: absolute;
+            bottom: 0; right: 0; /* top/left에서 bottom/right로 변경 */
             width: 150px; height: 150px;
             z-index: 9000;
             cursor: pointer;
@@ -41,80 +41,82 @@
         #corner-interaction-wrapper.is-flat { pointer-events: none; cursor: default; }
 
         .corner-hole {
-            position: absolute; bottom: 0; right: 0; z-index: 1;
+            position: absolute; bottom: 0; right: 0; z-index: 1; /* top/left -> bottom/right */
             width: 0; height: 0; border-style: solid;
             border-width: 0; 
-            border-color: transparent transparent var(--ht-hole-bg) transparent;
+            /* 오른쪽 아래 구석에 맞게 방향 변경 (bottom, right 색상 지정) */
+            border-color: transparent transparent var(--ht-hole-bg) transparent; 
             transition: border-width 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
         #corner-interaction-wrapper.show .corner-hole {
+            /* 위쪽에서 아래쪽으로 펼쳐지도록 방향 수정 */
             border-width: 0 0 60px 60px;
         }
 
         #corner-interaction-wrapper.show:not(.is-open):not(.is-flat) .corner-hole {
-            animation: beckon 3s ease-in-out infinite;
+            animation: beckon-br 3s ease-in-out infinite;
             animation-delay: 1.5s;
         }
         
         #corner-interaction-wrapper.is-open .corner-hole {
             border-width: 0 0 110px 110px !important;
-            border-color: var(--ht-border-color) transparent transparent transparent;
+            border-color: transparent transparent var(--ht-border-color) transparent;
             transform: translate(0, 0);
             transition: border-width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-/* 기본 숨김 상태 (오른쪽 아래 기준) */
+        
+        #corner-interaction-wrapper.is-flat .corner-hole { 
+            border-width: 0 !important; 
+            border-color: transparent transparent var(--ht-hole-bg) transparent; 
+        }
+
         .hidden-emoji-wrapper {
-            position: absolute;
-            bottom: 15px; right: 15px;
-            z-index: 5;
+            position: absolute; 
+            bottom: -2px; right: 0; /* top/left -> bottom/right */
+            z-index: 5; 
             pointer-events: none;
-            transform: translate(0px, 0px) scale(0.4) rotate(0deg);
+            
+            transform: translate(0px, 0px) scale(0.5) rotate(15deg);
             opacity: 0;
+
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease;
         }
         
-        /* 나타나는 상태 (show) */
         #corner-interaction-wrapper.show .hidden-emoji-wrapper {
             opacity: 0.8;
-            transform: translate(0px, 0px) scale(0.6) rotate(-10deg);
+            transform: translate(15px, 15px) scale(0.5) rotate(15deg); /* 방향 반전에 맞게 이동 값 수정 */
             transition-delay: 0.6s;
         }
 
-        /* 클릭하여 열린 상태 (is-open) - 가장 위로 올라오며 크게 확대 */
         #corner-interaction-wrapper.is-open .hidden-emoji-wrapper {
-            z-index: 9999; 
-            opacity: 1;
-            transform: translate(-30px, -30px) scale(2.0) rotate(0deg);
+            z-index: 20; opacity: 1;
+            transform: translate(-15px, -15px) scale(0.7) rotate(0deg); /* 방향 반전에 맞게 이동 값 수정 */
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             transition-delay: 0s;
         }
 
         #hiddenEmoji {
-            font-size: 4rem; /* 너무 크지 않도록 기본 크기 조정 */
+            font-size: 5.2rem; 
             filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
-            display: block; 
-            transition: all 0.2s ease; 
+            display: block; transition: all 0.2s ease; 
             font-family: 'Noto Color Emoji', sans-serif;
         }
-        
-        .emoji-exit { 
-            opacity: 0 !important; 
-            transform: scale(0.1) !important; 
-        }
+        .emoji-exit { opacity: 0 !important; transform: scale(0.1) !important; }
 
         .paper-flap {
             position: absolute; 
-            bottom: -1px; right: -1px; 
+            bottom: -1px; right: -1px; /* top/left -> bottom/right */
             z-index: 10;
             width: 0; height: 0;
-            clip-path: polygon(0 0, 0 100%, 100% 0);
+            /* 오른쪽 아래 코너에 맞춘 clip-path */
+            clip-path: polygon(0 0, 0 100%, 100% 100%);
             background: linear-gradient(135deg, var(--ht-flap-start) 30%, var(--ht-flap-end) 100%);
             
-            filter: drop-shadow(5px 5px 8px rgba(0,0,0,0.25));
+            filter: drop-shadow(5px 5px 8px rgba(0,0,0,0.25)); /* 그림자 방향 반전 */
             
             transition: width 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-            pointer-events: none; border-top-left-radius: 3px;
+            pointer-events: none; border-top-left-radius: 3px; /* 둥근 모서리 위치 반전 */
         }
 
         #corner-interaction-wrapper.show .paper-flap {
@@ -128,33 +130,35 @@
 
         #corner-interaction-wrapper.is-open .paper-flap {
             width: 110px; height: 110px !important; 
-            filter: drop-shadow(8px 8px 16px rgba(0,0,0,0.35));
+            
+            filter: drop-shadow(8px 8px 16px rgba(0,0,0,0.35)); 
+            
             transform: translate(0, 0);
             transition: width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
-        #corner-interaction-wrapper.is-flat .paper-flap { width: 0 !important; height: 0 !important; filter: none; opacity: 0;}
+        #corner-interaction-wrapper.is-flat .paper-flap { width: 0 !important; height: 0 !important; filter: none; }
 
+        /* 오른쪽 아래 구석에 맞춘 흔들림 애니메이션 */
         @keyframes beckon-br {
             0%, 100% { transform: translate(0, 0); }
             50% { transform: translate(2px, 2px); }
         }
 
         .ht-modal-overlay {
-
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10000;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
         .ht-modal-frame {
             background: linear-gradient(to bottom, var(--ht-modal-bg-grad-start) 0%, var(--ht-modal-bg-grad-end) 100%);
             border-radius: 0; width: 210px; min-height: 315px; 
@@ -193,8 +197,8 @@
             font-family: 'Noto Color Emoji', sans-serif;
         }
         .ht-modal-desc {
-            color: var(--ht-modal-text); line-height: 1.6; font-weight: 500; 
-            transform: scaleX(0.97); transform-origin: top center; text-align: center; margin-bottom: 15px; 
+            font-size: 1.1rem; color: var(--ht-modal-text); line-height: 1.6; font-weight: 500; 
+            word-break: keep-all; transform: scaleX(0.97); transform-origin: top center; text-align: center; margin-bottom: 15px; 
         }
         .ht-counter-box {
             margin-top: auto; background-color: var(--ht-icon-bg); color: var(--ht-modal-subtext); 
