@@ -788,9 +788,9 @@ function addInteractionEvents() {
         const clientY = e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.clientY;
         
      　 const localX = rect.right - clientX;
-        const localY = clientY - rect.top;
+        const localY = rect.bottom - clientY;
      
-        return (localX + localY) <= 100;
+        return (localX >= 0 && localY >= 0 && (localX + localY) <= 100);
     }
 
     function handleStart(e) {
@@ -827,7 +827,7 @@ function addInteractionEvents() {
         const moveX = currentX - startX;
         const moveY = currentY - startY;
         
-        if ((-moveX + moveY) > 50) { 
+        if ((-moveX + -moveY) > 50) {  
              togglePaper();
              hasTriggeredOpen = true; 
              isDragging = false; 
