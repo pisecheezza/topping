@@ -162,7 +162,7 @@ All rights reserved. */
         opacity: 0; visibility: hidden; pointer-events: none;
         transition: opacity 0.2s ease, visibility 0.2s ease;
         align-items: center;
-        justify-content: center; z-index: 10000;
+        justify-content: center; z-index: 10;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-size: 20px; transform: none;
     }
     #lp-expand-btn:active { transform: scale(0.9); } 
