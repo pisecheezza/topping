@@ -63,35 +63,47 @@
             transform: translate(0, 0);
             transition: border-width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        #corner-interaction-wrapper.is-open .hidden-emoji-wrapper
-            
-            transform: translate(0px, 0px) scale(0.5) rotate(-15deg);
+/* 기본 숨김 상태 (오른쪽 아래 기준) */
+        .hidden-emoji-wrapper {
+            position: absolute;
+            bottom: 0; right: 0;
+            z-index: 5;
+            pointer-events: none;
+            transform: translate(0px, 0px) scale(0.4) rotate(0deg);
             opacity: 0;
-
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease;
         }
         
+        /* 나타나는 상태 (show) */
         #corner-interaction-wrapper.show .hidden-emoji-wrapper {
             opacity: 0.8;
-            transform: translate(-15px, -15px) scale(0.7) rotate(0deg);
+            /* 오른쪽 아래 구석 안에서 살짝 바깥쪽으로 비어져 나오는 위치 */
+            transform: translate(-10px, -10px) scale(0.5) rotate(-15deg);
             transition-delay: 0.6s;
         }
 
+        /* 클릭하여 열린 상태 (is-open) - 가장 위로 올라오며 크게 확대 */
         #corner-interaction-wrapper.is-open .hidden-emoji-wrapper {
-            z-index: 9999; opacity: 1;
-            transform: translate(-15px, 15px) scale(0.7) rotate(0deg);
+            z-index: 9999; 
+            opacity: 1;
+            /* 오른쪽 아래 모서리에서 안쪽 중앙 방향으로 튀어나오며 크게 확대 (scale 2.0) */
+            transform: translate(-40px, -40px) scale(2.0) rotate(0deg);
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             transition-delay: 0s;
         }
 
-
         #hiddenEmoji {
-            font-size: 5.2rem; 
+            font-size: 4rem; /* 너무 크지 않도록 기본 크기 조정 */
             filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
-            display: block; transition: all 0.2s ease; 
+            display: block; 
+            transition: all 0.2s ease; 
             font-family: 'Noto Color Emoji', sans-serif;
         }
-        .emoji-exit { opacity: 0 !important; transform: scale(0.1) !important; }
+        
+        .emoji-exit { 
+            opacity: 0 !important; 
+            transform: scale(0.1) !important; 
+        }
 
         .paper-flap {
             position: absolute; 
