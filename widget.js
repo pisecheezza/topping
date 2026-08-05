@@ -61,8 +61,6 @@ const WEATHER_CODE_JP = {
   95: "雷雨 ⛈️"
 };
 
-let cachedWeather = null;
-
 async function fetchWeather() {
   const { lat, lon } = await getVisitorLocation();
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
@@ -71,17 +69,6 @@ async function fetchWeather() {
   const temp = Math.round(data.current_weather.temperature);
   const desc = WEATHER_CODE_JP[data.current_weather.weathercode] || "—";
   return { temp, desc };
-}
-
-async function updateWeatherBadge() {
-  try {
-    cachedWeather = await fetchWeather();
-    const badge = document.getElementById('weather-badge');
-    badge.textContent = `${cachedWeather.desc}　${cachedWeather.temp}℃`;
-    badge.classList.add('show');
-  } catch (e) {
-    // 실패 시 그냥 조용히 숨김 상태 유지 (에러를 화면에 노출하지 않음)
-  }
 }
 
 const WEATHER_TAG_COLOR = "#5C7A8A";
