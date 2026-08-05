@@ -58,9 +58,9 @@ body.time-night{
   visibility: hidden;
 }
 
-.top-left-icon{
+.top-right-icon{
   position: fixed;
-  left: 0;
+  right: 0;
   top: 0;
   width: 138px;
   height: 96px;
@@ -68,17 +68,17 @@ body.time-night{
   z-index: 300;
 }
 
-body.time-evening .top-left-icon,
-body.time-night .top-left-icon {
+body.time-evening .top-right-icon,
+body.time-night .top-right-icon {
   filter: invert(1);
 }
 
-img.top-left-icon {
+img.top-right-icon {
     filter: invert(1);
     -webkit-filter: invert(1);
 }
 @media (prefers-color-scheme: dark) {
-    img.top-left-icon {
+    img.top-right-icon {
         color-scheme: light dark;
         forced-color-adjust: none; 
     }
