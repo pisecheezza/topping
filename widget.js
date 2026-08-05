@@ -125,15 +125,18 @@ function getCurrentPeriod() {
   if (h >= 17 && h < 21) return "夕";
   return "夜";
 }
-async function loadTimeRows() {
-  const res = await fetch(`${SHEET_API_BASE_URL}?type=time`);
-  return res.json();
+let dailyRowsCache = null;
+async function loadDailyRows() {
+  if (!dailyRowsCache) {
+    const res = await fetch(`${SHEET_API_BASE_URL}?type=daily`);
+    dailyRowsCache = await res.json();
+  }
+  return dailyRowsCache;
 }
-let timeRowsCache = null;
 
 async function getTimePeriodLine() {
-  if (!timeRowsCache) timeRowsCache = await loadTimeRows();
-  const grouped = groupByKey(filterByLocale(timeRowsCache));
+  const rows = await loadDailyRows();
+  const grouped = groupByKey(filterByLocale(rows));
   const period = getCurrentPeriod();
   const candidates = grouped[period] || [];
   if (!candidates.length) return null;
@@ -477,12 +480,7 @@ toastTarot.addEventListener('click', () => {
 });
 
 /* ============ ④ 本日のご予定 ============ */
-async function loadScheduleRows() {
-  const res = await fetch(`${SHEET_API_BASE_URL}?type=schedule`);
-  return res.json();
-}
-
-let scheduleRowsCache = null, scheduleHideTimer = null;
+let scheduleHideTimer = null;
 const toastSchedule = document.getElementById('toast-schedule');
 
 function resetScheduleTimer() {
@@ -499,8 +497,8 @@ function getWeatherLine() {
 }
 
 async function fillScheduleToast() {
-  if (!scheduleRowsCache) scheduleRowsCache = await loadScheduleRows();
-  const grouped = groupByKey(filterByLocale(scheduleRowsCache));
+  const rows = await loadDailyRows();
+  const grouped = groupByKey(filterByLocale(rows));
   const today = getCurrentWeekdayKey();
   const tasks = grouped[today] || [];
 
@@ -533,11 +531,10 @@ toastSchedule.addEventListener('click', async () => {
 });
 
 Promise.all([
-  loadTimeRows().then(rows => timeRowsCache = rows).catch(() => {}),
+  loadDailyRows(),
   loadTeaRows().then(rows => teaRowsCache = rows).catch(() => {}),
   loadTarotRows().then(rows => tarotRowsCache = rows).catch(() => {}),
-  loadScheduleRows().then(rows => scheduleRowsCache = rows).catch(() => {})  // 추가
-]);
+  ]);
 
 
 /* ============ 宝物探し ============ */
