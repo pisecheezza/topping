@@ -73,7 +73,7 @@
 
         .hidden-emoji-wrapper {
             position: absolute; 
-            bottom: 10px; right: 10px; /* top/left -> bottom/right */
+            bottom: -50px; right: -50px; /* top/left -> bottom/right */
             z-index: 5; 
             pointer-events: none;
             
