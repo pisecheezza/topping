@@ -451,9 +451,9 @@ function loadGuestbook() {
       const row = document.createElement("div");
       row.className = "guestbook-entry" + (isPinned ? " pinned" : "");
       row.innerHTML = `
-        ${isPinned ? `<span class="guestbook-pin-badge">공지</span>` : ""}
+        ${isPinned ? `<span class="guestbook-pin-badge">📌</span>` : ""}
         <p class="guestbook-meta">
-          <span class="guestbook-name">${escapeHtml(r.name || "익명")}</span>
+          <span class="guestbook-name">${escapeHtml(r.name || "領民")}</span>
           <span class="guestbook-date">${escapeHtml(r.timestamp || "")}</span>
         </p>
         <p class="guestbook-message">${escapeHtml(r.message || "")}</p>
