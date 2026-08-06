@@ -232,7 +232,7 @@ getNextStepTowardPlayer() {
     this.toastMessage.classList.add('show');
     setTimeout(() => this.toastMessage.classList.remove('show'), 1200);
 }
-
+}
 
 // 게임 시작
 window.mazeGame = new MazeGame();
