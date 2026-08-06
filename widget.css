@@ -160,7 +160,7 @@
             -webkit-backdrop-filter: blur(4px);
         }
         .ht-modal-frame {
-            background-color: #dfdfdf;
+            background-color: #eeeeee;
             border: 5px double #1a1a1a;
             outline: 2px solid #1a1a1a;
             outline-offset: -8px;
