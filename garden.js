@@ -207,11 +207,6 @@ getNextStepTowardPlayer() {
             this.showToast('バラに捕まってしまいました……', '🌹'); // 장미 아이콘 전달
             setTimeout(() => this.generateNew(), 800);
         }
-
-        if (this.enemyPos.x === this.player.x && this.enemyPos.y === this.player.y) {
-            this.showToast('バラに捕まってしまいました……');
-            setTimeout(() => this.generateNew(), 800);
-        }
     }
 }
 
