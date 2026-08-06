@@ -434,23 +434,75 @@ function loadGuestbook() {
   fetchTab(TABS.guestbook).then(rows => {
     const list = document.getElementById("guestbookList");
     list.innerHTML = "";
-    rows
-      .filter(r => (r.message || "").trim())
-      .slice()
-      .reverse()
-      .forEach(r => {
-        const row = document.createElement("div");
-        row.className = "guestbook-entry";
-        row.innerHTML = `
-          <p class="guestbook-meta">
-            <span class="guestbook-name">${escapeHtml(r.name || "Anonymous")}</span>
-            <span class="guestbook-date">${escapeHtml(r.timestamp || "")}</span>
-          </p>
-          <p class="guestbook-message">${escapeHtml(r.message || "")}</p>`;
-        list.appendChild(row);
-      });
+
+    const filtered = rows.filter(r => (r.message || "").trim());
+    const pinned = filtered.filter(r => (r.pinned || "").toString().trim().toUpperCase() === "TRUE");
+    const normal = filtered.filter(r => (r.pinned || "").toString().trim().toUpperCase() !== "TRUE").reverse();
+
+    [...pinned, ...normal].forEach(r => {
+      const isPinned = (r.pinned || "").toString().trim().toUpperCase() === "TRUE";
+      const imgHtml = (r.imageId || "").trim()
+        ? `<img class="guestbook-img" src="${driveImageUrl(r.imageId.trim())}" alt="">`
+        : "";
+      const replyHtml = (r.reply || "").trim()
+        ? `<div class="guestbook-reply">↳ ${escapeHtml(r.reply)}</div>`
+        : "";
+
+      const row = document.createElement("div");
+      row.className = "guestbook-entry" + (isPinned ? " pinned" : "");
+      row.innerHTML = `
+        ${isPinned ? `<span class="guestbook-pin-badge">공지</span>` : ""}
+        <p class="guestbook-meta">
+          <span class="guestbook-name">${escapeHtml(r.name || "익명")}</span>
+          <span class="guestbook-date">${escapeHtml(r.timestamp || "")}</span>
+        </p>
+        <p class="guestbook-message">${escapeHtml(r.message || "")}</p>
+        ${imgHtml}
+        ${replyHtml}`;
+      list.appendChild(row);
+    });
   });
 }
+document.getElementById("guestbookForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = document.getElementById("gbName").value.trim();
+  const message = document.getElementById("gbMessage").value.trim();
+  const fileInput = document.getElementById("gbImage");
+  if (!message) return;
+
+  const submitBtn = e.target.querySelector("button");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Wait...";
+
+  function send(imageDataUrl, imageType) {
+    fetch(GUESTBOOK_WEBAPP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ name, message, image: imageDataUrl || "", imageType: imageType || "" })
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.ok) {
+          document.getElementById("gbName").value = "";
+          document.getElementById("gbMessage").value = "";
+          fileInput.value = "";
+          loadGuestbook();
+        }
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "✒️";
+      });
+  }
+
+  if (fileInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = () => send(reader.result, fileInput.files[0].type);
+    reader.readAsDataURL(fileInput.files[0]);
+  } else {
+    send(null, null);
+  }
+});
 loadGuestbook();
 
 // ── Guestbook: 폼 제출 ───────────────────────────────────
@@ -482,6 +534,7 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
       submitBtn.textContent = "✒️";
     });
 });
+
 
 // ── 도구 ───────────────────────────────────────────────────
 
