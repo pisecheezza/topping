@@ -141,7 +141,7 @@ img.top-right-icon {
   display: flex;
 }
 .reader-sub-link{
-  font-size: 11px !important;
+  font-size: 13px !important;
   opacity: 0.85;
 }
 
@@ -190,18 +190,6 @@ img.top-right-icon {
 .dropdown-menu.open .tab-link:nth-child(5){ transition-delay: .23s; }
 .dropdown-menu.open .tab-link:nth-child(6){ transition-delay: .28s; }
 
-/* 세로 막대 형태의 바를 원할 경우 */
-.profile-sub-link .tab-link::before,
-.reader-sub-link .tab-link::before {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 2px;
-  background-color: #fff; /* 바의 색상 */
-  vertical-align: middle;
-  margin-right: 6px;
-  opacity: 0.7;
-}
 .tab-link.active{
   color: var(--teal-deep);
   font-weight: 600;
