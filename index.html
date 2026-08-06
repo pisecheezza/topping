@@ -138,7 +138,7 @@
 <div id="shimeji" aria-hidden="true"></div>
 
 <!-- LP Widget By 닻과 파도의 항해 sradina.tistory.com R님 ----------------------------------------->  
-<div id="lp-widget flticon" class="lp-expanded" style="opacity: 0; visibility: hidden; transition: none;">
+<div id="lp-widget" class="lp-expanded flticon" style="opacity: 0; visibility: hidden; transition: none;">
     <div id="lp-modal">
         <div class="lp-modal-header">
             PLAYLIST
@@ -184,7 +184,7 @@
         </div>
     </div>
 </div>
-<button id="lp-expand-btn flticon" title="플레이어 열기">&#9836;</button>
+<button id="lp-expand-btn" class="flticon" title="플레이어 열기">&#9836;</button>
 
 <div class="floating-ticket">
         <div class="ticket-inner">
@@ -492,6 +492,12 @@
 .flticon {
   transition: opacity 0.25s ease, transform 0.25s ease; /* 펼쳐질 때도 부드럽게 */
 }
+ #lp-widget.flticon.collapsed,
+#lp-expand-btn.flticon.collapsed {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+} 
 </style>
     
 <script src="https://www.youtube.com/iframe_api"></script>
