@@ -826,3 +826,21 @@ function addInteractionEvents() {
 window.addEventListener('load', function() {
     TreasureHunt.init();
 });
+
+
+let fabsCollapsed = false;
+
+function setFabsCollapsed(collapsed) {
+  fabsCollapsed = collapsed;
+  document.querySelectorAll('.fab').forEach(fab => {
+    fab.classList.toggle('collapsed', collapsed);
+  });
+  // 접을 때 열려있던 토스트도 같이 닫기
+  if (collapsed) {
+    document.querySelectorAll('.toast.show').forEach(t => t.classList.remove('show'));
+  }
+}
+
+document.getElementById('butler-toggle').addEventListener('click', () => {
+  setFabsCollapsed(!fabsCollapsed);
+});
