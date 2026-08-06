@@ -273,10 +273,7 @@
 </div>
 <!-- 게임 스타일 ------------------------------------------------------------>
 <style> 
-  :root {
-    color-scheme: light dark;
-    
-    /* 모든 환경에 다크 포레스트 색상 적용 */
+  :root { /* 모든 환경에 다크 포레스트 색상 적용 */
     --maze-bg: #1A2818;        
     --cell-path: #4A5A48;      
     --cell-path-text: #1A2818; 
@@ -288,22 +285,11 @@
     --btn-hover: #3A4A38;      
     --restart-bg: #1A2A18;     
     --text-floating: #9AAA98;
-}
-
-html {
-    color-scheme: light dark;
-}
-
-body, .cell, .wall, .goal, .grid-maze {
-    -webkit-filter: invert(1) hue-rotate(180deg);
-    filter: invert(1) hue-rotate(180deg);
-  }
-    /* 플로팅 아이콘 옆에 뜨는 게임 팝오버 박스 */
-.game-popover {
+}    
+.game-popover { /* 플로팅 아이콘 옆에 뜨는 게임 팝오버 박스 */
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 20px;
+    left: 50px;
     background: var(--popover-bg);
     padding: 15px;
     border-radius: 20px;
