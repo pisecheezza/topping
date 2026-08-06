@@ -504,6 +504,7 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
     send(null, null);
   }
 });
+loadGuestbook()
 /* document.getElementById("guestbookForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const name = document.getElementById("gbName").value.trim();
