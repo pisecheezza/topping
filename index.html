@@ -138,7 +138,7 @@
 <div id="shimeji" aria-hidden="true"></div>
 
 <!-- LP Widget By 닻과 파도의 항해 sradina.tistory.com R님 ----------------------------------------->  
-<div id="lp-widget" class="lp-expanded" style="opacity: 0; visibility: hidden; transition: none;">
+<div id="lp-widget flticon" class="lp-expanded" style="opacity: 0; visibility: hidden; transition: none;">
     <div id="lp-modal">
         <div class="lp-modal-header">
             PLAYLIST
@@ -184,7 +184,7 @@
         </div>
     </div>
 </div>
-<button id="lp-expand-btn fab" title="플레이어 열기">&#9836;</button>
+<button id="lp-expand-btn flticon" title="플레이어 열기">&#9836;</button>
 
 <div class="floating-ticket">
         <div class="ticket-inner">
@@ -425,7 +425,7 @@
 </style>
 
 <!-- お茶 -->
-<button class="fab" id="fab-tea" aria-label="お茶の時間の一言">
+<button class="fab flticon" id="fab-tea" aria-label="お茶の時間の一言">
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M5 10h12v4.5A4.5 4.5 0 0 1 12.5 19h-3A4.5 4.5 0 0 1 5 14.5V10z" stroke="#F7EFE2" stroke-width="1.6" stroke-linejoin="round"/>
     <path d="M17 11h1.5a2.3 2.3 0 0 1 0 4.6H17" stroke="#F7EFE2" stroke-width="1.6" stroke-linecap="round"/>
@@ -434,14 +434,14 @@
 </button>
 
 <!-- タロット -->
-<button class="fab" id="fab-tarot" aria-label="今日のタロットカード">
+<button class="fab flticon" id="fab-tarot" aria-label="今日のタロットカード">
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect x="7" y="4" width="10" height="16" rx="2" stroke="#C9A227" stroke-width="1.5"/>
     <path d="M12 8.5l1.3 2.6 2.9.4-2.1 2 .5 2.9-2.6-1.4-2.6 1.4.5-2.9-2.1-2 2.9-.4z" fill="#C9A227"/>
   </svg>
 </button>
 
-<button class="fab" id="fab-schedule" aria-label="本日のご予定">
+<button class="fab flticon" id="fab-schedule" aria-label="本日のご予定">
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect x="5" y="4" width="14" height="17" rx="1.5" stroke="#4A3F35" stroke-width="1.6"/>
     <path d="M8 9h8M8 12.5h8M8 16h5" stroke="#4A3F35" stroke-width="1.4" stroke-linecap="round"/>
@@ -483,13 +483,13 @@
 .butler-toggle-btn:active { transform: scale(0.95); }
 
 /* 접힌 상태일 때 아이콘들 숨김 */
-.fab.collapsed {
+.flticon.collapsed {
   opacity: 0;
   transform: scale(0.6);
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
-.fab {
+.flticon {
   transition: opacity 0.25s ease, transform 0.25s ease; /* 펼쳐질 때도 부드럽게 */
 }
 </style>
