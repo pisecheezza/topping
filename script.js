@@ -431,117 +431,135 @@ fetchTab(TABS.links).then(rows => {
 
 
 function loadGuestbook() {
-  fetchTab(TABS.guestbook).then(rows => {
-    const list = document.getElementById("guestbookList");
-    list.innerHTML = "";
 
-    const filtered = rows.filter(r => (r.message || "").trim());
-    const pinned = filtered.filter(r => (r.pinned || "").toString().trim().toUpperCase() === "TRUE");
-    const normal = filtered.filter(r => (r.pinned || "").toString().trim().toUpperCase() !== "TRUE").reverse();
+fetchTab(TABS.guestbook).then(rows => {
 
-    [...pinned, ...normal].forEach(r => {
-      const isPinned = (r.pinned || "").toString().trim().toUpperCase() === "TRUE";
-      const imgHtml = (r.imageId || "").trim()
-        ? `<img class="guestbook-img" src="${driveImageUrl(r.imageId.trim())}" alt="">`
-        : "";
-      const replyHtml = (r.reply || "").trim()
-        ? `<div class="guestbook-reply">↳ ${escapeHtml(r.reply)}</div>`
-        : "";
+const list = document.getElementById("guestbookList");
 
-      const row = document.createElement("div");
-      row.className = "guestbook-entry" + (isPinned ? " pinned" : "");
-      row.innerHTML = `
-        ${isPinned ? `<span class="guestbook-pin-badge">📌</span>` : ""}
-        <p class="guestbook-meta">
-          <span class="guestbook-name">${escapeHtml(r.name || "領民")}</span>
-          <span class="guestbook-date">${escapeHtml(r.timestamp || "")}</span>
-        </p>
-        <p class="guestbook-message">${escapeHtml(r.message || "")}</p>
-        ${imgHtml}
-        ${replyHtml}`;
-      list.appendChild(row);
-    });
-  });
-}
-document.getElementById("guestbookForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const name = document.getElementById("gbName").value.trim();
-  const message = document.getElementById("gbMessage").value.trim();
-  const fileInput = document.getElementById("gbImage");
-  if (!message) return;
+list.innerHTML = "";
 
-  const submitBtn = e.target.querySelector("button");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Wait...";
 
-  function send(imageDataUrl, imageType) {
-    // data라는 변수를 쓰지 않고 payload 객체를 직접 정의합니다.
-    const payload = {
-      name: name,
-      message: message,
-      image: imageDataUrl || "",
-      imageType: imageType || ""
-    };
 
-    fetch(GUESTBOOK_WEBAPP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
-    })
-      .then(res => res.json())
-      .then(result => {
-        if (result.ok) {
-          document.getElementById("gbName").value = "";
-          document.getElementById("gbMessage").value = "";
-          fileInput.value = "";
-          loadGuestbook();
-        } else {
-          alert("저장 실패: " + (result.error || "알 수 없는 오류"));
-        }
-      })
-      .catch(err => {
-        console.error("통신 에러:", err);
-      })
-      .finally(() => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "✒️";
-      });
-  }
+const filtered = rows.filter(r => (r.message || "").trim());
 
-  if (fileInput.files && fileInput.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function(event) {
-      send(event.target.result, fileInput.files[0].type);
-    };
-    reader.onerror = function(err) {
-      console.error("파일 읽기 실패:", err);
-      send(null, null); // 파일 읽기 실패해도 텍스트는 전송 시도
-    };
-    reader.readAsDataURL(fileInput.files[0]);
-  } else {
-    send(null, null);
-  }
+const pinned = filtered.filter(r => (r.pinned || "").toString().trim().toUpperCase() === "TRUE");
+
+const normal = filtered.filter(r => (r.pinned || "").toString().trim().toUpperCase() !== "TRUE").reverse();
+
+
+
+[...pinned, ...normal].forEach(r => {
+
+const isPinned = (r.pinned || "").toString().trim().toUpperCase() === "TRUE";
+
+const imgHtml = (r.imageId || "").trim()
+
+? `<img class="guestbook-img" src="${driveImageUrl(r.imageId.trim())}" alt="">`
+
+: "";
+
+const replyHtml = (r.reply || "").trim()
+
+? `<div class="guestbook-reply">↳ ${escapeHtml(r.reply)}</div>`
+
+: "";
+
+
+
+const row = document.createElement("div");
+
+row.className = "guestbook-entry" + (isPinned ? " pinned" : "");
+
+row.innerHTML = ` ${isPinned ? `<span class="guestbook-pin-badge">공지</span>` : ""} <p class="guestbook-meta"> <span class="guestbook-name">${escapeHtml(r.name || "익명")}</span> <span class="guestbook-date">${escapeHtml(r.timestamp || "")}</span> </p> <p class="guestbook-message">${escapeHtml(r.message || "")}</p> ${imgHtml} ${replyHtml}`;
+
+list.appendChild(row);
+
 });
-let imageId = "";
-  if (data.image) {
-    try {
-      const folder = DriveApp.getFolderById("1z0zulR8pN4up8H_9i6Z9yaEP7qXdyecQ");
-      const blob = Utilities.newBlob(
-        Utilities.base64Decode(data.image.split(",")[1]),
-        data.imageType || "image/jpeg",
-        `guestbook_${Date.now()}.jpg`
-      );
-      const file = folder.createFile(blob);
-      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      imageId = file.getId();
-    } catch (err) {
-      // ⚠️ 에러 발생 시 시트에 에러 내용을 남기도록 수정
-      const nowErr = new Date();
-      const errTimestamp = Utilities.formatDate(nowErr, Session.getScriptTimeZone(), "yyyy.MM.dd HH:mm");
-      sheet.appendRow([errTimestamp, "UPLOAD_ERROR", err.toString(), false, "", ""]);
-    }
-  }
+
+});}
+
+
+document.getElementById("guestbookForm").addEventListener("submit", (e) => {
+
+e.preventDefault();
+
+const name = document.getElementById("gbName").value.trim();
+
+const message = document.getElementById("gbMessage").value.trim();
+
+const fileInput = document.getElementById("gbImage");
+
+if (!message) return;
+
+
+
+const submitBtn = e.target.querySelector("button");
+
+submitBtn.disabled = true;
+
+submitBtn.textContent = "Wait...";
+
+
+
+function send(imageDataUrl, imageType) {
+
+fetch(GUESTBOOK_WEBAPP_URL, {
+
+method: "POST",
+
+headers: { "Content-Type": "text/plain;charset=utf-8" },
+
+body: JSON.stringify({ name, message, image: imageDataUrl || "", imageType: imageType || "" })
+
+})
+
+.then(res => res.json())
+
+.then(result => {
+
+if (result.ok) {
+
+document.getElementById("gbName").value = "";
+
+document.getElementById("gbMessage").value = "";
+
+fileInput.value = "";
+
 loadGuestbook();
+
+}
+
+})
+
+.finally(() => {
+
+submitBtn.disabled = false;
+
+submitBtn.textContent = "✒️";
+
+});
+
+}
+
+
+
+if (fileInput.files[0]) {
+
+const reader = new FileReader();
+
+reader.onload = () => send(reader.result, fileInput.files[0].type);
+
+reader.readAsDataURL(fileInput.files[0]);
+
+} else {
+
+send(null, null);
+
+}});
+
+loadGuestbook();
+
+
 
 
 /* document.getElementById("guestbookForm").addEventListener("submit", (e) => {
