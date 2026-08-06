@@ -505,8 +505,8 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
 });
 loadGuestbook();
 
-// ── Guestbook: 폼 제출 ───────────────────────────────────
-document.getElementById("guestbookForm").addEventListener("submit", (e) => {
+
+/* document.getElementById("guestbookForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const name = document.getElementById("gbName").value.trim();
   const message = document.getElementById("gbMessage").value.trim();
@@ -533,8 +533,7 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
       submitBtn.disabled = false;
       submitBtn.textContent = "✒️";
     });
-});
-
+}); */
 
 // ── 도구 ───────────────────────────────────────────────────
 
