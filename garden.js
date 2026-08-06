@@ -1,4 +1,3 @@
-<script>
 document.getElementById('secret-trigger').addEventListener('click', () => {
   window.mazeGame.toggleGame();
 });
@@ -218,4 +217,3 @@ getNextStepTowardPlayer() {
 
 // 게임 시작
 window.mazeGame = new MazeGame();
-</script>
