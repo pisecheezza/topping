@@ -227,7 +227,10 @@
             </div>
         </div>
     </div>
-      <div id="toastMessage" class="toast-message">ツカマエタ！</div>
+<div id="toastMessage" class="toast-message">
+  <div class="toast-icon">🐰</div>
+  <div class="toast-text">ツカマエタ！</div>
+</div>
     <!-- 플로팅 아이콘 옆에 뜨는 게임 팝오버 박스 -->
     <div class="game-popover" id="gamePopover">
         <div id="gridMaze" class="grid-maze"></div>
@@ -293,24 +296,26 @@ html {
 
 body, .cell, .wall, .goal, .grid-maze {
     filter: none !important;
-    -webkit-filter: invert(1) hue-rotate(180deg)
+    -webkit-filter: invert(1) hue-rotate(180deg);
 }
     /* 플로팅 아이콘 옆에 뜨는 게임 팝오버 박스 */
-    .game-popover {
-        position: fixed;
-        bottom: 95px;
-        right: 20px;
-        background: var(--popover-bg);
-        padding: 15px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-        border: 2px solid var(--popover-border);
-        max-width: 360px;
-        z-index: 999;
-        display: none;
-        animation: popIn 0.2s ease-out forwards;
-    }
+.game-popover {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--popover-bg);
+    padding: 15px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    border: 2px solid var(--popover-border);
+    max-width: 360px;
+    width: 90%;
+    z-index: 999;
+    display: none;
+    animation: popIn 0.2s ease-out forwards;
+  }
     .game-popover.active {
         display: block;
     }
