@@ -227,23 +227,19 @@
             </div>
         </div>
     </div>
-<div id="toastMessage" class="toast-message">
-  <div class="toast-icon">🐰</div>
-  <div class="toast-text">ツカマエタ！</div>
-</div>
+    <div id="toastMessage" class="toast-message">
+      <div class="toast-icon">🐰</div>
+      <div class="toast-text">ツカマエタ！</div>
+    </div>
     <!-- 플로팅 아이콘 옆에 뜨는 게임 팝오버 박스 -->
     <div class="game-popover" id="gamePopover">
-        <button class="close-btn" id="btnClose">×</button>
         <div id="gridMaze" class="grid-maze"></div>
-      
-
         <div class="d-pad">
             <button class="ctrl-btn btn-up" id="move-up">👆</button>
             <button class="ctrl-btn btn-left" id="move-left">👈</button>
             <button class="ctrl-btn btn-down" id="move-down">👇</button>
             <button class="ctrl-btn btn-right" id="move-right">👉</button>
         </div>
-
         <button class="restart-btn" id="btn-restart">🔄 New Round</button>
     </div>
 <!-- 보물찾기 --------------------------------------------------------------->
@@ -290,7 +286,7 @@
 .game-popover { /* 플로팅 아이콘 옆에 뜨는 게임 팝오버 박스 */
     position: fixed;
     bottom: 20px;
-    left: 50px;
+    left: 20px;
     background: var(--popover-bg);
     padding: 15px;
     border-radius: 20px;
@@ -427,7 +423,7 @@
 
     /* 모바일 대응 미디어 쿼리 (작은 화면에서는 폰트 크기 자동 조절) */
     @media (max-width: 400px) {
-        .toast-icon { font-size: 90px; }
+        .n { font-size: 90px; }
         .toast-text { font-size: 40px; }
     }
   </style>
