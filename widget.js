@@ -15,7 +15,11 @@ function detectLocale() {
 }
 const USER_LOCALE = detectLocale();
 const USER_NAME = USER_LOCALE === "KR" ? "旦那様" : "坊っちゃん";
-
+const BUTLER_IMAGES = {
+  KR: "claude.png",
+  JP: "Sabbath.png"
+};
+document.getElementById('butler-toggle').src = BUTLER_IMAGES[USER_LOCALE] || BUTLER_IMAGES.JP;
 function filterByLocale(rows) {
   return rows.filter(r => !r.locale || r.locale === "ALL" || r.locale === USER_LOCALE);
 }
