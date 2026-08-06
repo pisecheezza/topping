@@ -466,16 +466,23 @@ function loadGuestbook() {
 
 document.getElementById("guestbookForm").addEventListener("submit", (e) => {
   e.preventDefault();
+  console.log("1. 폼 제출 이벤트 발생!"); // 이 로그가 찍히는지 확인
+
   const name = document.getElementById("gbName").value.trim() || "領民";
   const message = document.getElementById("gbMessage").value.trim();
   const fileInput = document.getElementById("gbImage");
-  if (!message) return;
+  
+  if (!message) {
+    console.log("메시지가 비어있음!");
+    return;
+  }
 
   const submitBtn = e.target.querySelector("button");
   submitBtn.disabled = true;
   submitBtn.textContent = "Wait...";
 
   function send(imageDataUrl, imageType) {
+    console.log("3. fetch 전송 시작:", GUESTBOOK_WEBAPP_URL); // 이 로그가 찍히는지 확인
     fetch(GUESTBOOK_WEBAPP_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -483,6 +490,7 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
     })
       .then(res => res.json())
       .then(result => {
+        console.log("4. 서버 응답 도착:", result);
         if (result.ok) {
           document.getElementById("gbName").value = "";
           document.getElementById("gbMessage").value = "";
@@ -497,10 +505,12 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
   }
 
   if (fileInput.files[0]) {
+    console.log("2-1. 이미지 파일 있음, FileReader 실행");
     const reader = new FileReader();
     reader.onload = () => send(reader.result, fileInput.files[0].type);
     reader.readAsDataURL(fileInput.files[0]);
   } else {
+    console.log("2-2. 이미지 파일 없음, 바로 send 호출");
     send(null, null);
   }
 });
