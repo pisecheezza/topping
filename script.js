@@ -34,7 +34,7 @@ function activateView(viewName) {
   if (btn) btn.classList.add("active");
   const viewEl = document.getElementById(`view-${viewName}`);
   if (viewEl) viewEl.classList.add("active");
-  window.scrollTo(0, 0);   // scroll to top
+  window.scrollTo(0, 0);
 }
 
 const dropdownMenu = document.getElementById("dropdownMenu");
