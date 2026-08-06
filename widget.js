@@ -807,7 +807,7 @@ function addInteractionEvents() {
         document.getElementById('htModalIcon').innerText = icon;
         document.getElementById('htModalDesc').innerHTML = desc;
 
-        document.getElementById('htItemCounter').innerText = `獲物 その${index} / ${total}`;
+        document.getElementById('htItemCounter').innerText = `獲物、その ${index} / ${total}`;
         modal.style.display = 'flex';
     }
 
