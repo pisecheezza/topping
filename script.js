@@ -431,137 +431,79 @@ fetchTab(TABS.links).then(rows => {
 
 
 function loadGuestbook() {
+  fetchTab(TABS.guestbook).then(rows => {
+    const list = document.getElementById("guestbookList");
+    list.innerHTML = "";
 
-fetchTab(TABS.guestbook).then(rows => {
+    const filtered = rows.filter(r => (r.message || "").trim());
+    const pinned = filtered.filter(r => (r.pinned || "").toString().trim().toUpperCase() === "TRUE");
+    const normal = filtered.filter(r => (r.pinned || "").toString().trim().toUpperCase() !== "TRUE").reverse();
 
-const list = document.getElementById("guestbookList");
+    [...pinned, ...normal].forEach(r => {
+      const isPinned = (r.pinned || "").toString().trim().toUpperCase() === "TRUE";
+      const imgHtml = (r.imageId || "").trim()
+        ? `<img class="guestbook-img" src="${driveImageUrl(r.imageId.trim())}" alt="">`
+        : "";
+      const replyHtml = (r.reply || "").trim()
+        ? `<div class="guestbook-reply">↳ ${escapeHtml(r.reply)}</div>`
+        : "";
 
-list.innerHTML = "";
-
-
-
-const filtered = rows.filter(r => (r.message || "").trim());
-
-const pinned = filtered.filter(r => (r.pinned || "").toString().trim().toUpperCase() === "TRUE");
-
-const normal = filtered.filter(r => (r.pinned || "").toString().trim().toUpperCase() !== "TRUE").reverse();
-
-
-
-[...pinned, ...normal].forEach(r => {
-
-const isPinned = (r.pinned || "").toString().trim().toUpperCase() === "TRUE";
-
-const imgHtml = (r.imageId || "").trim()
-
-? `<img class="guestbook-img" src="${driveImageUrl(r.imageId.trim())}" alt="">`
-
-: "";
-
-const replyHtml = (r.reply || "").trim()
-
-? `<div class="guestbook-reply">↳ ${escapeHtml(r.reply)}</div>`
-
-: "";
-
-
-
-const row = document.createElement("div");
-
-row.className = "guestbook-entry" + (isPinned ? " pinned" : "");
-
-row.innerHTML = ` ${isPinned ? `<span class="guestbook-pin-badge">お知らせ</span>` : ""} <p class="guestbook-meta"> <span class="guestbook-name">${escapeHtml(r.name || "領民")}</span> <span class="guestbook-date">${escapeHtml(r.timestamp || "")}</span> </p> <p class="guestbook-message">${escapeHtml(r.message || "")}</p> ${imgHtml} ${replyHtml}`;
-
-list.appendChild(row);
-
-});
-
-});}
-
+      const row = document.createElement("div");
+      row.className = "guestbook-entry" + (isPinned ? " pinned" : "");
+      row.innerHTML = `
+        ${isPinned ? `<span class="guestbook-pin-badge">お知らせ</span>` : ""}
+        <p class="guestbook-meta">
+          <span class="guestbook-name">${escapeHtml(r.name || "領民")}</span>
+          <span class="guestbook-date">${escapeHtml(r.timestamp || "")}</span>
+        </p>
+        <p class="guestbook-message">${escapeHtml(r.message || "")}</p>
+        ${imgHtml}
+        ${replyHtml}`;
+      list.appendChild(row);
+    });
+  });
+}
 
 document.getElementById("guestbookForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = document.getElementById("gbName").value.trim() || "領民";
+  const message = document.getElementById("gbMessage").value.trim();
+  const fileInput = document.getElementById("gbImage");
+  if (!message) return;
 
-e.preventDefault();
+  const submitBtn = e.target.querySelector("button");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Wait...";
 
-const name = document.getElementById("gbName").value.trim();
+  function send(imageDataUrl, imageType) {
+    fetch(GUESTBOOK_WEBAPP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ name, message, image: imageDataUrl || "", imageType: imageType || "" })
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.ok) {
+          document.getElementById("gbName").value = "";
+          document.getElementById("gbMessage").value = "";
+          fileInput.value = "";
+          loadGuestbook();
+        }
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "✒️";
+      });
+  }
 
-const message = document.getElementById("gbMessage").value.trim();
-
-const fileInput = document.getElementById("gbImage");
-
-if (!message) return;
-
-
-
-const submitBtn = e.target.querySelector("button");
-
-submitBtn.disabled = true;
-
-submitBtn.textContent = "Wait...";
-
-
-
-function send(imageDataUrl, imageType) {
-
-fetch(GUESTBOOK_WEBAPP_URL, {
-
-method: "POST",
-
-headers: { "Content-Type": "text/plain;charset=utf-8" },
-
-body: JSON.stringify({ name, message, image: imageDataUrl || "", imageType: imageType || "" })
-
-})
-
-.then(res => res.json())
-
-.then(result => {
-
-if (result.ok) {
-
-document.getElementById("gbName").value = "";
-
-document.getElementById("gbMessage").value = "";
-
-fileInput.value = "";
-
-loadGuestbook();
-
-}
-
-})
-
-.finally(() => {
-
-submitBtn.disabled = false;
-
-submitBtn.textContent = "✒️";
-
+  if (fileInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = () => send(reader.result, fileInput.files[0].type);
+    reader.readAsDataURL(fileInput.files[0]);
+  } else {
+    send(null, null);
+  }
 });
-
-}
-
-
-
-if (fileInput.files[0]) {
-
-const reader = new FileReader();
-
-reader.onload = () => send(reader.result, fileInput.files[0].type);
-
-reader.readAsDataURL(fileInput.files[0]);
-
-} else {
-
-send(null, null);
-
-}});
-
-loadGuestbook();
-
-
-
-
 /* document.getElementById("guestbookForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const name = document.getElementById("gbName").value.trim();
