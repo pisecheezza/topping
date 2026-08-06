@@ -160,13 +160,13 @@
             -webkit-backdrop-filter: blur(4px);
         }
         .ht-modal-frame {
-            background-color: #f7f3ed;
+            background-color: #dfdfdf;
             border: 5px double #1a1a1a;
             outline: 2px solid #1a1a1a;
             outline-offset: -8px;
             border-radius: 15px;
             corner-shape: scoop;
-            width: 210px;
+            width: 300px;
             min-height: 315px;
             position: relative;
             display: flex;
@@ -211,6 +211,6 @@
         }
         .ht-counter-box {
             margin-top: auto; background-color: var(--ht-icon-bg); color: var(--ht-modal-subtext); 
-            padding: 4px 12px; font-size: 1.0rem; font-weight: 700; transform: scaleX(0.97); 
+            padding: 4px 12px; font-size: 1.0rem; font-weight: 700; text-align: center; transform: scaleX(0.97); 
         }
         @keyframes htSnapIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
