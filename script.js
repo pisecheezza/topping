@@ -475,10 +475,18 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
   submitBtn.textContent = "Wait...";
 
   function send(imageDataUrl, imageType) {
+    // data라는 변수를 쓰지 않고 payload 객체를 직접 정의합니다.
+    const payload = {
+      name: name,
+      message: message,
+      image: imageDataUrl || "",
+      imageType: imageType || ""
+    };
+
     fetch(GUESTBOOK_WEBAPP_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ name, message, image: imageDataUrl || "", imageType: imageType || "" })
+      body: JSON.stringify(payload)
     })
       .then(res => res.json())
       .then(result => {
@@ -487,7 +495,12 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
           document.getElementById("gbMessage").value = "";
           fileInput.value = "";
           loadGuestbook();
+        } else {
+          alert("저장 실패: " + (result.error || "알 수 없는 오류"));
         }
+      })
+      .catch(err => {
+        console.error("통신 에러:", err);
       })
       .finally(() => {
         submitBtn.disabled = false;
@@ -495,9 +508,15 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
       });
   }
 
-  if (fileInput.files[0]) {
+  if (fileInput.files && fileInput.files[0]) {
     const reader = new FileReader();
-    reader.onload = () => send(reader.result, fileInput.files[0].type);
+    reader.onload = function(event) {
+      send(event.target.result, fileInput.files[0].type);
+    };
+    reader.onerror = function(err) {
+      console.error("파일 읽기 실패:", err);
+      send(null, null); // 파일 읽기 실패해도 텍스트는 전송 시도
+    };
     reader.readAsDataURL(fileInput.files[0]);
   } else {
     send(null, null);
