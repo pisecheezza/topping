@@ -80,7 +80,7 @@ async function fetchWeather() {
 // 페이지 열자마자 미리 한 번 받아두기 (다른 아이콘들처럼 즉시 뜨도록)
 fetchWeather().then(w => cachedWeather = w).catch(() => {});
 
-function formatDate() {
+function formatDateButler() {
   const d = new Date();
   return `${d.getMonth() + 1}月${d.getDate()}日`;
 }
@@ -89,7 +89,7 @@ function fillTemplate(raw) {
   const weekdays = ["日","月","火","水","木","金","土"];
   const seasons = ["冬","冬","春","春","春","夏","夏","夏","秋","秋","秋","冬"]; // 월(0-11) 기준
   return raw
-    .replace("{date}", formatDate())
+    .replace("{date}", formatDateButler())
     .replace("{name}", USER_NAME)
     .replace("{weekday}", weekdays[d.getDay()])
     .replace("{hour}", d.getHours())
