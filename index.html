@@ -465,20 +465,35 @@
   <div class="msg note-msg" id="toastMsgSchedule">読み込み中...</div>
 </div>
 
-<div class="butler" id="butler-menu">
-  <img src="Sabbath.png">
-</div>
+<img id="butler-toggle" src="Sabbath.png" alt="執事" class="butler-toggle-btn">
 
 <style>
-  .butler img{
-    position: fixed;
-    left: 22px;
-    bottom: 0px;
-    z-index: 9999;
-    width: auto;
-    height: 90px;
-  }
+  .butler-toggle-btn {
+  position: fixed;
+  bottom: 0px;
+  left: 22px;
+  width: auto;
+  height: 90px;
+  cursor: pointer;
+  z-index: 9999;
+  /* box-shadow: 0 8px 20px rgba(46,43,38,0.25); */
+  transition: transform 0.2s ease;
+}
+.butler-toggle-btn:hover { transform: scale(1.05); }
+.butler-toggle-btn:active { transform: scale(0.95); }
+
+/* 접힌 상태일 때 아이콘들 숨김 */
+.fab.collapsed {
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.fab {
+  transition: opacity 0.25s ease, transform 0.25s ease; /* 펼쳐질 때도 부드럽게 */
+}
 </style>
+    
 <script src="https://www.youtube.com/iframe_api"></script>
 <script src="config.js"></script>
 <script src="script.js"></script>
