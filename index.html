@@ -186,24 +186,6 @@
 </div>
 <button id="lp-expand-btn" class="flticon" title="플레이어 열기">&#9836;</button>
 
-<div class="floating-ticket">
-        <div class="ticket-inner">
-            <!-- 1. 메인 구역 -->
-            <div class="ticket-main">
-                <span class="dday-title">いろんな<span id="secret-trigger" class="secret-char">所</span>を<br>旅してから</span>
-            </div>
-            
-            <!-- 2. DAYS 세로 라벨 구역 -->
-            <div class="ticket-days">
-                <span class="dday-label">DAYS</span>
-            </div>
-
-            <!-- 3. 자동 계산되는 숫자 구역 -->
-            <div class="ticket-stub">
-                <span class="dday-number" id="dday-count"></span>
-            </div>
-        </div>
-    </div>
 
 <!-- LP Widget 종료 ----------------------------------------->  
 <!-- 타임 라인 --------------------------------------------------------------
@@ -226,7 +208,37 @@
     </div>
     
 </div> -->
+<!-- 디 데이 여행 티켓 -------------------------------------------------------------->
+<div class="floating-ticket">
+        <div class="ticket-inner">
+            <!-- 1. 메인 구역 -->
+            <div class="ticket-main">
+                <span class="dday-title">いろんな<span id="secret-trigger" class="secret-char">所</span>を<br>旅してから</span>
+            </div>
+            
+            <!-- 2. DAYS 세로 라벨 구역 -->
+            <div class="ticket-days">
+                <span class="dday-label">DAYS</span>
+            </div>
 
+            <!-- 3. 자동 계산되는 숫자 구역 -->
+            <div class="ticket-stub">
+                <span class="dday-number" id="dday-count"></span>
+            </div>
+        </div>
+    </div>
+    <div class="game-popover" id="gamePopover">
+        <div id="gridMaze" class="grid-maze"></div>
+
+        <div class="d-pad">
+            <button class="ctrl-btn btn-up" id="move-up">👆</button>
+            <button class="ctrl-btn btn-left" id="move-left">👈</button>
+            <button class="ctrl-btn btn-down" id="move-down">👇</button>
+            <button class="ctrl-btn btn-right" id="move-right">👉</button>
+        </div>
+
+        <button class="restart-btn" id="btn-restart">🔄 New Round</button>
+    </div>
 <!-- 보물찾기 --------------------------------------------------------------->
 <div id="treasure-hunt-component">
     <div id="corner-interaction-wrapper">
