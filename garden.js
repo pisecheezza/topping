@@ -1,5 +1,7 @@
-document.getElementById('secret-trigger').addEventListener('click', () => {
-  window.mazeGame.toggleGame();
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('secret-trigger')?.addEventListener('click', () => {
+    window.mazeGame.toggleGame();
+  });
 });
 
 class MazeGame {
