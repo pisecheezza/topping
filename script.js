@@ -503,6 +503,25 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
     send(null, null);
   }
 });
+let imageId = "";
+  if (data.image) {
+    try {
+      const folder = DriveApp.getFolderById("1z0zulR8pN4up8H_9i6Z9yaEP7qXdyecQ");
+      const blob = Utilities.newBlob(
+        Utilities.base64Decode(data.image.split(",")[1]),
+        data.imageType || "image/jpeg",
+        `guestbook_${Date.now()}.jpg`
+      );
+      const file = folder.createFile(blob);
+      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      imageId = file.getId();
+    } catch (err) {
+      // ⚠️ 에러 발생 시 시트에 에러 내용을 남기도록 수정
+      const nowErr = new Date();
+      const errTimestamp = Utilities.formatDate(nowErr, Session.getScriptTimeZone(), "yyyy.MM.dd HH:mm");
+      sheet.appendRow([errTimestamp, "UPLOAD_ERROR", err.toString(), false, "", ""]);
+    }
+  }
 loadGuestbook();
 
 
