@@ -836,7 +836,7 @@ let fabsCollapsed = false;
 
 function setFabsCollapsed(collapsed) {
   fabsCollapsed = collapsed;
-  document.querySelectorAll('.fab').forEach(fab => {
+  document.querySelectorAll('.flticon').forEach(fab => {
     fab.classList.toggle('collapsed', collapsed);
   });
   // 접을 때 열려있던 토스트도 같이 닫기
