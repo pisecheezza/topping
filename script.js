@@ -515,34 +515,6 @@ document.getElementById("guestbookForm").addEventListener("submit", (e) => {
   }
 });
 loadGuestbook()
-/* document.getElementById("guestbookForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const name = document.getElementById("gbName").value.trim();
-  const message = document.getElementById("gbMessage").value.trim();
-  if (!message) return;
-
-  const submitBtn = e.target.querySelector("button");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Wait...";
-
-  fetch(GUESTBOOK_WEBAPP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify({ name, message })
-  })
-    .then(res => res.json())
-    .then(result => {
-      if (result.ok) {
-        document.getElementById("gbName").value = "";
-        document.getElementById("gbMessage").value = "";
-        loadGuestbook();
-      }
-    })
-    .finally(() => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "✒️";
-    });
-}); */
 
 // ── 도구 ───────────────────────────────────────────────────
 
