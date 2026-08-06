@@ -190,7 +190,7 @@
         <div class="ticket-inner">
             <!-- 1. 메인 구역 -->
             <div class="ticket-main">
-                <span class="dday-title">いろんな所を<br>旅してから</span>
+                <span class="dday-title">いろんな<span id="secret-trigger" class="secret-char">所</span>を<br>旅してから</span>
             </div>
             
             <!-- 2. DAYS 세로 라벨 구역 -->
@@ -253,8 +253,177 @@
         </div>
     </div>
 </div>
-     
+<!-- 게임 스타일 ------------------------------------------------------------>
+<style> 
+  :root {
+    color-scheme: light dark;
+    
+    /* 모든 환경에 다크 포레스트 색상 적용 */
+    --maze-bg: #1A2818;        
+    --cell-path: #4A5A48;      
+    --cell-path-text: #1A2818; 
+    --wall: #0F1A0E;           
+    --goal: #D4A000;           
+    --popover-bg: #1A2418;     
+    --popover-border: #3A4A38; 
+    --btn-bg: #2A3A28;         
+    --btn-hover: #3A4A38;      
+    --restart-bg: #1A2A18;     
+    --text-floating: #9AAA98;
+}
 
+html {
+    color-scheme: light dark;
+}
+
+body, .cell, .wall, .goal, .grid-maze {
+    filter: none !important;
+    -webkit-filter: invert(1) hue-rotate(180deg)
+}
+    /* 플로팅 아이콘 옆에 뜨는 게임 팝오버 박스 */
+    .game-popover {
+        position: fixed;
+        bottom: 95px;
+        right: 20px;
+        background: var(--popover-bg);
+        padding: 15px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        border: 2px solid var(--popover-border);
+        max-width: 360px;
+        z-index: 999;
+        display: none;
+        animation: popIn 0.2s ease-out forwards;
+    }
+    .game-popover.active {
+        display: block;
+    }
+
+    @keyframes popIn {
+        from { opacity: 0; transform: translateY(10px) scale(0.95); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .grid-maze {
+        display: grid;
+        grid-template-columns: repeat(15, 18px);
+        grid-template-rows: repeat(15, 18px);
+        gap: 1px; 
+        background: var(--maze-bg);
+        padding: 6px; 
+        margin: 6px auto;
+        width: fit-content; 
+        border-radius: 8px;
+        border: 2px solid var(--popover-border);
+    }
+    .cell {
+        width: 18px; height: 18px;
+        background: var(--cell-path);
+        color: var(--cell-path-text);
+        border-radius: 1px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 11px;
+    }
+    .wall { 
+        background: var(--wall);
+        border-radius: 2px;
+    }
+    .goal { 
+        background: var(--goal);
+        border-radius: 2px;
+    }
+
+    .d-pad {
+        display: grid;
+        grid-template-columns: repeat(3, 45px);
+        grid-template-rows: repeat(2, 40px);
+        gap: 5px;
+        justify-content: center;
+        margin-top: 8px;
+    }
+    .ctrl-btn {
+        background: var(--btn-bg); 
+        color: var(--text-floating);
+        border: none; border-radius: 10px;
+        font-size: 18px; font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        display: flex; align-items: center; justify-content: center;
+        user-select: none;
+    }
+    .ctrl-btn:active { background: #40916c; transform: scale(0.93); color: white; }
+    .btn-up { grid-column: 2; grid-row: 1; }
+    .btn-left { grid-column: 1; grid-row: 2; }
+    .btn-down { grid-column: 2; grid-row: 2; }
+    .btn-right { grid-column: 3; grid-row: 2; }
+
+    .restart-btn {
+        margin-top: 8px; padding: 6px 14px;
+        background: var(--restart-bg); color: white;
+        border: 1px solid var(--popover-border); border-radius: 8px;
+        cursor: pointer; font-weight: bold; font-size: 12px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    }
+    .restart-btn:active { background: #1b4332; }
+
+    /* 화면 한가운데에 뜨는 토스트 메시지 스타일 */
+.toast-message {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 화면 전체를 덮도록 변경 */
+        background: rgba(255, 183, 3, 0.95); /* 기존 황금색에 투명도 추가 */
+        color: #081c15;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        pointer-events: none;
+        /* 팝인 효과를 더 극적으로 수정 */
+        transform: scale(1.2); 
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* 탄력 있는 애니메이션 */
+    }
+
+    .toast-message.show {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* 거대한 토스트 아이콘 (토끼 이모지) */
+    .toast-icon {
+        font-size: 120px; /* 모바일에서도 압도적인 크기 */
+        margin-bottom: 20px;
+        animation: wiggle 0.5s infinite; /* 깜짝 놀라 흔들리는 애니메이션 */
+    }
+
+    /* 거대한 토스트 텍스트 */
+    .toast-text {
+        font-size: 50px; /* 모바일 화면을 꽉 채우는 폰트 크기 */
+        font-weight: 900; /* 아주 굵은 글씨 */
+        text-transform: uppercase; /* 대문자 강조 */
+        letter-spacing: -2px; /* 자간을 좁혀 더 임팩트 있게 */
+        text-shadow: 3px 3px 0px rgba(0,0,0,0.2); /* 입체감 부여 */
+        margin: 0;
+    }
+
+    /* 아이콘이 좌우로 흔들리는 키프레임 애니메이션 */
+    @keyframes wiggle {
+        0% { transform: rotate(0deg); }
+        25% { transform: rotate(-10deg); }
+        75% { transform: rotate(10deg); }
+        100% { transform: rotate(0deg); }
+    }
+
+    /* 모바일 대응 미디어 쿼리 (작은 화면에서는 폰트 크기 자동 조절) */
+    @media (max-width: 400px) {
+        .toast-icon { font-size: 90px; }
+        .toast-text { font-size: 40px; }
+    }
+  </style>
 
 <!-- 토스트 아이콘 ----------------------------------------->  
 <style>
@@ -507,5 +676,6 @@
 <script src="player.js"></script>
 <script src="widget.js"></script>
 <script src="deco.js"></script>
+<script src="garden.js"></script>
 </body>
 </html>
