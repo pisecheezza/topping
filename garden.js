@@ -210,12 +210,22 @@ getNextStepTowardPlayer() {
     }
 }
 
-    showToast(message) {
+/*    showToast(message) {
         this.toastMessage.textContent = message;
         this.toastMessage.classList.add('show');
         setTimeout(() => this.toastMessage.classList.remove('show'), 1200);
     }
+} */
+  
+showToast(message) {
+    // #toastMessage 전체가 아니라, 텍스트를 담고 있는 내부 요소를 선택합니다.
+    const textElement = this.toastMessage.querySelector('.toast-text');
+    if (textElement) {
+        textElement.textContent = message;
+    }
+    
+    this.toastMessage.classList.add('show');
+    setTimeout(() => this.toastMessage.classList.remove('show'), 1200);
 }
-
 // 게임 시작
 window.mazeGame = new MazeGame();
