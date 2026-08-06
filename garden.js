@@ -193,15 +193,20 @@ getNextStepTowardPlayer() {
         this.mazeMap[ny][nx] !== 1) {
         this.player = { x: nx, y: ny };
 
-        if (this.mazeMap[ny][nx] === 2) {
+       if (this.mazeMap[ny][nx] === 2) {
             this.render();
-            this.showToast('ツカマエタ!');
+            this.showToast('ツカマエタ!', '🐰'); // 토끼 아이콘 전달
             setTimeout(() => this.generateNew(), 600);
             return;
         }
 
         this.enemyPos = this.getNextStepTowardPlayer();
         this.render();
+
+        if (this.enemyPos.x === this.player.x && this.enemyPos.y === this.player.y) {
+            this.showToast('バラに捕まってしまいました……', '🌹'); // 장미 아이콘 전달
+            setTimeout(() => this.generateNew(), 800);
+        }
 
         if (this.enemyPos.x === this.player.x && this.enemyPos.y === this.player.y) {
             this.showToast('バラに捕まってしまいました……');
@@ -217,16 +222,20 @@ getNextStepTowardPlayer() {
     }
 } */
   
-    showToast(message) {
-
-        this.toastMessage.textContent = message;
-
-        this.toastMessage.classList.add('show');
-
-        setTimeout(() => this.toastMessage.classList.remove('show'), 1200);
-
+   showToast(message, icon = '🐰') {
+    // 아이콘 요소와 텍스트 요소를 각각 찾아 변경합니다.
+    const iconElement = this.toastMessage.querySelector('.toast-icon');
+    const textElement = this.toastMessage.querySelector('.toast-text');
+    
+    if (iconElement) {
+        iconElement.textContent = icon;
     }
-
+    if (textElement) {
+        textElement.textContent = message;
+    }
+    
+    this.toastMessage.classList.add('show');
+    setTimeout(() => this.toastMessage.classList.remove('show'), 1200);
 }
 
 
