@@ -282,6 +282,11 @@ img.top-right-icon {
 /* ===========================================
    프로필
    =========================================== */
+.about-kv-list{
+  margin: 0;
+}
+
+
 #profileSections{
   display: flex;
   flex-direction: column;
