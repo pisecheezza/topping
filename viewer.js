@@ -18,7 +18,7 @@ function renderLibraryFolders() {
   const allBtn = document.createElement("button");
   allBtn.className = "library-folder-btn active";
   allBtn.type = "button";
-  allBtn.textContent = "전체";
+  allBtn.textContent = "本棚全体";
   allBtn.addEventListener("click", () => selectLibraryFolder(null, allBtn));
   wrap.appendChild(allBtn);
 
