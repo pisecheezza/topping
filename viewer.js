@@ -1,6 +1,7 @@
 // ══════════════════════════════════════════════════════
 // Library: 드라이브 폴더 구조 기반 뷰어
 // ══════════════════════════════════════════════════════
+// ── Library: 드라이브 폴더 구조 기반 뷰어 ────────────────────
 let libraryData = [];
 let currentLibraryFolder = null;
 
@@ -69,13 +70,3 @@ document.getElementById("libraryBack").addEventListener("click", () => {
 });
 
 loadLibrary();
-
-// ── 텍스트 선택/드래그 방지 ───────────────────────
-const readerWrapper = document.getElementById("libraryGrid");
-if (readerWrapper) {
-  readerWrapper.addEventListener("contextmenu", (e) => e.preventDefault());
-  readerWrapper.addEventListener("dragstart", (e) => {
-    if (e.target.tagName && e.target.tagName.toUpperCase() === "INPUT") return;
-    e.preventDefault();
-  });
-}
