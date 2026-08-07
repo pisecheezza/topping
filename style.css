@@ -114,21 +114,29 @@ img.top-right-icon {
 }
 
 .profile-submenu{
-.profile-submenu,
-.reader-submenu {
   display: none;
   flex-direction: column;
   padding-left: 20px;
 }
 
-.profile-submenu.open,
-.reader-submenu.open {
+.profile-submenu.open{
   display: flex;
 }
+.profile-sub-link{
+  font-size: 13px !important;
+  opacity: 0.85;
+}
 
-.profile-sub-link,
-.reader-sub-link {
-  font-size: 13px;
+.reader-submenu{
+  display: none;
+  flex-direction: column;
+  padding-left: 20px;
+}
+.reader-submenu.open{
+  display: flex;
+}
+.reader-sub-link{
+  font-size: 13px !important;
   opacity: 0.85;
 }
   
