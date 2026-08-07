@@ -56,7 +56,6 @@ menuIcon.addEventListener("click", () => {
 backdrop.addEventListener("click", closeMenu);
 
 document.querySelectorAll(".tab-link").forEach(btn => {
-  if (btn.classList.contains("reader-toggle")) return;
   if (btn.classList.contains("profile-toggle")) return;
   btn.addEventListener("click", () => {
     activateView(btn.dataset.view);
