@@ -46,7 +46,7 @@ function renderLibraryGrid() {
   const list = currentLibraryFolder
     ? libraryRows.filter(r => (r["메뉴"] || "").trim() === currentLibraryFolder)
     : libraryRows;
-
+  let cleanDate = post['Released'] ? post['Released'] : (post['생성일'] ? post['생성일'].substring(0, 10) : '');
   list
     .slice()
     .sort((a, b) => (b["생성일"] || "").localeCompare(a["생성일"] || ""))
