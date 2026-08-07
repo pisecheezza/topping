@@ -70,8 +70,8 @@ document.getElementById("libraryBack").addEventListener("click", () => {
 
 loadLibrary();
 
-// ── Reader: 텍스트 선택/드래그 방지 ───────────────────────
-const readerWrapper = document.getElementById("reader-wrapper");
+// ── 텍스트 선택/드래그 방지 ───────────────────────
+const readerWrapper = document.getElementById("libraryGrid");
 if (readerWrapper) {
   readerWrapper.addEventListener("contextmenu", (e) => e.preventDefault());
   readerWrapper.addEventListener("dragstart", (e) => {
