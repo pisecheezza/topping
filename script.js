@@ -14,9 +14,9 @@ document.body.classList.add(`time-${currentPeriod}`);
 document.body.classList.add("door-locked");
 
 const doorImages = {
-  morning: "door-morning.png",
-  day: "door-day.png",
-  evening: "door-evening.png",
+  morning: "door-morning.jpg",
+  day: "door-day.jpg",
+  evening: "door-evening.jpgg",
   night: "door-night.png"
 };
 
