@@ -79,13 +79,13 @@ function openLibraryDoc(fileId) {
   const contentDiv = document.getElementById("libraryContent");
   contentDiv.innerHTML = `
     <div id="libraryLoading" style="text-align:center; padding:60px 0;">
-      <div id="libraryLoadingText" style="font-size:13px; color:#888; font-weight:bold;">책을 가져오는 중...</div>
+      <div id="libraryLoadingText" style="font-size:13px; color:#888; font-weight:bold;">本を持ってきています…。</div>
     </div>`;
 
   fetch(`${GUESTBOOK_WEBAPP_URL}?id=${fileId}`)
     .then(res => res.json())
     .then(data => {
-      if (!data.success) throw new Error(data.error || "로드 실패");
+      if (!data.success) throw new Error(data.error || "本の調達失敗");
       renderLibraryBook(data.content);
     })
     .catch(err => {
