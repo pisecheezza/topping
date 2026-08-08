@@ -16,7 +16,7 @@ const READER_SHEETS = {
   magazine: "Magazine"
 };
 
-const SITE_TITLE = "Web Retreat";
+const SITE_TITLE = "伯爵領";
 
 // drive file ID direct link
 function driveImageUrl(fileId) {
