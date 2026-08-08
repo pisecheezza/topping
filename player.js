@@ -66,15 +66,17 @@
 
         // 2. 플레이리스트 (유튜브 링크와 제목을 입력하세요)
         playlist: [
-                { url: "https://www.youtube.com/watch?v=zbKWAzNF6ao", title: "SHIVER" },
-                { url: "https://www.youtube.com/watch?v=Ol7PzD0iwMk", title: "The Slightly Chipped Full Moon" },
-                { url: "https://www.youtube.com/watch?v=ulp9XrKjKQE", title: "Suo Gân by Emilie Parry Williams" },
-                { url: "https://www.youtube.com/watch?v=Ui9YLBHq490", title: "輝く空の静寂には" },
-                { url: "https://www.youtube.com/watch?v=kWk95U_njJ0", title: "Medieval Style" },
-                { url: "https://www.youtube.com/watch?v=iv5vSbC6188", title: "The Butler of Trancy's" },
-                { url: "https://www.youtube.com/watch?v=RuNqttY67O4", title: "A Spider's Thread" }
-            ]
+
+            { url: "https://www.youtube.com/watch?v=zbKWAzNF6ao", title: "SHIVER" },
+            { url: "https://www.youtube.com/watch?v=Ol7PzD0iwMk", title: "The Slightly Chipped Full Moon" },
+            { url: "https://www.youtube.com/watch?v=ulp9XrKjKQE", title: "Suo Gân by Emilie Parry Williams" },
+            { url: "https://www.youtube.com/watch?v=Ui9YLBHq490", title: "輝く空の静寂には" },
+            { url: "https://www.youtube.com/watch?v=kWk95U_njJ0", title: "Medieval Style" },
+            { url: "https://www.youtube.com/watch?v=iv5vSbC6188", title: "The Butler of Trancy's" },
+            { url: "https://www.youtube.com/watch?v=RuNqttY67O4", title: "A Spider's Thread" },
+         ]
     };
+
 
     /* ==========================================================================
        [시스템 로직] 이 아래부터는 코드를 수정하지 마세요.
