@@ -16,7 +16,7 @@ document.body.classList.add("door-locked");
 const doorImages = {
   morning: "door-morning.jpg",
   day: "door-day.jpg",
-  evening: "door-evening.jpgg",
+  evening: "door-evening.jpg",
   night: "door-night.png"
 };
 
