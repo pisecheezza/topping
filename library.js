@@ -71,13 +71,10 @@ function renderLibraryGrid() {
     });
 }
 
-function openLibraryDoc(row) {
-  // row가 객체 형태로 들어올 경우를 대비해 파일ID 추출
-  const fileId = typeof row === "object" ? row["파일ID"] : row;
-  if (!fileId) {
-    alert("파일 ID를 찾을 수 없습니다.");
-    return;
-  }
+function openLibraryDoc(fileId) {
+  document.getElementById("libraryFolders").style.display = "none";
+  document.getElementById("libraryGrid").style.display = "none";
+  document.getElementById("libraryViewerBox").style.display = "block";
 
   const contentDiv = document.getElementById("libraryContent");
   contentDiv.innerHTML = `
