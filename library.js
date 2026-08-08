@@ -53,17 +53,18 @@ function renderLibraryGrid() {
     .forEach(r => {
       const card = document.createElement("div");
       card.className = "library-post-card";
-
-      // 本棚全体(전체 보기)일 때만 폴더 태그 표시
+  
       const tagHtml = currentLibraryFolder === null
         ? `<span class="library-post-tag">${escapeHtml(r["메뉴"] || "")}</span>`
         : "";
-
+  
+      const displayDate = (r["표시일"] || "").trim() || (r["생성일"] || "").slice(0, 10);
+  
       card.innerHTML = `
         <div class="library-post-title">${escapeHtml(r["제목"] || "")}</div>
         <div class="library-post-meta">
           ${tagHtml}
-          <span class="library-post-date">${escapeHtml((r["생성일"] || "").slice(0, 10))}</span>
+          <span class="library-post-date">${escapeHtml(displayDate)}</span>
         </div>`;
       card.addEventListener("click", () => openLibraryDoc(r));
       grid.appendChild(card);
