@@ -46,29 +46,78 @@ function renderLibraryGrid() {
   const list = currentLibraryFolder
     ? libraryRows.filter(r => (r["메뉴"] || "").trim() === currentLibraryFolder)
     : libraryRows;
+
   list
     .slice()
     .sort((a, b) => (b["생성일"] || "").localeCompare(a["생성일"] || ""))
     .forEach(r => {
       const card = document.createElement("div");
       card.className = "library-post-card";
+
+      // 本棚全体(전체 보기)일 때만 폴더 태그 표시
+      const tagHtml = currentLibraryFolder === null
+        ? `<span class="library-post-tag">${escapeHtml(r["메뉴"] || "")}</span>`
+        : "";
+
       card.innerHTML = `
         <div class="library-post-title">${escapeHtml(r["제목"] || "")}</div>
-        <div class="library-post-date">${escapeHtml((r["생성일"] || "").slice(0, 10))}</div>`;
+        <div class="library-post-meta">
+          ${tagHtml}
+          <span class="library-post-date">${escapeHtml((r["생성일"] || "").slice(0, 10))}</span>
+        </div>`;
       card.addEventListener("click", () => openLibraryDoc(r));
       grid.appendChild(card);
     });
 }
 
-function openLibraryDoc(row) {
+function openLibraryDoc(fileId) {
   document.getElementById("libraryFolders").style.display = "none";
   document.getElementById("libraryGrid").style.display = "none";
   document.getElementById("libraryViewerBox").style.display = "block";
-  document.getElementById("libraryIframe").src = buildLibraryDocUrl(row["링크"]);
+
+  const contentDiv = document.getElementById("libraryContent");
+  contentDiv.innerHTML = `
+    <div id="libraryLoading" style="text-align:center; padding:60px 0;">
+      <div id="libraryLoadingText" style="font-size:13px; color:#888; font-weight:bold;">책을 가져오는 중...</div>
+    </div>`;
+
+  fetch(`${GUESTBOOK_WEBAPP_URL}?id=${fileId}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data.success) throw new Error(data.error || "로드 실패");
+      renderLibraryBook(data.content);
+    })
+    .catch(err => {
+      contentDiv.innerHTML = `<p style="color:red; text-align:center;">오류: ${escapeHtml(err.message)}</p>`;
+    });
+}
+
+function renderLibraryBook(contentData) {
+  const contentDiv = document.getElementById("libraryContent");
+  let html = "";
+
+  if (Array.isArray(contentData)) {
+    contentData.forEach(item => {
+      if (!item) return;
+      if (item.type === "image") {
+        html += `<div class="library-img-wrap"><img src="${item.value}"></div>`;
+      } else if (item.type === "text") {
+        const cleanText = (item.value || "").replace(/(<([^>]+)>)/gi, "").trim();
+        if (cleanText === "") {
+          html += `<p>&nbsp;</p>`;
+        } else {
+          const align = item.align || "justify";
+          html += `<p style="text-align:${align};">${item.value}</p>`;
+        }
+      }
+    });
+  }
+
+  contentDiv.innerHTML = html;
 }
 
 document.getElementById("libraryBack").addEventListener("click", () => {
-  document.getElementById("libraryIframe").src = "";
+  document.getElementById("libraryContent").innerHTML = "";
   document.getElementById("libraryViewerBox").style.display = "none";
   document.getElementById("libraryFolders").style.display = "flex";
   document.getElementById("libraryGrid").style.display = "grid";
