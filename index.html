@@ -80,7 +80,7 @@
   
   <section id="view-reader" class="view">
   <div class="library-folders" id="libraryFolders"></div>
-  <div class="card-grid" id="libraryGrid"></div>
+  <div class="library-grid" id="libraryGrid"></div>
 
   <div id="libraryViewerBox" style="display:none">
   <button class="back-link" id="libraryBack">← 本棚へ</button>
@@ -226,6 +226,13 @@
   align-items: center;
   gap: 18px;
 }
+
+.library-grid{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
   
 .library-folders{
   display: flex;
@@ -260,6 +267,47 @@
   font-size: 12px;
   color: var(--ink-soft, var(--ink));
 }
+
+.library-post-meta{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.library-post-tag{
+  font-size: 11px;
+  padding: 2px 8px;
+  border: 1px solid var(--ink);
+  border-radius: 12px;
+  color: var(--ink);
+}
+.library-post-date{
+  font-size: 12px;
+  color: var(--ink-soft, var(--ink));
+}
+
+#libraryReaderWrapper{
+  margin-top: 10px;
+  line-height: 1.9;
+}
+#libraryContent p{
+  font-size: 0.92rem;
+  margin: 0 0 0.9em;
+  color: var(--ink);
+}
+.library-img-wrap{
+  width: 100%;
+  text-align: center;
+  margin: 1em 0 1.5em;
+}
+.library-img-wrap img{
+  max-width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+}
+
+  
+/* 
 .library-iframe-wrap{
   width: 100%;
   height: 70vh;
@@ -275,7 +323,8 @@
     box-sizing: border-box;
     overflow: hidden;
 }
-
+*/
+  
 /* 2. iframe을 감싸는 래퍼 영역 설정 */
 .library-iframe-wrap {
     width: 100%;
