@@ -83,10 +83,14 @@
   <div class="card-grid" id="libraryGrid"></div>
 
   <div id="libraryViewerBox" style="display:none">
-    <button class="back-link" id="libraryBack">← 本棚へ</button>
-    <div class="library-iframe-wrap">
-      <iframe id="libraryIframe" src="" frameborder="0"></iframe>
+  <button class="back-link" id="libraryBack">← 本棚へ</button>
+  <div id="libraryReaderWrapper" class="index-card wide">
+    <div id="libraryContent">
+      <div id="libraryLoading" style="text-align:center; padding:60px 0;">
+        <div id="libraryLoadingText" style="font-size:13px; color:#888; font-weight:bold;">책을 가져오는 중...</div>
+      </div>
     </div>
+  </div>
   </div>
 </section>
   
