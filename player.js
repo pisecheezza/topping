@@ -66,7 +66,6 @@
 
         // 2. 플레이리스트 (유튜브 링크와 제목을 입력하세요)
         playlist: [
-            
             { url: "https://www.youtube.com/watch?v=zbKWAzNF6ao", title: "SHIVER" },
             { url: "https://www.youtube.com/watch?v=Ol7PzD0iwMk", title: "The Slightly Chipped Full Moon" },
             { url: "https://www.youtube.com/watch?v=ulp9XrKjKQE", title: "Suo Gân by Emilie Parry Williams" },
