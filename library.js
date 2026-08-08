@@ -66,12 +66,20 @@ function renderLibraryGrid() {
           ${tagHtml}
           <span class="library-post-date">${escapeHtml(displayDate)}</span>
         </div>`;
-      card.addEventListener("click", () => openLibraryDoc(r));
+      card.addEventListener("click", () => openLibraryDoc(r["파일ID"]));
       grid.appendChild(card);
     });
 }
 
-function openLibraryDoc(fileId) {
+function openLibraryDoc(item) {
+  // item이 객체라면 item["파일ID"]를 꺼내고, 문자열(ID) 그대로 들어왔다면 그대로 사용합니다.
+  const fileId = (typeof item === 'object' && item !== null) ? (item["파일ID"] || item.fileId) : item;
+
+  if (!fileId) {
+    alert("파일 ID를 찾을 수 없습니다.");
+    return;
+  }
+
   document.getElementById("libraryFolders").style.display = "none";
   document.getElementById("libraryGrid").style.display = "none";
   document.getElementById("libraryViewerBox").style.display = "block";
