@@ -1,3 +1,35 @@
+// ── 시간대별 테마 적용 ──────────────────────────────────
+function getTimePeriod() {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 11) return "morning";
+  if (hour >= 11 && hour < 17) return "day";
+  if (hour >= 17 && hour < 21) return "evening";
+  return "night";
+}
+
+const currentPeriod = getTimePeriod();
+document.body.classList.add(`time-${currentPeriod}`);
+
+// ── 입장 문 오버레이 (시간대별 이미지) ─────────────────────
+document.body.classList.add("door-locked");
+
+const doorImages = {
+  morning: "door-morning.png",
+  day: "door-day.png",
+  evening: "door-evening.png",
+  night: "door-night.png"
+};
+
+document.getElementById("doorOverlayImg").src = doorImages[currentPeriod] || doorImages.day;
+
+document.getElementById("doorOverlay").addEventListener("click", function () {
+  this.classList.add("fade-out");
+  document.body.classList.remove("door-locked");
+  setTimeout(() => {
+    this.remove();
+  }, 1000);
+});
+
 marked.setOptions({ breaks: true });
 
 // ── 시트 → CSV → JSON ──────────────────────────────────── 
@@ -507,15 +539,3 @@ loadGuestbook()
         }
 
         calculateDays();
-
-// ── 시간대별 테마 적용 ──────────────────────────────────
-function getTimePeriod() {
-  const hour = new Date().getHours();
-  if (hour >= 5 && hour < 11) return "morning";
-  if (hour >= 11 && hour < 17) return "day";
-  if (hour >= 17 && hour < 21) return "evening";
-  return "night";
-}
-
-const currentPeriod = getTimePeriod();
-document.body.classList.add(`time-${currentPeriod}`);
