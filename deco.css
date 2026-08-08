@@ -433,7 +433,6 @@ All rights reserved. */
             height: 70px;
             background-color: #E2D1B3; /* 빛바랜 베이지 */
             box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.2);
-            z-index: 6666;
             cursor: pointer;
             transition: transform 0.2s ease;
             
