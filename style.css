@@ -65,10 +65,11 @@ body.time-night{
   pointer-events: none;
 }
 #doorOverlayImg{
-  max-width: 60vw;
-  max-height: 60vh;
+  max-width: 80vw;
+  max-height: 80vh;
   object-fit: contain;
-  border: 2px double black;
+  border: 2px double var(--ink);
+  border-radius: 5px;
 }
 
 body.door-locked{
