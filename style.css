@@ -1,3 +1,4 @@
+
 /* ── Tokens ──────────────────────────────────────────── */
 :root {
   --paper: #967BB6;         /* 배경: 라벤더 퍼플 */
@@ -48,6 +49,32 @@ body.time-night{
 /* ===========================================
    메인 + 드롭다운 메뉴
    =========================================== */
+#doorOverlay{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  cursor: pointer;
+  transition: opacity 1s ease;
+}
+#doorOverlay.fade-out{
+  opacity: 0;
+  pointer-events: none;
+}
+#doorOverlayImg{
+  max-width: 80vw;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+body.door-locked{
+  overflow: hidden;   /* 문이 떠 있는 동안 뒤 화면 스크롤 방지 */
+}
+
+
 .masthead{
   position: relative;
   text-align: center;
